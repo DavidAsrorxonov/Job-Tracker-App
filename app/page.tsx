@@ -45,8 +45,8 @@ export default function Home() {
                   <Image
                     src={"/hero-images/hero1.png"}
                     alt="hero1"
-                    width={1000}
-                    height={600}
+                    width={1200}
+                    height={800}
                   />
                 </div>
               </TabsContent>
@@ -55,8 +55,8 @@ export default function Home() {
                   <Image
                     src={"/hero-images/hero2.png"}
                     alt="hero2"
-                    width={1000}
-                    height={600}
+                    width={1200}
+                    height={800}
                   />
                 </div>
               </TabsContent>
@@ -65,8 +65,8 @@ export default function Home() {
                   <Image
                     src={"/hero-images/hero3.png"}
                     alt="hero3"
-                    width={1000}
-                    height={600}
+                    width={1200}
+                    height={800}
                   />
                 </div>
               </TabsContent>

@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 
@@ -24,7 +23,6 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <ModeToggle />
         </section>
       </main>
     </div>

@@ -6,7 +6,7 @@ import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link
           href={"/"}

@@ -19,7 +19,9 @@ const SignUp = () => {
           </CardDescription>
         </CardHeader>
         <form>
-          <CardContent></CardContent>
+          <CardContent>
+            <div></div>
+          </CardContent>
         </form>
       </Card>
     </div>

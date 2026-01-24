@@ -7,7 +7,7 @@ export default function Home() {
         <section className="container mx-auto px-4 py-32">
           <div>
             <h1>A better way to track your job applications</h1>
-            <p>Capture, organize and manage your job search in one place!</p>
+            <p>Capture, organize and manage your job search in one place</p>
           </div>
           <ModeToggle />
         </section>

@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRightIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,6 +28,49 @@ export default function Home() {
                 Free forever! No credit card required
               </p>
             </div>
+          </div>
+        </section>
+
+        <Separator />
+        <section className="py-16 flex items-center justify-center">
+          <div>
+            <Tabs defaultValue="img1">
+              <TabsList>
+                <TabsTrigger value="img1">Organize Applications</TabsTrigger>
+                <TabsTrigger value="img2">Get Hired</TabsTrigger>
+                <TabsTrigger value="img3">Manage Boards</TabsTrigger>
+              </TabsList>
+              <TabsContent value="img1">
+                <div className="flex items-center justify-center h-full">
+                  <Image
+                    src={"/hero-images/hero1.png"}
+                    alt="hero1"
+                    width={1000}
+                    height={600}
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="img2">
+                <div className="flex items-center justify-center h-full">
+                  <Image
+                    src={"/hero-images/hero2.png"}
+                    alt="hero2"
+                    width={1000}
+                    height={600}
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="img3">
+                <div className="flex items-center justify-center h-full">
+                  <Image
+                    src={"/hero-images/hero3.png"}
+                    alt="hero3"
+                    width={1000}
+                    height={600}
+                  />
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
       </main>

@@ -24,6 +24,16 @@ const SignUp = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setError("");
+    setLoading(true);
+
+    try {
+    } catch (error) {
+      setError("An unexpected error has occured");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

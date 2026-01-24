@@ -22,6 +22,10 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg">
@@ -33,7 +37,7 @@ const SignUp = () => {
             Create an account to start tracking your job applicatoins
           </CardDescription>
         </CardHeader>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={onSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>

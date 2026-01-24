@@ -1,3 +1,4 @@
+import Features from "@/components/Features";
 import ImageTabs from "@/components/image-tabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -31,7 +32,12 @@ export default function Home() {
         </section>
 
         <Separator />
+
         <ImageTabs />
+
+        <Separator />
+
+        <Features />
       </main>
     </div>
   );

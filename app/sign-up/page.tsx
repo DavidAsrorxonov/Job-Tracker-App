@@ -49,6 +49,7 @@ const SignUp = () => {
                 type="password"
                 placeholder="John Doe"
                 required
+                minLength={8}
               />
             </div>
           </CardContent>

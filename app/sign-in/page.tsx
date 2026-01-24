@@ -1,3 +1,5 @@
+"use client";
+
 const SignIn = () => {
   return <div>SignIn</div>;
 };

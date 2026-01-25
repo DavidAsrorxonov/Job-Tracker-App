@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -64,6 +65,7 @@ const SignUp = () => {
         </CardHeader>
         <form className="space-y-4" onSubmit={onSubmit}>
           <CardContent className="space-y-4">
+            {error && <Badge variant={"destructive"}>{error}</Badge>}
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
@@ -105,8 +107,9 @@ const SignUp = () => {
             <Button
               type="submit"
               className="w-full bg-primary hover:bg-primary/90"
+              disabled={loading}
             >
-              Sign Up
+              {loading ? "Starting your journey..." : "Sign Up"}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
               Already have an account?

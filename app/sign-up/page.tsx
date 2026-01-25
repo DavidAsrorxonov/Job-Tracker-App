@@ -46,7 +46,7 @@ const SignUp = () => {
         router.push("/dashboard");
       }
     } catch (error) {
-      setError("An unexpected error has occured");
+      setError("An unexpected error has occurred");
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,7 @@ const SignUp = () => {
             Sign Up
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Create an account to start tracking your job applicatoins
+            Create an account to start tracking your job applications
           </CardDescription>
         </CardHeader>
         <form className="space-y-4" onSubmit={onSubmit}>

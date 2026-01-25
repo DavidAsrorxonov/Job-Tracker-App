@@ -44,14 +44,14 @@ const Navbar = () => {
                     size={"icon"}
                     className="rounded-full"
                   >
-                    <Avatar>
+                    <Avatar className="h-8 w-8">
                       <AvatarFallback>
                         {session.user.name?.[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent className="w-72">
                   <DropdownMenuGroup>
                     <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                     <DropdownMenuLabel>{session.user.email}</DropdownMenuLabel>

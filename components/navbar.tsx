@@ -1,10 +1,10 @@
-import { BellIcon, BriefcaseIcon, PlusIcon } from "lucide-react";
+"use client";
+
+import { BriefcaseIcon } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./mode-toggle";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "./ui/avatar";
+import SignOutBtn from "./SignOutBtn";
+import { useSession } from "@/lib/auth/auth-client";
 
-const Navbar = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+const Navbar = () => {
+  const { data: session } = useSession();
 
   return (
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur">
@@ -53,14 +53,12 @@ const Navbar = async () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
+                    <DropdownMenuLabel>{session.user.email}</DropdownMenuLabel>
                   </DropdownMenuGroup>
                   <DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    <SignOutBtn />
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>

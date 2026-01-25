@@ -39,7 +39,7 @@ const SignIn = () => {
       });
 
       if (result.error) {
-        setError(result.error.message ?? "Failed to sign up");
+        setError(result.error.message ?? "Failed to sign in");
       } else {
         router.push("/dashboard");
       }

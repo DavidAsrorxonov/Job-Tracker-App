@@ -1,10 +1,28 @@
 "use client";
 import { signOut } from "@/lib/auth/auth-client";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 const SignOutBtn = () => {
+  const router = useRouter();
+
   return (
-    <DropdownMenuItem onClick={async () => await signOut()}>
+    <DropdownMenuItem
+      onClick={async () => {
+        const result = await signOut();
+
+        if (result.data?.success) {
+          router.push("/sign-in");
+        } else {
+          toast("Failed to sign out", {
+            position: "top-center",
+            description: "Please try again",
+          });
+        }
+      }}
+    >
       Log Out
     </DropdownMenuItem>
   );

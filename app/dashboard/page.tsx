@@ -1,3 +1,4 @@
+import KanbanBoard from "@/components/KanbanBoard";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board } from "@/lib/models";
@@ -21,6 +22,8 @@ const Dashboard = async () => {
           <h1 className="text-3xl font-bold text-primary">{board.name}</h1>
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
+
+        <KanbanBoard board={board} userId={session?.user.id!} />
       </div>
     </div>
   );

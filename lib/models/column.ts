@@ -28,7 +28,7 @@ const ColumnSchema = new Schema<IColumn>(
     },
     jobApplications: [
       {
-        name: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "JobApplication",
       },
     ],

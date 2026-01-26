@@ -35,6 +35,8 @@ export async function initializeUserBoard(userId: string) {
     board.columns = columns.map((col) => col._id);
 
     await board.save();
+
+    return board;
   } catch (error) {
     throw error;
   }

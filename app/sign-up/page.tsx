@@ -16,6 +16,7 @@ import { signUp } from "@/lib/auth/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -41,8 +42,18 @@ const SignUp = () => {
       });
 
       if (result.error) {
+        toast("Failed to sign up", {
+          position: "top-center",
+          description: "Please try again",
+          duration: 2000,
+        });
         setError(result.error.message ?? "Failed to sign up");
       } else {
+        toast("Successfully signed up", {
+          position: "top-center",
+          description: "Redirecting to dashboard...",
+          duration: 1000,
+        });
         router.push("/dashboard");
       }
     } catch (error) {

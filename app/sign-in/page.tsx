@@ -16,6 +16,7 @@ import { signIn } from "@/lib/auth/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -39,8 +40,18 @@ const SignIn = () => {
       });
 
       if (result.error) {
+        toast("Failed to sign in", {
+          position: "top-center",
+          description: result.error.message ?? "Please try again",
+          duration: 2000,
+        });
         setError(result.error.message ?? "Failed to sign in");
       } else {
+        toast("Successfully signed in", {
+          position: "top-center",
+          description: "Redirecting to dashboard...",
+          duration: 1000,
+        });
         router.push("/dashboard");
       }
     } catch (error) {

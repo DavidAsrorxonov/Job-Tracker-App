@@ -18,7 +18,7 @@ export async function initializeUserBoard(userId: string) {
     const board = await Board.create({
       name: "Job Hunt",
       userId,
-      column: [],
+      columns: [],
     });
 
     const columns = await Promise.all(

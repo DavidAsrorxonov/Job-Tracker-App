@@ -13,6 +13,12 @@ export async function initializeUserBoard(userId: string) {
     if (existingBoard) {
       return existingBoard;
     }
+
+    const board = await Board.create({
+      name: "Job Hunt",
+      userId,
+      column: [],
+    });
   } catch (error) {
     throw error;
   }

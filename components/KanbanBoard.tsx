@@ -63,7 +63,7 @@ const DroppableColumn = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle className="text-base font-semibold text-primary">
+            <CardTitle className="text-base font-semibold">
               {column.name}
             </CardTitle>
           </div>
@@ -75,7 +75,7 @@ const DroppableColumn = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem>
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete Column
               </DropdownMenuItem>

@@ -29,7 +29,7 @@ const Dashboard = async () => {
     <div className="min-h-screen">
       <div className="container mx-auto p-6">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-primary">{board.name}</h1>
+          <h1 className="text-3xl font-bold">{board.name}</h1>
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
 

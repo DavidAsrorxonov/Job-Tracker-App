@@ -67,6 +67,7 @@ export const createJobApplication = async (data: FormData) => {
     jobUrl,
     columnId,
     boardId,
+    userId: session.user.id,
     tags: tags || [],
     description,
     status: "applied",
@@ -77,5 +78,5 @@ export const createJobApplication = async (data: FormData) => {
     $push: { jobApplications: jobApplication._id },
   });
 
-  return { data: jobApplication };
+  return { data: JSON.parse(JSON.stringify(jobApplication)) };
 };

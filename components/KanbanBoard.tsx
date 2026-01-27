@@ -2,8 +2,23 @@
 
 import { KanbanBoardProps } from "@/interface/kanban-board";
 import { ColumnProps } from "@/lib/models/models.types";
-import { Award, Calendar, CheckCircle2, Mic, XCircle } from "lucide-react";
-import { Card } from "./ui/card";
+import {
+  Award,
+  Calendar,
+  CheckCircle2,
+  Mic,
+  MoreVertical,
+  Trash2,
+  XCircle,
+} from "lucide-react";
+import { Card, CardHeader, CardTitle } from "./ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
 
 interface ColumnConfig {
   color: string;
@@ -41,7 +56,32 @@ const DroppableColumn = ({
   config: ColumnConfig;
   boardId: string;
 }) => {
-  return <Card></Card>;
+  return (
+    <Card>
+      <CardHeader className={`${config.color}`}>
+        <div>
+          <div>
+            {config.icon}
+            <CardTitle>{column.name}</CardTitle>
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant={"ghost"}>
+                <MoreVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Trash2 />
+                Delete Column
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </CardHeader>
+    </Card>
+  );
 };
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {

@@ -11,7 +11,7 @@ const Dashboard = async () => {
   const board = await Board.findOne({
     userId: session?.user.id,
     name: "Job Hunt",
-  });
+  }).populate("columns");
 
   const jsonBoard = JSON.parse(JSON.stringify(board));
 

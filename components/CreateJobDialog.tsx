@@ -15,7 +15,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
-import { FormData } from "@/types/form-data";
+import { toast } from "sonner";
 
 const CreateJobDialog = ({
   columnId,
@@ -25,7 +25,7 @@ const CreateJobDialog = ({
   boardId: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     company: "",
     position: "",
     location: "",
@@ -35,6 +35,21 @@ const CreateJobDialog = ({
     tags: "",
     description: "",
   });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+    } catch (error) {
+      toast("Failed to create job", {
+        position: "top-center",
+        description: "Please try again",
+        duration: 2000,
+      });
+
+      console.error(error);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -50,7 +65,7 @@ const CreateJobDialog = ({
           <DialogTitle>Add Job Application</DialogTitle>
           <DialogDescription>Track a new job application</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">

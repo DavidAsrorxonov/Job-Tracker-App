@@ -13,6 +13,16 @@ const Dashboard = async () => {
     name: "Job Hunt",
   }).populate("columns");
 
+  if (!board) {
+    return (
+      <div className="min-h-screen">
+        <div className="container mx-auto p-6">
+          <p className="text-muted-foreground">No board found.</p>
+        </div>
+      </div>
+    );
+  }
+
   const jsonBoard = JSON.parse(JSON.stringify(board));
 
   return (

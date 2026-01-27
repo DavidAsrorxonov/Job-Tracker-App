@@ -57,23 +57,25 @@ const DroppableColumn = ({
   boardId: string;
 }) => {
   return (
-    <Card>
-      <CardHeader className={`${config.color}`}>
-        <div>
-          <div>
+    <Card className="min-w-75 shrink-0 shadow-md p-0">
+      <CardHeader className={`${config.color} rounded-t-lg py-3`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle>{column.name}</CardTitle>
+            <CardTitle className="text-base font-semibold text-primary">
+              {column.name}
+            </CardTitle>
           </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"}>
-                <MoreVertical />
+              <Button variant={"ghost"} size={"icon"} className={`w-6 h-6`}>
+                <MoreVertical className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Trash2 />
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="text-destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
                 Delete Column
               </DropdownMenuItem>
             </DropdownMenuContent>

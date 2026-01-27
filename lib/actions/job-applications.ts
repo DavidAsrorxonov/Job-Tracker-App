@@ -3,6 +3,7 @@
 import { FormData } from "@/types/form-data";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
+import { Board, Column, JobApplication } from "../models";
 
 export const createJobApplication = async (data: FormData) => {
   const session = await getSession();
@@ -27,4 +28,48 @@ export const createJobApplication = async (data: FormData) => {
     tags,
     description,
   } = data;
+
+  if (!company || !position || !columnId || !boardId) {
+    return { error: "Missing required fields" };
+  }
+
+  const board = await Board.findOne({
+    _id: boardId,
+    userId: session.user.id,
+  });
+
+  if (!board) {
+    return { error: "Board not found" };
+  }
+
+  const column = await Column.findOne({
+    _id: columnId,
+    boardId: boardId,
+  });
+
+  if (!column) {
+    return { error: "Column not found" };
+  }
+
+  const maxOrder = (await JobApplication.findOne({ columnId })
+    .sort({
+      order: -1,
+    })
+    .select("order")
+    .lean()) as { order: number } | null;
+
+  const jobApplication = await JobApplication.create({
+    company,
+    position,
+    location,
+    notes,
+    salary,
+    jobUrl,
+    columnId,
+    boardId,
+    tags: tags || [],
+    description,
+    status: "applied",
+    order: maxOrder ? maxOrder.order + 1 : 0,
+  });
 };

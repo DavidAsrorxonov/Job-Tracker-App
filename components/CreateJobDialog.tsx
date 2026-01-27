@@ -1,3 +1,5 @@
+"use client";
+
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -12,6 +14,8 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { useState } from "react";
+import { FormData } from "@/types/form-data";
 
 const CreateJobDialog = ({
   columnId,
@@ -20,8 +24,20 @@ const CreateJobDialog = ({
   columnId: string;
   boardId: string;
 }) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({
+    company: "",
+    position: "",
+    location: "",
+    notes: "",
+    salary: "",
+    jobUrl: "",
+    tags: "",
+    description: "",
+  });
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={"outline"}>
           <Plus />
@@ -42,6 +58,10 @@ const CreateJobDialog = ({
                 <Input
                   id="company"
                   required
+                  value={formData.company}
+                  onChange={(e) =>
+                    setFormData({ ...formData, company: e.target.value })
+                  }
                   placeholder="e.g., Google, Facebook"
                 />
               </div>
@@ -50,6 +70,10 @@ const CreateJobDialog = ({
                 <Input
                   id="position"
                   required
+                  value={formData.position}
+                  onChange={(e) =>
+                    setFormData({ ...formData, position: e.target.value })
+                  }
                   placeholder="e.g., Software Engineer"
                 />
               </div>
@@ -60,24 +84,46 @@ const CreateJobDialog = ({
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
+                  value={formData.location}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   placeholder="e.g., New York, NY or Remote"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="salary">Salary</Label>
-                <Input id="salary" placeholder="e.g., $100k - $150k" />
+                <Input
+                  id="salary"
+                  value={formData.salary}
+                  onChange={(e) =>
+                    setFormData({ ...formData, salary: e.target.value })
+                  }
+                  placeholder="e.g., $100k - $150k"
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="jobUrl">Job URL</Label>
-              <Input id="jobUrl" placeholder="https://www.google.com" />
+              <Input
+                id="jobUrl"
+                value={formData.jobUrl}
+                onChange={(e) =>
+                  setFormData({ ...formData, jobUrl: e.target.value })
+                }
+                placeholder="https://www.google.com"
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="tags">Tags (comma separated)</Label>
               <Input
                 id="tags"
+                value={formData.tags}
+                onChange={(e) =>
+                  setFormData({ ...formData, tags: e.target.value })
+                }
                 placeholder="High Level, Software Engineer, Remote"
               />
             </div>
@@ -86,6 +132,10 @@ const CreateJobDialog = ({
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 placeholder="Brief description of the job ..."
                 rows={3}
               />
@@ -95,6 +145,10 @@ const CreateJobDialog = ({
               <Label htmlFor="notes">Notes</Label>
               <Textarea
                 id="notes"
+                value={formData.notes}
+                onChange={(e) =>
+                  setFormData({ ...formData, notes: e.target.value })
+                }
                 placeholder="Notes about the job ..."
                 rows={4}
               />
@@ -102,7 +156,11 @@ const CreateJobDialog = ({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant={"destructive"}>
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
             <Button type="submit">Add Application</Button>

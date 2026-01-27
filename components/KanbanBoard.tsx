@@ -11,7 +11,7 @@ import {
   Trash2,
   XCircle,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import CreateJobDialog from "./CreateJobDialog";
 
 interface ColumnConfig {
   color: string;
@@ -82,6 +83,10 @@ const DroppableColumn = ({
           </DropdownMenu>
         </div>
       </CardHeader>
+
+      <CardContent className="space-y-2 pt-4 min-h-100 rounded-b-lg shadow-2xl">
+        <CreateJobDialog columnId={column._id} boardId={boardId} />
+      </CardContent>
     </Card>
   );
 };

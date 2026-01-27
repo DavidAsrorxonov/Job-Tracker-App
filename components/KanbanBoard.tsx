@@ -27,7 +27,23 @@ const COLUMN_CONFIG: Array<{ color: string; icon: React.ReactNode }> = [
 ];
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
-  return <div>KanbanBoard</div>;
+  const columns = board.columns;
+
+  return (
+    <>
+      <div>
+        <div>
+          {columns.map((col, idx) => {
+            const config = COLUMN_CONFIG[idx] || {
+              color: "bg-gray-500",
+              icon: <Calendar className="h-4 w-4" />,
+            };
+            return <></>;
+          })}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default KanbanBoard;

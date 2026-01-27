@@ -40,3 +40,11 @@ export const signOut = async () => {
     redirect("/sign-in");
   }
 };
+
+export const getSession = async () => {
+  const result = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  return result;
+};

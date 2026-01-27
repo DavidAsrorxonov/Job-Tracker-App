@@ -16,6 +16,18 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
+import { createJobApplication } from "@/lib/actions/job-applications";
+
+const INITIAL_FORM_DATA = {
+  company: "",
+  position: "",
+  location: "",
+  notes: "",
+  salary: "",
+  jobUrl: "",
+  tags: "",
+  description: "",
+};
 
 const CreateJobDialog = ({
   columnId,
@@ -25,21 +37,38 @@ const CreateJobDialog = ({
   boardId: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
-    company: "",
-    position: "",
-    location: "",
-    notes: "",
-    salary: "",
-    jobUrl: "",
-    tags: "",
-    description: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      const result = await createJobApplication({
+        ...formData,
+        columnId,
+        boardId,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0),
+      });
+
+      if (!result.error) {
+        setFormData(INITIAL_FORM_DATA);
+        toast(`Successfully created job`, {
+          position: "top-center",
+          description: "Redirecting to dashboard...",
+          duration: 1000,
+        });
+        setOpen(false);
+      } else {
+        toast(`Failed to create job`, {
+          position: "top-center",
+          description: result.error ?? "Please try again",
+          duration: 2000,
+        });
+        console.error(result.error);
+      }
     } catch (error) {
       toast("Failed to create job", {
         position: "top-center",

@@ -3,6 +3,7 @@
 import { KanbanBoardProps } from "@/interface/kanban-board";
 import { ColumnProps } from "@/lib/models/models.types";
 import { Award, Calendar, CheckCircle2, Mic, XCircle } from "lucide-react";
+import { Card } from "./ui/card";
 
 interface ColumnConfig {
   color: string;
@@ -40,7 +41,7 @@ const DroppableColumn = ({
   config: ColumnConfig;
   boardId: string;
 }) => {
-  return <></>;
+  return <Card></Card>;
 };
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {

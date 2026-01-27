@@ -13,7 +13,7 @@ const Dashboard = async () => {
     name: "Job Hunt",
   });
 
-  console.log(board);
+  const jsonBoard = JSON.parse(JSON.stringify(board));
 
   return (
     <div className="min-h-screen">
@@ -23,7 +23,7 @@ const Dashboard = async () => {
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
 
-        <KanbanBoard board={board} userId={session?.user.id!} />
+        <KanbanBoard board={jsonBoard} userId={session?.user.id!} />
       </div>
     </div>
   );

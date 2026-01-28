@@ -4,6 +4,7 @@ import { FormData } from "@/types/form-data";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
 import { Board, Column, JobApplication } from "../models";
+import { revalidatePath } from "next/cache";
 
 export const createJobApplication = async (data: FormData) => {
   const session = await getSession();
@@ -77,6 +78,8 @@ export const createJobApplication = async (data: FormData) => {
   await Column.findByIdAndUpdate(columnId, {
     $push: { jobApplications: jobApplication._id },
   });
+
+  revalidatePath("/dashboard");
 
   return { data: JSON.parse(JSON.stringify(jobApplication)) };
 };

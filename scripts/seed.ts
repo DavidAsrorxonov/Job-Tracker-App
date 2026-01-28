@@ -258,7 +258,7 @@ async function seed() {
     console.log(`\n🎉 Seed completed successfully!`);
     console.log(`📊 Created ${totalCreated} job applications`);
     console.log(`📋 Board: ${board.name}`);
-    console.log(`👤 User ID: ${USER_ID}`);
+    console.log(`👤 User ID: Private`);
 
     process.exit(0);
   } catch (error) {

@@ -55,7 +55,7 @@ const DashboardPage = async () => {
 
 const Dashboard = async () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="animate-pulse">Loading...</div>}>
       <DashboardPage />
     </Suspense>
   );

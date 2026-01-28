@@ -24,10 +24,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
-        <Link
-          href={"/"}
-          className="flex items-center gap-2 text-xl font-bold text-primary"
-        >
+        <Link href={"/"} className="flex items-center gap-2 text-xl font-bold">
           <BriefcaseIcon />
           Job Tracker
         </Link>

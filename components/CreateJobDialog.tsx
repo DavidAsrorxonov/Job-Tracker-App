@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -15,7 +15,19 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
-import { FormData } from "@/types/form-data";
+import { toast } from "sonner";
+import { createJobApplication } from "@/lib/actions/job-applications";
+
+const INITIAL_FORM_DATA = {
+  company: "",
+  position: "",
+  location: "",
+  notes: "",
+  salary: "",
+  jobUrl: "",
+  tags: "",
+  description: "",
+};
 
 const CreateJobDialog = ({
   columnId,
@@ -25,21 +37,57 @@ const CreateJobDialog = ({
   boardId: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
-    company: "",
-    position: "",
-    location: "",
-    notes: "",
-    salary: "",
-    jobUrl: "",
-    tags: "",
-    description: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const result = await createJobApplication({
+        ...formData,
+        columnId,
+        boardId,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0),
+      });
+
+      if (!result.error) {
+        setFormData(INITIAL_FORM_DATA);
+        toast(`Successfully created job`, {
+          position: "top-center",
+          description: "Redirecting to dashboard...",
+          duration: 1000,
+        });
+        setOpen(false);
+      } else {
+        toast(`Failed to create job`, {
+          position: "top-center",
+          description: result.error ?? "Please try again",
+          duration: 2000,
+        });
+        console.error(result.error);
+      }
+    } catch (error) {
+      toast("Failed to create job", {
+        position: "top-center",
+        description: "Please try again",
+        duration: 2000,
+      });
+
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>
+        <Button variant={"outline"} className="border-dashed">
           <Plus />
           Add Job
         </Button>
@@ -50,7 +98,7 @@ const CreateJobDialog = ({
           <DialogTitle>Add Job Application</DialogTitle>
           <DialogDescription>Track a new job application</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -163,7 +211,16 @@ const CreateJobDialog = ({
             >
               Cancel
             </Button>
-            <Button type="submit">Add Application</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Creating Job Application...
+                </>
+              ) : (
+                <>Add Job Application</>
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

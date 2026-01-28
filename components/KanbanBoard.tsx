@@ -20,6 +20,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import CreateJobDialog from "./CreateJobDialog";
+import SortableJobCard from "./SortableJobCard";
 
 interface ColumnConfig {
   color: string;
@@ -52,18 +53,23 @@ const DroppableColumn = ({
   column,
   config,
   boardId,
+  sortedColumns,
 }: {
   column: ColumnProps;
   config: ColumnConfig;
   boardId: string;
+  sortedColumns: ColumnProps[];
 }) => {
+  const sortedJobs =
+    column.jobApplications?.sort((a, b) => a.order - b.order) || [];
+
   return (
     <Card className="min-w-75 shrink-0 shadow-md p-0">
       <CardHeader className={`${config.color} rounded-t-lg py-3`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle className="text-base font-semibold text-primary">
+            <CardTitle className="text-base font-semibold">
               {column.name}
             </CardTitle>
           </div>
@@ -75,7 +81,7 @@ const DroppableColumn = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem>
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete Column
               </DropdownMenuItem>
@@ -85,6 +91,14 @@ const DroppableColumn = ({
       </CardHeader>
 
       <CardContent className="space-y-2 pt-4 min-h-100 rounded-b-lg shadow-2xl">
+        {sortedJobs.map((job, idx) => (
+          <SortableJobCard
+            key={idx}
+            job={{ ...job, columnId: job.columnId || column._id }}
+            columns={sortedColumns}
+          />
+        ))}
+
         <CreateJobDialog columnId={column._id} boardId={boardId} />
       </CardContent>
     </Card>
@@ -93,6 +107,8 @@ const DroppableColumn = ({
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
   const columns = board.columns;
+
+  const sortedColumns = columns.sort((a, b) => a.order - b.order);
 
   return (
     <>
@@ -109,6 +125,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
                 column={col}
                 config={config}
                 boardId={board._id}
+                sortedColumns={sortedColumns}
               />
             );
           })}

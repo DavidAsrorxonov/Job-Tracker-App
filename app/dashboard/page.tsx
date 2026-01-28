@@ -11,7 +11,12 @@ const Dashboard = async () => {
   const board = await Board.findOne({
     userId: session?.user.id,
     name: "Job Hunt",
-  }).populate("columns");
+  }).populate({
+    path: "columns",
+    populate: {
+      path: "jobApplications",
+    },
+  });
 
   if (!board) {
     return (

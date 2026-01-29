@@ -107,6 +107,8 @@ export const updateJobApplication = async (
     };
   }
 
+  await connectDB();
+
   const jobApplication = await JobApplication.findById(id);
 
   if (!jobApplication) return { error: "Job Application not found" };
@@ -235,6 +237,8 @@ export const deleteJobApplication = async (id: string) => {
       error: "Unauthorized",
     };
   }
+
+  await connectDB();
 
   const jobApplication = await JobApplication.findById(id);
 

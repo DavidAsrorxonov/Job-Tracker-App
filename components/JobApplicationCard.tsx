@@ -66,6 +66,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
           duration: 2000,
           position: "top-center",
         });
+        return;
       }
 
       toast.success("Successfully moved job application", {
@@ -100,12 +101,12 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
           duration: 2000,
           position: "top-center",
         });
+        return;
       }
 
       toast.success("Successfully updated job application", {
         duration: 2000,
         position: "top-center",
-        description: "Redirecting to dashboard...",
       });
       setIsEditing(false);
     } catch (error) {
@@ -130,6 +131,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
           duration: 2000,
           position: "top-center",
         });
+        return;
       }
 
       toast.success("Successfully deleted job application", {
@@ -222,8 +224,10 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Job Application</DialogTitle>
-            <DialogDescription>Track a new job application</DialogDescription>
+            <DialogTitle>Edit Job Application</DialogTitle>
+            <DialogDescription>
+              Update job application details
+            </DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleUpdate}>
             <div className="space-y-4">

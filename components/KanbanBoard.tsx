@@ -115,7 +115,7 @@ const DroppableColumn = ({
 
       <CardContent
         ref={setNodeRef}
-        className={`space-y-2 pt-4 min-h-100 rounded-b-lg shadow-2xl ${isOver ? "rign-2 ring-blue-500" : ""}`}
+        className={`space-y-2 py-4 min-h-100 rounded-b-lg ${isOver ? "rign-2 ring-blue-500" : ""}`}
       >
         <SortableContext
           items={sortedJobs.map((job) => job._id)}
@@ -159,8 +159,8 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div>
-        <div>
+      <div className="space-y-4">
+        <div className="flex gap-4 overflow-x-auto pb-4">
           {columns.map((col, idx) => {
             const config = COLUMN_CONFIG[idx] || {
               color: "bg-gray-500",

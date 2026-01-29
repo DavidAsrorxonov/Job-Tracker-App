@@ -23,6 +23,20 @@ import CreateJobDialog from "./CreateJobDialog";
 import SortableJobCard from "./SortableJobCard";
 import { useBoard } from "@/lib/hooks/useBoard";
 
+import {
+  closestCorners,
+  DndContext,
+  PointerSensor,
+  useDroppable,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
 interface ColumnConfig {
   color: string;
   icon: React.ReactNode;
@@ -61,6 +75,14 @@ const DroppableColumn = ({
   boardId: string;
   sortedColumns: ColumnProps[];
 }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: column._id,
+    data: {
+      type: "column",
+      columnId: column._id,
+    },
+  });
+
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
 
@@ -91,14 +113,22 @@ const DroppableColumn = ({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-2 pt-4 min-h-100 rounded-b-lg shadow-2xl">
-        {sortedJobs.map((job, idx) => (
-          <SortableJobCard
-            key={idx}
-            job={{ ...job, columnId: job.columnId || column._id }}
-            columns={sortedColumns}
-          />
-        ))}
+      <CardContent
+        ref={setNodeRef}
+        className={`space-y-2 pt-4 min-h-100 rounded-b-lg shadow-2xl ${isOver ? "rign-2 ring-blue-500" : ""}`}
+      >
+        <SortableContext
+          items={sortedJobs.map((job) => job._id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {sortedJobs.map((job, idx) => (
+            <SortableJobCard
+              key={idx}
+              job={{ ...job, columnId: job.columnId || column._id }}
+              columns={sortedColumns}
+            />
+          ))}
+        </SortableContext>
 
         <CreateJobDialog columnId={column._id} boardId={boardId} />
       </CardContent>
@@ -111,8 +141,24 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
 
   const sortedColumns = columns.sort((a, b) => a.order - b.order);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
+
+  const handleDragStart = async () => {};
+  const handleDragEnd = async () => {};
+
   return (
-    <>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div>
         <div>
           {columns.map((col, idx) => {
@@ -132,7 +178,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
           })}
         </div>
       </div>
-    </>
+    </DndContext>
   );
 };
 

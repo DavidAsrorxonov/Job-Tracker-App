@@ -36,7 +36,11 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 
-const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
+const JobApplicationCard = ({
+  job,
+  columns,
+  dragHandleProps,
+}: JobApplicationCardProps) => {
   const { company, position, description, tags, notes, jobUrl } = job;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -151,7 +155,10 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
 
   return (
     <>
-      <Card className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm">
+      <Card
+        className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm"
+        {...dragHandleProps}
+      >
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">

@@ -18,7 +18,10 @@ import {
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { toast } from "sonner";
-import { updateJobApplication } from "@/lib/actions/job-applications";
+import {
+  deleteJobApplication,
+  updateJobApplication,
+} from "@/lib/actions/job-applications";
 import {
   Dialog,
   DialogContent,
@@ -117,6 +120,33 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const result = await deleteJobApplication(job._id);
+
+      if (result.error) {
+        toast.error("Failed to delete job application", {
+          description: result.error,
+          duration: 2000,
+          position: "top-center",
+        });
+      }
+
+      toast.success("Successfully deleted job application", {
+        duration: 2000,
+        position: "top-center",
+        description: `Job with the ID: ${result.data?.id} has been deleted`,
+      });
+    } catch (error) {
+      toast.error("Failed to delete job application", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Card className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm">
@@ -178,7 +208,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
                     </>
                   )}
 
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDelete}>
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete
                   </DropdownMenuItem>

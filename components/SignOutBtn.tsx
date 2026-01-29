@@ -2,7 +2,6 @@
 import { signOut } from "@/lib/auth/auth-client";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
 import { toast } from "sonner";
 
 const SignOutBtn = () => {
@@ -14,9 +13,14 @@ const SignOutBtn = () => {
         const result = await signOut();
 
         if (result.data?.success) {
+          toast.success("Successfully signed out", {
+            position: "top-center",
+            description: "Redirecting to sign in...",
+            duration: 2000,
+          });
           router.push("/sign-in");
         } else {
-          toast("Failed to sign out", {
+          toast.error("Failed to sign out", {
             position: "top-center",
             description: "Please try again",
           });

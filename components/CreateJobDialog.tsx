@@ -57,14 +57,14 @@ const CreateJobDialog = ({
 
       if (!result.error) {
         setFormData(INITIAL_FORM_DATA);
-        toast(`Successfully created job`, {
+        toast.success(`Successfully created job`, {
           position: "top-center",
           description: "Redirecting to dashboard...",
           duration: 1000,
         });
         setOpen(false);
       } else {
-        toast(`Failed to create job`, {
+        toast.error(`Failed to create job`, {
           position: "top-center",
           description: result.error ?? "Please try again",
           duration: 2000,
@@ -72,7 +72,7 @@ const CreateJobDialog = ({
         console.error(result.error);
       }
     } catch (error) {
-      toast("Failed to create job", {
+      toast.error("Failed to create job", {
         position: "top-center",
         description: "Please try again",
         duration: 2000,

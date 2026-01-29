@@ -42,14 +42,14 @@ const SignUp = () => {
       });
 
       if (result.error) {
-        toast("Failed to sign up", {
+        toast.error("Failed to sign up", {
           position: "top-center",
           description: "Please try again",
           duration: 2000,
         });
         setError(result.error.message ?? "Failed to sign up");
       } else {
-        toast("Successfully signed up", {
+        toast.success("Successfully signed up", {
           position: "top-center",
           description: "Redirecting to dashboard...",
           duration: 1000,

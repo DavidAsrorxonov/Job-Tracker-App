@@ -115,7 +115,7 @@ const DroppableColumn = ({
 
       <CardContent
         ref={setNodeRef}
-        className={`space-y-2 py-4 min-h-100 rounded-b-lg ${isOver ? "rign-2 ring-blue-500" : ""}`}
+        className={`space-y-2 py-4 min-h-100 ${isOver ? "rign-2 ring-blue-500" : ""}`}
       >
         <SortableContext
           items={sortedJobs.map((job) => job._id)}

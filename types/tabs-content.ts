@@ -1,6 +1,7 @@
 export type TabsContent = {
   value: string;
-  image: string;
+  imageLight: string;
+  imageDark?: string;
   alt: string;
 };
 

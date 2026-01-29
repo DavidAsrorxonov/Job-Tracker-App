@@ -9,4 +9,17 @@ export const useBoard = (initialBoard?: BoardProps | null) => {
     initialBoard?.columns || [],
   );
   const [error, setError] = useState<string | null>(null);
+
+  const moveJob = async (
+    jobApplicationId: string,
+    newColumnId: string,
+    newOrder: number,
+  ) => {};
+
+  return {
+    board,
+    columns,
+    error,
+    moveJob,
+  };
 };

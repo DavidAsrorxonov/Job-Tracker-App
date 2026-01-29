@@ -174,7 +174,7 @@ export const updateJobApplication = async (
     updatesToApply.order = newOrderValue;
 
     await Column.findByIdAndUpdate(newColumnId, {
-      $push: { jobApplication: id },
+      $push: { jobApplications: id },
     });
   } else if (order !== undefined && order !== null) {
     const otherJobsInColumn = await JobApplication.find({
@@ -223,5 +223,6 @@ export const updateJobApplication = async (
     new: true,
   });
 
+  revalidatePath("/dashboard");
   return { data: JSON.parse(JSON.stringify(updated)) };
 };

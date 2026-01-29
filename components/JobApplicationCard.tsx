@@ -9,9 +9,39 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { toast } from "sonner";
+import { updateJobApplication } from "@/lib/actions/job-applications";
 
 const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
   const { company, position, description, tags, notes, jobUrl } = job;
+
+  const handleMove = async (newColumnId: string) => {
+    try {
+      const result = await updateJobApplication(job._id, {
+        columnId: newColumnId,
+      });
+
+      if (result.error) {
+        toast.error("Failed to move job application", {
+          description: result.error,
+          duration: 2000,
+          position: "top-center",
+        });
+      }
+
+      toast.success("Successfully moved job application", {
+        duration: 1000,
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error("Failed to move job application", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -64,7 +94,10 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
                       {columns
                         .filter((c) => c._id !== job.columnId)
                         .map((col, idx) => (
-                          <DropdownMenuItem key={idx}>
+                          <DropdownMenuItem
+                            key={idx}
+                            onClick={() => handleMove(col._id)}
+                          >
                             Move to {col.name}
                           </DropdownMenuItem>
                         ))}

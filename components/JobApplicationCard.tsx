@@ -79,6 +79,44 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
     }
   };
 
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const result = await updateJobApplication(job._id, {
+        ...formData,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0),
+      });
+
+      if (result.error) {
+        toast.error("Failed to update job application", {
+          description: result.error,
+          duration: 2000,
+          position: "top-center",
+        });
+      }
+
+      toast.success("Successfully updated job application", {
+        duration: 2000,
+        position: "top-center",
+        description: "Redirecting to dashboard...",
+      });
+      setIsEditing(false);
+    } catch (error) {
+      toast.error("Failed to update job application", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Card className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm">
@@ -157,7 +195,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
             <DialogTitle>Add Job Application</DialogTitle>
             <DialogDescription>Track a new job application</DialogDescription>
           </DialogHeader>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleUpdate}>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">

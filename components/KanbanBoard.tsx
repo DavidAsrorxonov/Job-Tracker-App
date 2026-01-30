@@ -27,6 +27,7 @@ import {
   closestCorners,
   DndContext,
   DragEndEvent,
+  DragOverlay,
   DragStartEvent,
   PointerSensor,
   useDroppable,
@@ -39,6 +40,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import JobApplicationCard from "./JobApplicationCard";
 
 interface ColumnConfig {
   color: string;
@@ -72,11 +74,13 @@ const DroppableColumn = ({
   config,
   boardId,
   sortedColumns,
+  isDragging,
 }: {
   column: ColumnProps;
   config: ColumnConfig;
   boardId: string;
   sortedColumns: ColumnProps[];
+  isDragging: boolean;
 }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: column._id,
@@ -90,7 +94,9 @@ const DroppableColumn = ({
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
 
   return (
-    <Card className="min-w-75 shrink-0 shadow-md p-0">
+    <Card
+      className={`min-w-75 shrink-0 shadow-md p-0 ${isDragging ? "bg-accent border border-primary border-dashed" : ""}`}
+    >
       <CardHeader className={`${config.color} rounded-t-lg py-3`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -118,7 +124,7 @@ const DroppableColumn = ({
 
       <CardContent
         ref={setNodeRef}
-        className={`space-y-2 py-4 min-h-100 ${isOver ? "rign-2 ring-blue-500" : ""}`}
+        className={`space-y-2 py-4 min-h-100 transition-colors ${isOver ? "rign-2 ring-primary" : ""}`}
       >
         <SortableContext
           items={sortedJobs.map((job) => job._id)}
@@ -141,6 +147,7 @@ const DroppableColumn = ({
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const { columns, moveJob } = useBoard(board);
 
@@ -155,9 +162,11 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
   );
 
   const handleDragStart = async (event: DragStartEvent) => {
+    setIsDragging(true);
     setActiveId(event.active.id as string);
   };
   const handleDragEnd = async (event: DragEndEvent) => {
+    setIsDragging(false);
     const { active, over } = event;
 
     setActiveId(null);
@@ -253,6 +262,10 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
     await moveJob(activeId, targetColumnId, newOrder);
   };
 
+  const activeJob = sortedColumns
+    .flatMap((col) => col.jobApplications || [])
+    .find((job) => job._id === activeId);
+
   return (
     <DndContext
       sensors={sensors}
@@ -262,7 +275,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
     >
       <div className="space-y-4">
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {columns.map((col, idx) => {
+          {sortedColumns.map((col, idx) => {
             const config = COLUMN_CONFIG[idx] || {
               color: "bg-gray-500",
               icon: <Calendar className="h-4 w-4" />,
@@ -274,11 +287,20 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
                 config={config}
                 boardId={board._id}
                 sortedColumns={sortedColumns}
+                isDragging={isDragging}
               />
             );
           })}
         </div>
       </div>
+
+      <DragOverlay>
+        {activeJob ? (
+          <div className="opacity-50">
+            <JobApplicationCard job={activeJob} columns={sortedColumns} />
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };

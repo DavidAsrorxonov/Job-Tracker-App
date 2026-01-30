@@ -32,7 +32,7 @@ const Hero = () => {
         </Badge>
       </div>
       <div className="mx-auto max-w-4xl text-center">
-        <h1 className="from-foreground via-foreground/90 to-foreground/70 mb-6 bg-gradient-to-r bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl lg:text-6xl">
+        <h1 className="from-foreground via-foreground/90 to-foreground/70 mb-6 bg-linear-to-r bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl lg:text-6xl">
           A better way to track your job applications
         </h1>
         <p className="text-muted-foreground mb-10 text-xl">

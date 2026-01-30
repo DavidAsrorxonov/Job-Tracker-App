@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { Spotlight } from "./effects/spotlight";
+import { Badge } from "./ui/badge";
 
 const Hero = () => {
   return (
@@ -22,8 +23,16 @@ const Hero = () => {
           fill="white"
         />
       </motion.div>
+      <div className="mx-auto flex items-center justify-center">
+        <Badge
+          className="mb-4 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm transition-none border border-primary"
+          variant="secondary"
+        >
+          <span className="text-primary mr-1">✦</span> Early Access
+        </Badge>
+      </div>
       <div className="mx-auto max-w-4xl text-center">
-        <h1 className="mb-6 text-6xl font-bold">
+        <h1 className="from-foreground via-foreground/90 to-foreground/70 mb-6 bg-gradient-to-r bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl lg:text-6xl">
           A better way to track your job applications
         </h1>
         <p className="text-muted-foreground mb-10 text-xl">

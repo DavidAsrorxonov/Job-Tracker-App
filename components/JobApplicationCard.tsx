@@ -156,7 +156,7 @@ const JobApplicationCard = ({
   return (
     <>
       <Card
-        className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm"
+        className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm px-6"
         {...dragHandleProps}
       >
         <CardContent className="p-4">
@@ -185,6 +185,7 @@ const JobApplicationCard = ({
                   onClick={(e) => e.stopPropagation()}
                   className="inline-flex items-center gap-1 text-sm text-primary hover:underline mt-1"
                 >
+                  Visit the job website
                   <ExternalLink className="h-5 w-5" />
                 </a>
               )}

@@ -43,6 +43,8 @@ import {
 import { useState } from "react";
 import JobApplicationCard from "./JobApplicationCard";
 import CreateColumnDialog from "./CreateColumnDialog";
+import { deleteColumn } from "@/lib/actions/columns";
+import { toast } from "sonner";
 
 interface ColumnConfig {
   color: string;
@@ -92,6 +94,34 @@ const DroppableColumn = ({
     },
   });
 
+  const handleDelete = async () => {
+    try {
+      const result = await deleteColumn(column._id);
+
+      if (result.error) {
+        toast.error("Failed to delete column", {
+          description: result.error,
+          duration: 2000,
+          position: "top-center",
+        });
+        return;
+      }
+
+      toast.success("Successfully deleted column", {
+        duration: 2000,
+        position: "top-center",
+        description: `Column with the ID: ${result.data?.id} has been deleted`,
+      });
+    } catch (error) {
+      toast.error("Failed to delete column", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    }
+  };
+
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
 
@@ -115,9 +145,11 @@ const DroppableColumn = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete Column
+              <DropdownMenuItem asChild>
+                <Button onClick={handleDelete}>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete Column
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

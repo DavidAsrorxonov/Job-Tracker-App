@@ -1,6 +1,6 @@
 import { DEFAULT_COLUMNS } from "@/constants/default-columns";
 import connectDB from "./db";
-import { Board, Column, JobApplication } from "./models";
+import { Board, Column } from "./models";
 
 export async function initializeUserBoard(userId: string) {
   try {

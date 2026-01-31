@@ -14,6 +14,8 @@ export const useBoard = (initialBoard?: BoardProps | null) => {
   const [columns, setColumns] = useState<ColumnProps[]>(
     initialBoard?.columns || [],
   );
+
+  //@typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

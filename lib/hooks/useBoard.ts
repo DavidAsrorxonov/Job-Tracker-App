@@ -97,6 +97,7 @@ export const useBoard = (initialBoard?: BoardProps | null) => {
           duration: 2000,
           position: "top-center",
         });
+        return;
       }
 
       toast.success("Successfully moved job application", {

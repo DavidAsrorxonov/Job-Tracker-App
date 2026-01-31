@@ -55,9 +55,7 @@ export const createColumn = async (data: ColumnData) => {
     },
   );
 
-  const leanedColumn = await Column.findById(newColumn._id).lean();
-
   revalidatePath("/dashboard");
 
-  return { data: leanedColumn };
+  return { data: JSON.parse(JSON.stringify(newColumn)) };
 };

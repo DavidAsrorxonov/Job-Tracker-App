@@ -42,14 +42,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 import JobApplicationCard from "./JobApplicationCard";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+import CreateColumnDialog from "./CreateColumnDialog";
 
 interface ColumnConfig {
   color: string;
@@ -301,25 +294,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
             );
           })}
 
-          <div className="h-full flex items-center justify-center">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={"outline"} className="border-dashed h-20">
-                  <Plus />
-                  Add Column
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </div>
+          <CreateColumnDialog boardId={board._id} />
         </div>
       </div>
 

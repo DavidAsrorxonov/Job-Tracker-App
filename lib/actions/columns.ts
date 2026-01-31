@@ -1,3 +1,5 @@
+"use server";
+
 import { ColumnData } from "@/types/column-data";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
@@ -53,7 +55,9 @@ export const createColumn = async (data: ColumnData) => {
     },
   );
 
+  const leanedColumn = await Column.findById(newColumn._id).lean();
+
   revalidatePath("/dashboard");
 
-  return { data: newColumn };
+  return { data: leanedColumn };
 };

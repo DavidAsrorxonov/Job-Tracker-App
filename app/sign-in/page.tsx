@@ -56,6 +56,12 @@ const SignIn = () => {
       }
     } catch (error) {
       setError("An unexpected error has occurred");
+      toast("Error signing in", {
+        duration: 2000,
+        position: "top-center",
+        description: "Please try again",
+      });
+      console.log(error);
     } finally {
       setLoading(false);
     }

@@ -87,7 +87,7 @@ const CreateJobDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="border-dashed">
+        <Button variant={"outline"} className="border-dashed w-full">
           <Plus />
           Add Job
         </Button>

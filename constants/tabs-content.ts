@@ -3,17 +3,20 @@ import { TabsContentProps } from "@/types/tabs-content";
 export const tabsContent: TabsContentProps = [
   {
     value: "img1",
-    image: "/hero-images/hero1.png",
+    imageLight: "/hero-images/hero1-light.png",
+    imageDark: "/hero-images/hero1-dark.png",
     alt: "hero1",
   },
   {
     value: "img2",
-    image: "/hero-images/hero2.png",
+    imageLight: "/hero-images/hero2-light.png",
+    imageDark: "/hero-images/hero2-dark.png",
     alt: "hero2",
   },
   {
     value: "img3",
-    image: "/hero-images/hero3.png",
+    imageLight: "/hero-images/hero3-light.png",
+    imageDark: "/hero-images/hero3-dark.png",
     alt: "hero3",
   },
 ];

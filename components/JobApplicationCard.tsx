@@ -29,15 +29,18 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 
-const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
-  const { company, position, description, tags, notes, jobUrl } = job;
+const JobApplicationCard = ({
+  job,
+  columns,
+  dragHandleProps,
+}: JobApplicationCardProps) => {
+  const { company, position, description, tags, jobUrl } = job;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -151,7 +154,10 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
 
   return (
     <>
-      <Card className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm">
+      <Card
+        className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm px-6"
+        {...dragHandleProps}
+      >
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
@@ -178,6 +184,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
                   onClick={(e) => e.stopPropagation()}
                   className="inline-flex items-center gap-1 text-sm text-primary hover:underline mt-1"
                 >
+                  Visit the job website
                   <ExternalLink className="h-5 w-5" />
                 </a>
               )}

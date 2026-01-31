@@ -9,20 +9,43 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import SignOutBtn from "./SignOutBtn";
 import { useSession } from "@/lib/auth/auth-client";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const { data: session } = useSession();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur">
+    <nav
+      className={cn(
+        "sticky top-0 z-50 w-full transition-colors",
+        isScrolled
+          ? "backdrop-blur-lg bg-background/60 border-b border-border/20"
+          : "bg-transparent",
+      )}
+    >
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link href={"/"} className="flex items-center gap-2 text-xl font-bold">
           <BriefcaseIcon />
@@ -73,7 +96,7 @@ const Navbar = () => {
           <ModeToggle />
         </div>
       </div>
-      <Separator />
+      <Separator className={cn(isScrolled ? "opacity-100" : "opacity-0")} />
     </nav>
   );
 };

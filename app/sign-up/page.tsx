@@ -58,6 +58,11 @@ const SignUp = () => {
       }
     } catch (error) {
       setError("An unexpected error has occurred");
+      toast("Error signing up", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }

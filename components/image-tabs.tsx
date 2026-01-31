@@ -1,9 +1,24 @@
+"use client";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Card } from "./ui/card";
 import Image from "next/image";
 import { tabsContent } from "@/constants/tabs-content";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const ImageTabs = () => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <section className="py-16 flex items-center justify-center">
       <div>
@@ -17,7 +32,11 @@ const ImageTabs = () => {
             <TabsContent value={tabContent.value} key={tabContent.value}>
               <Card className="flex items-center justify-center h-full">
                 <Image
-                  src={tabContent.image}
+                  src={
+                    resolvedTheme === "dark"
+                      ? tabContent.imageDark!
+                      : tabContent.imageLight
+                  }
                   alt={tabContent.alt}
                   width={1200}
                   height={800}

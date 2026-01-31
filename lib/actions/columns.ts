@@ -59,3 +59,34 @@ export const createColumn = async (data: ColumnData) => {
 
   return { data: JSON.parse(JSON.stringify(newColumn)) };
 };
+
+export const deleteColumn = async (id: string) => {
+  const session = await getSession();
+
+  if (!session?.user) {
+    return {
+      error: "Unauthorized",
+    };
+  }
+
+  await connectDB();
+
+  const column = await Column.findById(id);
+
+  if (!column) return { error: "Column not found" };
+
+  const board = await Board.findOne({
+    _id: column.boardId,
+    userId: session.user.id,
+  });
+
+  if (!board) return { error: "Board not found or access denied" };
+
+  await Column.deleteOne({ _id: id });
+
+  await Board.updateOne({ _id: board._id }, { $pull: { columns: column._id } });
+
+  revalidatePath("/dashboard");
+
+  return { data: { id } };
+};

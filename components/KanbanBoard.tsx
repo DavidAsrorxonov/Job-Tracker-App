@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Mic,
   MoreVertical,
+  Plus,
   Trash2,
   XCircle,
 } from "lucide-react";
@@ -41,6 +42,14 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 import JobApplicationCard from "./JobApplicationCard";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 interface ColumnConfig {
   color: string;
@@ -273,7 +282,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="space-y-4">
+      <div className="flex space-y-4">
         <div className="flex gap-4 overflow-x-auto pb-4">
           {sortedColumns.map((col, idx) => {
             const config = COLUMN_CONFIG[idx] || {
@@ -291,6 +300,26 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
               />
             );
           })}
+
+          <div className="h-full flex items-center justify-center">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant={"outline"} className="border-dashed h-20">
+                  <Plus />
+                  Add Column
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </div>
 

@@ -18,8 +18,6 @@ export default function Home() {
 
         <Features />
 
-        <Separator />
-
         <Footer />
       </main>
     </div>

@@ -1,4 +1,5 @@
 import Features from "@/components/Features";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import ImageTabs from "@/components/image-tabs";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +17,10 @@ export default function Home() {
         <Separator />
 
         <Features />
+
+        <Separator />
+
+        <Footer />
       </main>
     </div>
   );

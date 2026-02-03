@@ -42,14 +42,9 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 import JobApplicationCard from "./JobApplicationCard";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+import CreateColumnDialog from "./CreateColumnDialog";
+import { deleteColumn } from "@/lib/actions/columns";
+import { toast } from "sonner";
 
 interface ColumnConfig {
   color: string;
@@ -99,6 +94,34 @@ const DroppableColumn = ({
     },
   });
 
+  const handleDelete = async () => {
+    try {
+      const result = await deleteColumn(column._id);
+
+      if (result.error) {
+        toast.error("Failed to delete column", {
+          description: result.error,
+          duration: 2000,
+          position: "top-center",
+        });
+        return;
+      }
+
+      toast.success("Successfully deleted column", {
+        duration: 2000,
+        position: "top-center",
+        description: `Column with the ID: ${result.data?.id} has been deleted`,
+      });
+    } catch (error) {
+      toast.error("Failed to delete column", {
+        description: "Please try again",
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    }
+  };
+
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
 
@@ -122,9 +145,11 @@ const DroppableColumn = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete Column
+              <DropdownMenuItem asChild>
+                <Button onClick={handleDelete}>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete Column
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -301,25 +326,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
             );
           })}
 
-          <div className="h-full flex items-center justify-center">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={"outline"} className="border-dashed h-20">
-                  <Plus />
-                  Add Column
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </div>
+          <CreateColumnDialog boardId={board._id} />
         </div>
       </div>
 

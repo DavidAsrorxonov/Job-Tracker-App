@@ -6,8 +6,12 @@ import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
 import { emailOTP } from "better-auth/plugins";
 
+import { Resend } from "resend";
+
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
@@ -20,7 +24,7 @@ export const auth = betterAuth({
     },
   },
   emailAndPassword: {
-    enabled: true,
+    enabled: false,
   },
   databaseHooks: {
     user: {
@@ -36,16 +40,6 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [
-    emailOTP({
-      async sendVerificationOTP({ email, otp, type }) {
-        if (type === "sign-in") {
-        } else if (type === "email-verification") {
-        } else {
-        }
-      },
-    }),
-  ],
 });
 
 export const signOut = async () => {

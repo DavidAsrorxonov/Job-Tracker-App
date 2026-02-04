@@ -5,8 +5,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
 import { emailOTP } from "better-auth/plugins";
+import { AWSVerifyEmail } from "@/templates/aws-email-verify-template";
 
 import { Resend } from "resend";
+import { render } from "@react-email/components";
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
@@ -24,7 +26,8 @@ export const auth = betterAuth({
     },
   },
   emailAndPassword: {
-    enabled: false,
+    enabled: true,
+    requireEmailVerification: true,
   },
   databaseHooks: {
     user: {
@@ -40,6 +43,33 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        try {
+          const { data, error } = await resend.emails.send({
+            from: process.env.EMAIL_FROM!,
+            to: email,
+            subject: "Verify your email address",
+            react: AWSVerifyEmail({ verificationCode: otp }),
+          });
+
+          if (error) {
+            console.error("Resend error", error);
+            throw new Error(`Failed to send email: ${error.message}`);
+          }
+
+          console.log("Verification email sent successfully", data?.id);
+        } catch (error) {
+          console.error("Error sending verification email:", error);
+          throw error;
+        }
+      },
+      sendVerificationOnSignUp: true,
+      otpLength: 6,
+      expiresIn: 1200,
+    }),
+  ],
 });
 
 export const signOut = async () => {

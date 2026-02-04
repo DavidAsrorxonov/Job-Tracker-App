@@ -13,13 +13,11 @@ import {
   Text,
 } from "@react-email/components";
 
-interface AWSVerifyEmailProps {
-  verificationCode?: string;
-}
-
-export default function AWSVerifyEmail({
+export const AWSVerifyEmail = ({
   verificationCode,
-}: AWSVerifyEmailProps) {
+}: {
+  verificationCode: string;
+}) => {
   return (
     <Html>
       <Head />
@@ -87,4 +85,4 @@ export default function AWSVerifyEmail({
       </Body>
     </Html>
   );
-}
+};

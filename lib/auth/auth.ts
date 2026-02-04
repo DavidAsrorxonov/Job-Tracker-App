@@ -8,7 +8,6 @@ import { emailOTP } from "better-auth/plugins";
 import { AWSVerifyEmail } from "@/templates/aws-email-verify-template";
 
 import { Resend } from "resend";
-import { render } from "@react-email/components";
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
@@ -46,6 +45,7 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
+        console.log("SEND OTP CALLED:", { email, otp, type });
         try {
           const { data, error } = await resend.emails.send({
             from: process.env.EMAIL_FROM!,

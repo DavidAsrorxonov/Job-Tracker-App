@@ -4,6 +4,7 @@ import { MongoClient } from "mongodb";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
+import { emailOTP } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
@@ -35,6 +36,16 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type === "sign-in") {
+        } else if (type === "email-verification") {
+        } else {
+        }
+      },
+    }),
+  ],
 });
 
 export const signOut = async () => {

@@ -74,7 +74,7 @@ Job Tracker was created to:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/job-tracker.git
+git clone https://github.com/your-username/Job-Tracker-App.git
 cd job-tracker
 ```
 

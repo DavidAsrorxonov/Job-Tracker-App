@@ -37,6 +37,7 @@ export const auth = betterAuth({
             await initializeUserBoard(user.id);
           } catch (err) {
             console.error("Failed to initialize user board", err);
+            throw err; // Propagate error to client
           }
         },
       },

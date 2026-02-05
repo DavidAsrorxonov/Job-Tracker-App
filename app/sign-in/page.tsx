@@ -53,6 +53,9 @@ const SignIn = () => {
           duration: 1000,
         });
         router.push("/dashboard");
+
+        setEmail("");
+        setPassword("");
       }
     } catch (error) {
       setError("An unexpected error has occurred");

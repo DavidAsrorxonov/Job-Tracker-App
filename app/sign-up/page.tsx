@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { authClient, signUp } from "@/lib/auth/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const SignUp = () => {
@@ -36,6 +36,16 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await authClient.getSession();
+      if (session.data?.user) {
+        router.push("/dashboard");
+      }
+    };
+    checkSession();
+  }, [router]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,12 +66,25 @@ const SignUp = () => {
     }
 
     try {
-      await signUp.email({
+      const result = await signUp.email({
         name,
         email,
         password,
-        callbackURL: "/dashboard",
       });
+
+      // Check if signup was successful
+      if (result.error) {
+        const errorMessage =
+          result.error.message || "Signup failed. Please try again.";
+        setError(errorMessage);
+        toast("Error signing up", {
+          description: errorMessage,
+          duration: 3000,
+          position: "top-center",
+        });
+        setLoading(false);
+        return;
+      }
 
       toast("Account created", {
         description: "Please check your email",
@@ -96,22 +119,43 @@ const SignUp = () => {
     setLoading(true);
     setError("");
 
+    if (otp.length !== 6) {
+      setError("Please enter a valid 6-digit code");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await authClient.emailOtp.verifyEmail({
+      const result = await authClient.emailOtp.verifyEmail({
         email,
         otp,
       });
 
+      if (result.error) {
+        const errorMessage =
+          result.error.message ||
+          "Invalid verification code. Please try again.";
+        setError(errorMessage);
+        toast("Error verifying account", {
+          description: errorMessage,
+          duration: 2000,
+          position: "top-center",
+        });
+        setLoading(false);
+        return;
+      }
+
       toast("Account verified", {
-        description: "Redirecting to dashboard...",
-        duration: 2000,
+        description: "Sign in to continue",
+        duration: 3000,
         position: "top-center",
       });
       router.push("/dashboard");
-    } catch (error) {
-      setError("An unexpected error has occurred");
+    } catch (error: any) {
+      const errorMessage = error?.message || "An unexpected error has occurred";
+      setError(errorMessage);
       toast("Error verifying account", {
-        description: "Please try again",
+        description: errorMessage,
         duration: 2000,
         position: "top-center",
       });
@@ -148,7 +192,7 @@ const SignUp = () => {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
+      <Card className="w-full max-w-lg shadow-lg p-4">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-primary">
             Sign Up
@@ -239,53 +283,83 @@ const SignUp = () => {
             </form>
           </>
         ) : (
-          <>
-            <form onSubmit={handleVerify} className="space-y-4">
-              <div>
-                We have sent a 6-digit verification code to your email.
-                <Badge>{email}</Badge>
+          <form onSubmit={handleVerify}>
+            <CardContent className="space-y-8 pt-2">
+              {error && (
+                <div className="w-full flex justify-center">
+                  <Badge variant={"destructive"} className="text-center">
+                    {error}
+                  </Badge>
+                </div>
+              )}
+
+              <div className="space-y-4 text-center">
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    A verification code has been sent to
+                  </p>
+                  <Badge
+                    variant="outline"
+                    className="px-4 py-2 text-sm font-normal"
+                  >
+                    {email}
+                  </Badge>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Please check your inbox and enter the 6-digit code below
+                </p>
               </div>
 
-              <div className="flex flex-col items-center space-y-2">
-                <Label htmlFor="otp">Verification Code</Label>
+              {/* OTP Input */}
+              <div className="space-y-4">
+                <Label className="block text-center text-sm font-medium">
+                  Verification Code
+                </Label>
+                <div className="flex justify-center">
+                  <InputOTP
+                    maxLength={6}
+                    value={otp}
+                    onChange={setOtp}
+                    disabled={loading}
+                  >
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </div>
+              </div>
+            </CardContent>
 
-                <InputOTP
-                  maxLength={6}
-                  value={otp}
-                  onChange={setOtp}
-                  disabled={loading}
-                >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
+            <CardFooter className="flex flex-col space-y-3 pb-6 pt-6">
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90"
+                disabled={loading || otp.length !== 6}
+              >
+                {loading ? "Verifying..." : "Verify Email"}
+              </Button>
 
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={loading || otp.length !== 6}
-                >
-                  {loading ? "Verifying..." : "Verify"}
-                </Button>
-
-                <div className="flex justify-between text-sm">
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground">
+                  Didn't receive the code?{" "}
                   <Button
                     type="button"
                     variant="link"
                     onClick={handleResendCode}
                     disabled={loading}
+                    className="h-auto p-0 text-sm font-medium text-primary hover:underline"
                   >
-                    Resend code
+                    Resend
                   </Button>
-                </div>
+                </p>
               </div>
-            </form>
-          </>
+            </CardFooter>
+          </form>
         )}
       </Card>
     </div>

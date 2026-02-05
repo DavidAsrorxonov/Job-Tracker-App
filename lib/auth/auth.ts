@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
 import { emailOTP } from "better-auth/plugins";
-import { AWSVerifyEmail } from "@/templates/aws-email-verify-template";
+import { JobTrackerVerifyEmail } from "@/templates/job-tracker-email-verify-template";
 
 import { Resend } from "resend";
 
@@ -51,7 +51,7 @@ export const auth = betterAuth({
             from: process.env.EMAIL_FROM!,
             to: email,
             subject: "Verify your email address",
-            react: AWSVerifyEmail({ verificationCode: otp }),
+            react: JobTrackerVerifyEmail({ verificationCode: otp }),
           });
 
           if (error) {

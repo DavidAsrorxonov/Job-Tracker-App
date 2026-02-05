@@ -46,7 +46,6 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        console.log("SEND OTP CALLED:", { email, otp, type });
         try {
           const { data, error } = await resend.emails.send({
             from: process.env.EMAIL_FROM!,

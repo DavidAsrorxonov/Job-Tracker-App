@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Tracker
 
-## Getting Started
+**The Next Generation Job Application Tracker for Active Job Hunters**
 
-First, run the development server:
+Job Tracker is a modern SaaS web application designed to help job seekers **organize, manage, and take full control of their job applications**.  
+It provides a clean, structured, and reliable way to track applications, monitor progress, and stay focused throughout the job search process.
+
+Built with scalability, performance, and user experience in mind, Job Tracker is evolving into a full-featured public SaaS platform.
+
+---
+
+## 🚀 Why Job Tracker Exists
+
+Job searching is stressful and disorganized for many people — spreadsheets get messy, emails are scattered, and follow-ups are forgotten.
+
+Job Tracker was created to:
+
+- Eliminate manual tracking chaos
+- Centralize all job applications in one place
+- Provide clarity and structure for serious job hunters
+- Offer a professional-grade tool built with modern web technologies
+
+---
+
+## ✨ Key Features
+
+- 📌 **Job Application Tracking**
+  - Track companies, roles, and application dates
+- 🔄 **Application Status Management**
+  - Applied, Interview, Offer, Rejected (with extensibility)
+- 🧠 **Centralized Dashboard**
+  - All applications in one clean, accessible view
+- 🔐 **Secure Authentication**
+  - Email-based authentication with verification
+- 🌙 **Modern UI / UX**
+  - Clean, professional design with dark mode support
+- ⚡ **Fast & Optimized**
+  - Built with the Next.js App Router for performance and scalability
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Authentication:** Better Auth
+- **Database:** MongoDB
+- **Architecture:** Full-stack (Frontend + Backend)
+- **Deployment:** Cloud-ready (Vercel / Railway compatible)
+
+---
+
+## 📂 Project Structure
+
+- `app/` – Next.js App Router pages
+- `components/` – Reusable UI components
+- `lib/` – Helpers, hooks, and utilities
+- `api/` – Backend and authentication routes
+
+---
+
+## 🔐 Authentication Flow
+
+1. User signs up with an email address
+2. Verification code is sent to the email
+3. User verifies the code
+4. Secure access to the dashboard is granted
+
+---
+
+## 🚀 Getting Started (Development)
+
+### 1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/job-tracker.git
+cd job-tracker
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# or
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+yarn
 
-## Learn More
+# or
 
-To learn more about Next.js, take a look at the following resources:
+pnpm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# or
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+bun install
 
-## Deploy on Vercel
+MONGODB_URI=your_mongodb_connection_string
+BETTER_AUTH_SECRET=your_secret_key
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm run dev

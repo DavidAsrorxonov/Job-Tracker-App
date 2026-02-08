@@ -34,13 +34,16 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const JobApplicationCard = ({
   job,
   columns,
   dragHandleProps,
 }: JobApplicationCardProps) => {
-  const { company, position, description, tags, jobUrl } = job;
+  const router = useRouter();
+
+  const { company, position, description, tags, jobUrl, _id } = job;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -157,6 +160,7 @@ const JobApplicationCard = ({
       <Card
         className="cursor-pointer transition-shadow hover:shadow-lg group shadow-sm px-6"
         {...dragHandleProps}
+        onClick={() => router.push(`/dashboard/${_id}`)}
       >
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2">

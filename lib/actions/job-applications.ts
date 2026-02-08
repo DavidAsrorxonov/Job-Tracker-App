@@ -71,7 +71,7 @@ export const createJobApplication = async (data: FormData) => {
     userId: session.user.id,
     tags: tags || [],
     description,
-    status: "applied",
+    status: column.name,
     order: maxOrder ? maxOrder.order + 1 : 0,
   });
 
@@ -129,6 +129,7 @@ export const updateJobApplication = async (
     order: number;
     tags: string[];
     description: string;
+    status: string;
   }> = otherUpdates;
 
   const currentColumnId = jobApplication.columnId.toString();
@@ -141,6 +142,13 @@ export const updateJobApplication = async (
     await Column.findByIdAndUpdate(currentColumnId, {
       $pull: { jobApplications: id },
     });
+
+    const targetColumn = await Column.findById(newColumnId)
+      .select("name")
+      .lean();
+    if (!targetColumn) return { error: "Target column not found" };
+
+    updatesToApply.status = targetColumn.name;
 
     const jobsInTargetColumn = await JobApplication.find({
       columnId: newColumnId,
@@ -255,4 +263,25 @@ export const deleteJobApplication = async (id: string) => {
 
   revalidatePath("/dashboard");
   return { data: { id } };
+};
+
+export const getJobApplicationById = async (id: string) => {
+  const session = await getSession();
+
+  if (!session?.user) {
+    return {
+      error: "Unauthorized",
+    };
+  }
+
+  await connectDB();
+
+  const jobApplication = await JobApplication.findById(id);
+
+  if (!jobApplication) return { error: "Job Application not found" };
+
+  if (jobApplication.userId !== session.user.id)
+    return { error: "Unauthorized" };
+
+  return { data: JSON.parse(JSON.stringify(jobApplication)) };
 };

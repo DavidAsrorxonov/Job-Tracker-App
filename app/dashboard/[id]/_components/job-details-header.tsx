@@ -1,15 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/helper/formatDate";
 import { normalizeUrl } from "@/lib/helper/normalizeUrl";
-import { ExternalLink, MoreVertical } from "lucide-react";
-import React from "react";
+import { ExternalLink } from "lucide-react";
 
 type Job = {
   _id: string;

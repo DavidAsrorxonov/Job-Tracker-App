@@ -51,7 +51,7 @@ export const JobTrackerVerifyEmail = ({
                   </Text>
 
                   <Text className="m-0 mt-2 text-[12px] text-white/60">
-                    This code is valid for 20 minutes!
+                    This code is valid for 20 minutes.
                   </Text>
                 </Section>
               </Section>

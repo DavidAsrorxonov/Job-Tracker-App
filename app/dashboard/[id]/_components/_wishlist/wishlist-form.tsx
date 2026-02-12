@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { WishlistFormValues } from "@/types/wishlist";
 import { useState } from "react";
 
@@ -197,6 +198,83 @@ export default function WishlistPanel({
       </div>
 
       <Separator />
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <ChipInput
+          label="Pros"
+          value={values.pros ?? []}
+          onChange={(next) => setValues((p) => ({ ...p, pros: next }))}
+          placeholder="e.g., remote, good mentorship"
+        />
+
+        <ChipInput
+          label="Cons"
+          value={values.cons ?? []}
+          onChange={(next) => setValues((p) => ({ ...p, cons: next }))}
+          placeholder="e.g., low salary, long commute"
+        />
+      </div>
+
+      <Separator />
+
+      <div className="space-y-5">
+        <ChipInput
+          label="Must-have"
+          value={values.requirementsMatch?.mustHave ?? []}
+          onChange={(next) =>
+            setValues((p) => ({
+              ...p,
+              requirementsMatch: {
+                ...(p.requirementsMatch ?? {}),
+                mustHave: next,
+              },
+            }))
+          }
+        />
+        <ChipInput
+          label="Nice-to-have"
+          value={values.requirementsMatch?.niceToHave ?? []}
+          onChange={(next) =>
+            setValues((p) => ({
+              ...p,
+              requirementsMatch: {
+                ...(p.requirementsMatch ?? {}),
+                niceToHave: next,
+              },
+            }))
+          }
+        />
+        <ChipInput
+          label="Gaps"
+          value={values.requirementsMatch?.gaps ?? []}
+          onChange={(next) =>
+            setValues((p) => ({
+              ...p,
+              requirementsMatch: { ...(p.requirementsMatch ?? {}), gaps: next },
+            }))
+          }
+        />
+      </div>
+
+      <Separator />
+
+      <div className="space-y-2">
+        <Label>Research notes</Label>
+        <Textarea
+          value={values.researchNotes ?? ""}
+          onChange={(e) =>
+            setValues((p) => ({ ...p, researchNotes: e.target.value }))
+          }
+          placeholder="What did you learn about this company? Links, impressions, red flags, etc."
+          className="min-h-32"
+        />
+      </div>
+
+      <div className="flex justify-end gap-2">
+        <Button type="submit" disabled={submitting}>
+          {submitting ? "Saving..." : "Save"}
+        </Button>
+      </div>
     </form>
   );
 }

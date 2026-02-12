@@ -95,6 +95,21 @@ export interface IRejectedData {
   wouldReapply?: boolean;
 }
 
+export interface ITimelineEntry {
+  _id?: mongoose.Types.ObjectId;
+  date: Date;
+  action: string;
+  description?: string;
+  type:
+    | "status_change"
+    | "interview"
+    | "follow_up"
+    | "note"
+    | "document"
+    | "other";
+  automated?: boolean;
+}
+
 export interface IJobApplication extends Document {
   company: string;
   position: string;
@@ -117,9 +132,33 @@ export interface IJobApplication extends Document {
   offerData?: IOfferData;
   rejectedData?: IRejectedData;
 
+  timeline?: ITimelineEntry[];
+
   createdAt: Date;
   updatedAt: Date;
 }
+
+const TimelineEntrySchema = new Schema<ITimelineEntry>(
+  {
+    date: { type: Date, required: true, default: Date.now },
+    action: { type: String, required: true },
+    description: String,
+    type: {
+      type: String,
+      enum: [
+        "status_change",
+        "interview",
+        "follow_up",
+        "note",
+        "document",
+        "other",
+      ],
+      default: "other",
+    },
+    automated: { type: Boolean, default: false },
+  },
+  { timestamps: true },
+);
 
 const JobApplicationSchema = new Schema<IJobApplication>(
   {
@@ -301,9 +340,28 @@ const JobApplicationSchema = new Schema<IJobApplication>(
       reapplyDate: Date,
       wouldReapply: Boolean,
     },
+
+    timeline: [TimelineEntrySchema],
   },
   { timestamps: true },
 );
+
+JobApplicationSchema.index({ userId: 1, boardId: 1 });
+JobApplicationSchema.index({ userId: 1, status: 1 });
+JobApplicationSchema.index({ "appliedData.appliedDate": 1 });
+JobApplicationSchema.index({ "offerData.offerDeadline": 1 });
+
+JobApplicationSchema.pre("save", function () {
+  if (this.isModified("status") && !this.isNew) {
+    if (!this.timeline) this.timeline = [];
+    this.timeline.push({
+      date: new Date(),
+      action: `Status changed to ${this.status}`,
+      type: "status_change",
+      automated: true,
+    } as ITimelineEntry);
+  }
+});
 
 export default mongoose.models.JobApplication ||
   mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);

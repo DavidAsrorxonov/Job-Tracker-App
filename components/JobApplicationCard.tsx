@@ -33,7 +33,7 @@ import {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const JobApplicationCard = ({
@@ -202,7 +202,12 @@ const JobApplicationCard = ({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                  <DropdownMenuItem
+                    onClick={(e: React.FormEvent) => {
+                      e.stopPropagation();
+                      setIsEditing(true);
+                    }}
+                  >
                     <Edit2 className="mr-2 h-4 w-4" />
                     Edit
                   </DropdownMenuItem>
@@ -224,7 +229,12 @@ const JobApplicationCard = ({
                     </>
                   )}
 
-                  <DropdownMenuItem onClick={handleDelete}>
+                  <DropdownMenuItem
+                    onClick={(e: React.FormEvent) => {
+                      e.stopPropagation();
+                      handleDelete();
+                    }}
+                  >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete
                   </DropdownMenuItem>

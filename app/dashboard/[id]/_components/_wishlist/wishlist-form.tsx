@@ -87,7 +87,7 @@ function ChipInput({
   );
 }
 
-export default function WishlistPanel({
+export default function WishlistForm({
   defaultValues,
   onSubmit,
   submitting,

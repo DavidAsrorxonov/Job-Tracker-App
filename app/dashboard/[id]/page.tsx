@@ -2,6 +2,7 @@ import { getJobApplicationById } from "@/lib/actions/job-applications";
 import JobDetailsHeader from "./_components/job-details-header";
 import "./_styles/panel.css";
 import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
+import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 
 export default async function JobDetails({
   params,
@@ -24,6 +25,10 @@ export default async function JobDetails({
           description={data.description}
           notes={data.notes}
         />
+
+        {data.status === "wish-list" && (
+          <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
+        )}
       </div>
     </div>
   );

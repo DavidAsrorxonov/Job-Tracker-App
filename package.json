@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed:jobs": "tsx --env-file=.env scripts/seed.ts",
+    "migrate:jobs": "tsx --env-file=.env scripts/migrate-jobs.ts",
     "prepare": "husky install"
   },
   "dependencies": {

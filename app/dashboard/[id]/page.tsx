@@ -1,8 +1,7 @@
 import { getJobApplicationById } from "@/lib/actions/job-applications";
 import JobDetailsHeader from "./_components/job-details-header";
-import TasksPanel from "./_components/tasks-panel";
-import RemindersPanel from "./_components/reminders-panel";
 import "./_styles/panel.css";
+import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 
 export default async function JobDetails({
   params,
@@ -12,15 +11,20 @@ export default async function JobDetails({
   const { id } = await params;
 
   const result = await getJobApplicationById(id);
+  const { data, error } = result;
 
-  if ("error" in result) return <div>{result.error}</div>;
+  if ("error" in result) return <div>{error}</div>;
 
   return (
-    <div className="parent pt-3">
-      <JobDetailsHeader job={result.data} />
+    <div>
+      <div className="parent pt-3">
+        <JobDetailsHeader job={data} />
 
-      <TasksPanel />
-      <RemindersPanel />
+        <NotesAndDescriptionPanel
+          description={data.description}
+          notes={data.notes}
+        />
+      </div>
     </div>
   );
 }

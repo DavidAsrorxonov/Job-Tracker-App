@@ -164,11 +164,11 @@ const JobApplicationCard = ({
       >
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 max-w-lg">
               <h3 className="font-semibold text-sm mb-1">{position}</h3>
               <p className="text-xs text-muted-foreground mb-2">{company}</p>
               {description && (
-                <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
+                <p className="text-xs text-muted-foreground mb-2 line-clamp-2 truncate">
                   {description}
                 </p>
               )}
@@ -213,7 +213,10 @@ const JobApplicationCard = ({
                         .map((col, idx) => (
                           <DropdownMenuItem
                             key={idx}
-                            onClick={() => handleMove(col._id)}
+                            onClick={(e: React.FormEvent) => {
+                              e.stopPropagation();
+                              handleMove(col._id);
+                            }}
                           >
                             Move to {col.name}
                           </DropdownMenuItem>

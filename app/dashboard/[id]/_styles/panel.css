@@ -1,23 +1,25 @@
 .parent {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) repeat(2, 2fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+
+  grid-auto-rows: min-content;
+  align-items: start;
+
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
 
 .div1 {
-  grid-area: 1 / 1 / 2 / 4;
+  grid-area: 1 / 1 / 3 / 5;
+  align-self: start;
 }
+
 .div2 {
-  grid-area: 1 / 4 / 4 / 5;
-}
-.div3 {
-  grid-area: 1 / 5 / 4 / 6;
+  grid-area: 1 / 5 / 3 / 6;
+  align-self: start;
 }
 
 .div1,
-.div2,
-.div3 {
+.div2 {
   padding: 10px;
 }

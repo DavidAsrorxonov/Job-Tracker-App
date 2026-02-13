@@ -18,18 +18,21 @@ export default async function JobDetails({
 
   return (
     <div>
-      <div className="parent pt-3">
-        <JobDetailsHeader job={data} />
+      <div className="flex flex-col gap-4 pt-3">
+        <div className="w-full">
+          <JobDetailsHeader job={data} />
+        </div>
 
-        <NotesAndDescriptionPanel
-          description={data.description}
-          notes={data.notes}
-        />
-
-        {data.status === "wish-list" ||
-          (data.status === "Wish List" && (
+        <div className="w-full flex gap-2 px-4">
+          {(data.status === "wish-list" || data.status === "Wish List") && (
             <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
-          ))}
+          )}
+
+          <NotesAndDescriptionPanel
+            description={data.description}
+            notes={data.notes}
+          />
+        </div>
       </div>
     </div>
   );

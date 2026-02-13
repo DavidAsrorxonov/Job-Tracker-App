@@ -67,7 +67,7 @@ export default function WishlistPanel({
   }
 
   return (
-    <Card className="div3 shadow-md">
+    <Card className="w-full shadow-md h-fit">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div>
           <CardTitle className="text-lg">Wishlist details</CardTitle>

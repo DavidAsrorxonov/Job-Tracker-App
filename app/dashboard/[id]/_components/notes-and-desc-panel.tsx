@@ -62,7 +62,7 @@ const NotesAndDescriptionPanel = ({
   const descPreview = useMemo(() => description?.trim(), [description]);
 
   return (
-    <div className="div2">
+    <div>
       <Card className="flex flex-col shadow-md">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">

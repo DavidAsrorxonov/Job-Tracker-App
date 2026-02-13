@@ -2,8 +2,14 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -14,6 +20,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { WishlistFormValues } from "@/types/wishlist";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
 function ChipInput({
@@ -128,22 +137,35 @@ export default function WishlistForm({
 
         <div className="space-y-2">
           <Label>Target apply date</Label>
-          <Input
-            type="date"
-            value={
-              values.targetApplyDate
-                ? new Date(values.targetApplyDate).toISOString().slice(0, 10)
-                : ""
-            }
-            onChange={(e) =>
-              setValues((p) => ({
-                ...p,
-                targetApplyDate: e.target.value
-                  ? new Date(e.target.value)
-                  : undefined,
-              }))
-            }
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !values.targetApplyDate && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {values.targetApplyDate
+                  ? format(values.targetApplyDate, "PPP")
+                  : "Pick a date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={values.targetApplyDate}
+                onSelect={(date) =>
+                  setValues((p) => ({ ...p, targetApplyDate: date }))
+                }
+                disabled={(date) =>
+                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                }
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 

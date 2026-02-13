@@ -26,9 +26,10 @@ export default async function JobDetails({
           notes={data.notes}
         />
 
-        {data.status === "wish-list" && (
-          <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
-        )}
+        {data.status === "wish-list" ||
+          (data.status === "Wish List" && (
+            <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
+          ))}
       </div>
     </div>
   );

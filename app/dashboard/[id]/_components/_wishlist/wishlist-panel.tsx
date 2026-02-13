@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { upsertWishlistData } from "@/lib/actions/wishlist";
+import "../../_styles/panel.css";
 
 function calcCompletion(d?: IWishlistData) {
   if (!d) return { done: 0, total: 8, percent: 0 };
@@ -66,7 +67,7 @@ export default function WishlistPanel({
   }
 
   return (
-    <Card className="shadow-md">
+    <Card className="div3 shadow-md">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div>
           <CardTitle className="text-lg">Wishlist details</CardTitle>

@@ -14,7 +14,7 @@ export default async function JobDetails({
   const result = await getJobApplicationById(id);
   const { data, error } = result;
 
-  if ("error" in result) return <div>{error}</div>;
+  if ("error" in result) return <div>{error as string}</div>;
 
   return (
     <div>

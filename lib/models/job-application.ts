@@ -352,30 +352,5 @@ JobApplicationSchema.index({ userId: 1, status: 1 });
 JobApplicationSchema.index({ "appliedData.appliedDate": 1 });
 JobApplicationSchema.index({ "offerData.offerDeadline": 1 });
 
-JobApplicationSchema.pre(
-  "findByIdAndUpdate" as any,
-  function (this: Query<any, any>, next: (err?: any) => void) {
-    const update = this.getUpdate();
-
-    if (!update || Array.isArray(update)) return next();
-
-    const u: any = { ...update };
-
-    const newStatus = u.status ?? u.$set?.status;
-    if (!newStatus) return next();
-
-    u.$push = u.$push ?? {};
-    u.$push.timeline = {
-      date: new Date(),
-      action: `Status changed to ${newStatus}`,
-      type: "status_change",
-      automated: true,
-    };
-
-    this.setUpdate(u);
-    next();
-  },
-);
-
 export default mongoose.models.JobApplication ||
   mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);

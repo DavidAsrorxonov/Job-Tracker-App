@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="px-6 py-2 flex items-center justify-between backdrop-blur-lg bg-background/60 border border-border">
+    <nav className="sticky top-16 z-50 w-full px-6 py-2 flex items-center justify-between backdrop-blur-lg bg-background/60 border border-border">
       <Button variant="outline" onClick={handleBack}>
         <ArrowLeft className="h-5 w-5 mr-2" />
         Back

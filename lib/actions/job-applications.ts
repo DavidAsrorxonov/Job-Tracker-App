@@ -229,6 +229,17 @@ export const updateJobApplication = async (
     updatesToApply.order = newOrderValue;
   }
 
+  if (updatesToApply.status) {
+    (updatesToApply as any).$push = {
+      timeline: {
+        date: new Date(),
+        action: `Status changed to ${updatesToApply.status}`,
+        type: "status_change",
+        automated: true,
+      },
+    };
+  }
+
   const updated = await JobApplication.findByIdAndUpdate(id, updatesToApply, {
     new: true,
   });

@@ -85,7 +85,15 @@ function ChipInput({
               variant={"secondary"}
               className="font-normal cursor-pointer"
               title="Click to remove"
+              role="button"
+              tabIndex={0}
               onClick={() => remove(x)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  remove(x);
+                }
+              }}
             >
               {x} ✕
             </Badge>
@@ -111,6 +119,7 @@ export default function WishlistForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        if (submitting) return;
         onSubmit(values);
       }}
       className="space-y-6"

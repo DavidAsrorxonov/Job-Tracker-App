@@ -21,5 +21,6 @@ export async function upsertWishlistData(jobId: string, wishlistData: any) {
     },
   );
 
-  revalidatePath("/dashboard/${id}");
+  const id = jobId;
+  revalidatePath(`/dashboard/${id}`);
 }

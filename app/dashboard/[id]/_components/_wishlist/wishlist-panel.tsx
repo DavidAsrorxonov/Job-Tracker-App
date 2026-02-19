@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { upsertWishlistData } from "@/lib/actions/wishlist";
 import "../../_styles/panel.css";
+import { toast } from "sonner";
 
 function calcCompletion(d?: IWishlistData) {
   if (!d) return { done: 0, total: 8, percent: 0 };
@@ -61,8 +62,17 @@ export default function WishlistPanel({
 
   async function onSubmit(values: WishlistFormValues) {
     startTransition(async () => {
-      await upsertWishlistData(jobId, values);
-      setOpen(false);
+      try {
+        await upsertWishlistData(jobId, values);
+        setOpen(false);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to update wishlist", {
+          description: "Please try again",
+          duration: 2000,
+          position: "top-center",
+        });
+      }
     });
   }
 

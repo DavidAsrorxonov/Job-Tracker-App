@@ -11,7 +11,8 @@
     "seed:jobs": "tsx --env-file=.env scripts/seed.ts",
     "migrate:jobs": "tsx --env-file=.env scripts/migrate-jobs.ts",
     "prepare": "husky install",
-    "test": "vitest"
+    "test": "vitest",
+    "test:unit": "vitest"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

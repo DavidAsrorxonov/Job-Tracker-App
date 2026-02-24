@@ -26,5 +26,5 @@ export async function uploadUserDoc({
     });
 
   if (error) throw new Error(error.message);
-  return data;
+  return data.path;
 }

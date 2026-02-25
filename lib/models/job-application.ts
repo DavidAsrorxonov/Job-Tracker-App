@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-import type { Query } from "mongoose";
 
 export interface IWishlistData {
   researchNotes?: string;

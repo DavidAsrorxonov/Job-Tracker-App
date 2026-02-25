@@ -156,7 +156,7 @@ export default function UploadDocs() {
           />
           <p className="text-sm text-muted-foreground">
             Tip: Name your file clearly (e.g.{" "}
-            <span className="font-medium">David_Asrorxonov_CV.pdf</span>).
+            <span className="font-medium">Software_Engineer_CV.pdf</span>).
           </p>
         </div>
 

@@ -120,7 +120,7 @@ const DocumentsList = () => {
   }
 
   return (
-    <Card>
+    <Card className="max-w-xl">
       <CardHeader className="flex justify-between">
         <div className="flex flex-col">
           <CardTitle>Your Documents</CardTitle>
@@ -140,7 +140,7 @@ const DocumentsList = () => {
         </Button>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 max-h-96 overflow-y-auto">
         {loading && (
           <>
             <Skeleton className="h-16 w-full" />
@@ -176,7 +176,7 @@ const DocumentsList = () => {
                       )}
                     </div>
 
-                    <p className="mt-1 truncate text-sm font-medium">
+                    <p className="mt-1 truncate text-sm font-medium max-w-42.5">
                       {doc.originalName ?? doc.path.split("/").pop()}
                     </p>
                     <p className="text-xs text-muted-foreground">

@@ -219,6 +219,12 @@ export default function UploadDocs() {
             You must be signed in to upload documents.
           </p>
         )}
+
+        <p className="text-muted-foreground text-center text-sm">
+          After <span className="text-primary">uploading</span>, please click
+          the <span className="text-primary">'Refresh'</span> button on the{" "}
+          <span className="text-primary">'Your Documents'</span> section.
+        </p>
       </CardContent>
     </Card>
   );

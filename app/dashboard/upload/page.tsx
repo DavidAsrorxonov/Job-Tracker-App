@@ -8,10 +8,14 @@ const Upload = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-6 flex justify-between">
-        <UploadDocs />
+      <div className="flex">
+        <div className="p-6 flex h-fit">
+          <UploadDocs />
+        </div>
 
-        <DocumentsList />
+        <div className="p-6">
+          <DocumentsList />
+        </div>
       </div>
     </div>
   );

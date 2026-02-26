@@ -21,9 +21,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ExternalLink, Trash2 } from "lucide-react";
+import { ExternalLink, RefreshCcw, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import pdfSvg from "../../../../public/svgs/pdf-svgrepo-com.svg";
 
 type UserDoc = {
   _id: string;
@@ -38,11 +40,14 @@ const DocumentsList = () => {
   const [docs, setDocs] = useState<UserDoc[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
-  async function load() {
-    setLoading(true);
+  async function load(mode: "loading" | "refresh" = "refresh") {
+    if (mode === "loading") setLoading(true);
+    else setIsRefreshing(true);
+
     try {
-      const res = await fetch("/api/user-documents");
+      const res = await fetch("/api/user-documents", { cache: "no-store" });
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error ?? "Failed to load documents");
       setDocs(json.docs);
@@ -53,12 +58,13 @@ const DocumentsList = () => {
         position: "top-center",
       });
     } finally {
-      setLoading(false);
+      if (mode === "loading") setLoading(false);
+      else setIsRefreshing(false);
     }
   }
 
   useEffect(() => {
-    load();
+    load("loading");
   }, []);
 
   async function openDoc(docId: string) {
@@ -115,11 +121,23 @@ const DocumentsList = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Your Documents</CardTitle>
-        <CardDescription>
-          Open or delete your uploaded CVs and cover letters.
-        </CardDescription>
+      <CardHeader className="flex justify-between">
+        <div className="flex flex-col">
+          <CardTitle>Your Documents</CardTitle>
+          <CardDescription>
+            Open or delete your uploaded CVs and cover letters.
+          </CardDescription>
+        </div>
+
+        <Button
+          disabled={loading || isRefreshing}
+          onClick={() => load("refresh")}
+        >
+          <RefreshCcw
+            className={`mr-2 h-4 w-4 ${isRefreshing && "animate-spin"}`}
+          />
+          {isRefreshing ? "Refreshing..." : "Refresh"}
+        </Button>
       </CardHeader>
 
       <CardContent className="space-y-3">
@@ -142,61 +160,73 @@ const DocumentsList = () => {
               key={doc._id}
               className="flex items-center justify-between gap-3 rounded-lg border p-3"
             >
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <Badge variant={doc.type === "cv" ? "default" : "secondary"}>
-                    {doc.type === "cv" ? "CV" : "Cover Letter"}
-                  </Badge>
-                  {doc.isDefault && <Badge variant="outline">Default</Badge>}
-                </div>
+              <div className="w-full flex items-center gap-3">
+                <Image src={pdfSvg} alt="pdf" width={40} height={40} />
 
-                <p className="mt-1 truncate text-sm font-medium">
-                  {doc.originalName ?? doc.path.split("/").pop()}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Uploaded: {new Date(doc.createdAt).toLocaleString()}
-                </p>
-              </div>
+                <div className="w-full flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant={doc.type === "cv" ? "default" : "outline"}
+                      >
+                        {doc.type === "cv" ? "CV" : "Cover Letter"}
+                      </Badge>
+                      {doc.isDefault && (
+                        <Badge variant="outline">Default</Badge>
+                      )}
+                    </div>
 
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openDoc(doc._id)}
-                  disabled={busyId === doc._id}
-                >
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  Open
-                </Button>
+                    <p className="mt-1 truncate text-sm font-medium">
+                      {doc.originalName ?? doc.path.split("/").pop()}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Uploaded: {new Date(doc.createdAt).toLocaleString()}
+                    </p>
+                  </div>
 
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
+                  <div className="flex items-center gap-2">
                     <Button
-                      variant="destructive"
+                      variant="outline"
                       size="sm"
+                      onClick={() => openDoc(doc._id)}
                       disabled={busyId === doc._id}
                     >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Open
                     </Button>
-                  </AlertDialogTrigger>
 
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Delete this document?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will remove it from storage and you won’t be able
-                        to recover it.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteDoc(doc._id)}>
-                        Delete
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={busyId === doc._id}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Delete this document?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will remove it from storage and you won’t be
+                            able to recover it.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => deleteDoc(doc._id)}>
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

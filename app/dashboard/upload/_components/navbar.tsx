@@ -48,7 +48,7 @@ const Navbar = () => {
           </Breadcrumb>
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-primary/10 p-2">
-              <FileText className="h-5 w-5 text-primary" />
+              <FileText className="h-7 w-7 text-primary" />
             </div>
 
             <div>

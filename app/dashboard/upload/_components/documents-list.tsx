@@ -36,31 +36,15 @@ type UserDoc = {
   isDefault?: boolean;
 };
 
-type Props = { initialDocs: UserDoc[] };
+type Props = {
+  docs: UserDoc[];
+  setDocs: React.Dispatch<React.SetStateAction<UserDoc[]>>;
+  onRefresh: () => Promise<void>;
+};
 
-const DocumentsList = ({ initialDocs }: Props) => {
-  const [docs, setDocs] = useState<UserDoc[]>(initialDocs);
+const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
-  async function load() {
-    setIsRefreshing(true);
-
-    try {
-      const res = await fetch("/api/user-documents", { cache: "no-store" });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? "Failed to load documents");
-      setDocs(json.docs);
-    } catch (error: any) {
-      toast.error("Failed to load documents", {
-        description: error.message,
-        duration: 2000,
-        position: "top-center",
-      });
-    } finally {
-      setIsRefreshing(false);
-    }
-  }
 
   async function openDoc(docId: string) {
     setBusyId(docId);
@@ -124,7 +108,17 @@ const DocumentsList = ({ initialDocs }: Props) => {
           </CardDescription>
         </div>
 
-        <Button disabled={isRefreshing} onClick={() => load()}>
+        <Button
+          disabled={isRefreshing}
+          onClick={async () => {
+            setIsRefreshing(true);
+            try {
+              await onRefresh();
+            } finally {
+              setIsRefreshing(false);
+            }
+          }}
+        >
           <RefreshCcw
             className={`mr-2 h-4 w-4 ${isRefreshing && "animate-spin"}`}
           />

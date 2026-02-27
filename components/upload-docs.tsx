@@ -18,7 +18,11 @@ import { toast } from "sonner";
 
 type DocType = "cv" | "cover-letter";
 
-export default function UploadDocs() {
+export default function UploadDocs({
+  onUploaded,
+}: {
+  onUploaded?: () => void;
+}) {
   const { data: session } = useSession();
 
   const [file, setFile] = React.useState<File | null>(null);
@@ -99,6 +103,8 @@ export default function UploadDocs() {
         duration: 2000,
         position: "top-center",
       });
+
+      onUploaded?.();
 
       clearFile();
     } catch (err: any) {

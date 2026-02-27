@@ -36,15 +36,15 @@ type UserDoc = {
   isDefault?: boolean;
 };
 
-const DocumentsList = () => {
-  const [docs, setDocs] = useState<UserDoc[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+type Props = { initialDocs: UserDoc[] };
+
+const DocumentsList = ({ initialDocs }: Props) => {
+  const [docs, setDocs] = useState<UserDoc[]>(initialDocs);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
-  async function load(mode: "loading" | "refresh" = "refresh") {
-    if (mode === "loading") setLoading(true);
-    else setIsRefreshing(true);
+  async function load() {
+    setIsRefreshing(true);
 
     try {
       const res = await fetch("/api/user-documents", { cache: "no-store" });
@@ -58,14 +58,9 @@ const DocumentsList = () => {
         position: "top-center",
       });
     } finally {
-      if (mode === "loading") setLoading(false);
-      else setIsRefreshing(false);
+      setIsRefreshing(false);
     }
   }
-
-  useEffect(() => {
-    load("loading");
-  }, []);
 
   async function openDoc(docId: string) {
     setBusyId(docId);
@@ -129,10 +124,7 @@ const DocumentsList = () => {
           </CardDescription>
         </div>
 
-        <Button
-          disabled={loading || isRefreshing}
-          onClick={() => load("refresh")}
-        >
+        <Button disabled={isRefreshing} onClick={() => load()}>
           <RefreshCcw
             className={`mr-2 h-4 w-4 ${isRefreshing && "animate-spin"}`}
           />
@@ -141,107 +133,93 @@ const DocumentsList = () => {
       </CardHeader>
 
       <CardContent className="space-y-3 max-h-96 overflow-y-auto">
-        {loading && (
-          <>
-            <Skeleton className="h-16 w-full" />
-            <Skeleton className="h-16 w-full" />
-          </>
-        )}
-
-        {!loading && docs.length === 0 && (
+        {docs.length === 0 && (
           <p className="text-sm text-muted-foreground">
             No documents uploaded yet.
           </p>
         )}
 
-        {!loading &&
-          docs.map((doc) => (
-            <div
-              key={doc._id}
-              className="flex items-center justify-between gap-3 rounded-lg border p-3"
-            >
-              <div className="w-full flex items-center gap-3">
-                <Image src={pdfSvg} alt="pdf" width={40} height={40} />
+        {docs.map((doc) => (
+          <div
+            key={doc._id}
+            className="flex items-center justify-between gap-3 rounded-lg border p-3"
+          >
+            <div className="w-full flex items-center gap-3">
+              <Image src={pdfSvg} alt="pdf" width={40} height={40} />
 
-                <div className="w-full flex items-center justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Badge
-                        variant={doc.type === "cv" ? "default" : "outline"}
-                      >
-                        {doc.type === "cv" ? "CV" : "Cover Letter"}
-                      </Badge>
-                      {doc.isDefault && (
-                        <Badge variant="outline">Default</Badge>
-                      )}
-                    </div>
-
-                    <p className="mt-1 truncate max-w-lg text-sm font-medium">
-                      {doc.originalName ?? doc.path.split("/").pop()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Uploaded: {new Date(doc.createdAt).toLocaleString()}
-                    </p>
+              <div className="w-full flex items-center justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <Badge variant={doc.type === "cv" ? "default" : "outline"}>
+                      {doc.type === "cv" ? "CV" : "Cover Letter"}
+                    </Badge>
+                    {doc.isDefault && <Badge variant="outline">Default</Badge>}
                   </div>
 
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => openDoc(doc._id)}
-                        disabled={busyId === doc._id}
-                      >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Open
-                      </Button>
+                  <p className="mt-1 truncate max-w-lg text-sm font-medium">
+                    {doc.originalName ?? doc.path.split("/").pop()}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Uploaded: {new Date(doc.createdAt).toLocaleString()}
+                  </p>
+                </div>
 
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            disabled={busyId === doc._id}
-                          >
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </Button>
-                        </AlertDialogTrigger>
-
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Delete this document?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This will remove it from storage and you won’t be
-                              able to recover it.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => deleteDoc(doc._id)}
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-
-                    <Button variant={"outline"} className="w-full">
-                      {doc.isDefault ? (
-                        <>Unset as Default</>
-                      ) : (
-                        <>Set as Default</>
-                      )}
+                <div className="flex flex-col items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openDoc(doc._id)}
+                      disabled={busyId === doc._id}
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Open
                     </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={busyId === doc._id}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Delete this document?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will remove it from storage and you won’t be
+                            able to recover it.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => deleteDoc(doc._id)}>
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
+
+                  <Button variant={"outline"} className="w-full">
+                    {doc.isDefault ? (
+                      <>Unset as Default</>
+                    ) : (
+                      <>Set as Default</>
+                    )}
+                  </Button>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
       </CardContent>
     </Card>
   );

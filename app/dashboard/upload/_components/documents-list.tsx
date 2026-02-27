@@ -1,5 +1,7 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,10 +11,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,12 +19,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ExternalLink, RefreshCcw, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  EllipsisVertical,
+  ExternalLink,
+  Eye,
+  Info,
+  RefreshCcw,
+  Star,
+  StarOff,
+  Trash2,
+} from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import pdfSvg from "../../../../public/svgs/pdf-svgrepo-com.svg";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 type UserDoc = {
   _id: string;
@@ -45,6 +59,11 @@ type Props = {
 const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+
+  function getErrorMessage(error: unknown) {
+    return error instanceof Error ? error.message : "Something went wrong";
+  }
 
   async function openDoc(docId: string) {
     setBusyId(docId);
@@ -59,9 +78,9 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
       if (!res.ok)
         throw new Error(json?.error ?? "Failed to generate signed url");
       window.open(json.url, "_blank");
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to open document", {
-        description: error.message,
+        description: getErrorMessage(error),
         duration: 2000,
         position: "top-center",
       });
@@ -87,9 +106,9 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
         description: `Document has been deleted`,
       });
       setDocs((prev) => prev.filter((doc) => doc._id !== docId));
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to delete document", {
-        description: error.message,
+        description: getErrorMessage(error),
         duration: 2000,
         position: "top-center",
       });
@@ -98,124 +117,185 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     }
   }
 
+  function viewDocPlaceholder() {
+    toast.info("View action is not implemented yet.", {
+      duration: 2000,
+      position: "top-center",
+    });
+  }
+
+  function toggleDefaultPlaceholder(isDefault?: boolean) {
+    toast.info(
+      isDefault
+        ? "Unset default is not implemented yet."
+        : "Set as default is not implemented yet.",
+      {
+        duration: 2000,
+        position: "top-center",
+      },
+    );
+  }
+
   return (
-    <Card className="w-full">
-      <CardHeader className="flex justify-between">
-        <div className="flex flex-col">
-          <CardTitle>Your Documents</CardTitle>
-          <CardDescription>
-            Open or delete your uploaded CVs and cover letters.
-          </CardDescription>
-        </div>
+    <>
+      <Card className="w-full">
+        <CardHeader className="flex justify-between">
+          <div className="flex flex-col">
+            <CardTitle>Your Documents</CardTitle>
+            <CardDescription>
+              Open or delete your uploaded CVs and cover letters.
+            </CardDescription>
+          </div>
 
-        <Button
-          disabled={isRefreshing}
-          onClick={async () => {
-            setIsRefreshing(true);
-            try {
-              await onRefresh();
-            } finally {
-              setIsRefreshing(false);
-            }
-          }}
-        >
-          <RefreshCcw
-            className={`mr-2 h-4 w-4 ${isRefreshing && "animate-spin"}`}
-          />
-          {isRefreshing ? "Refreshing..." : "Refresh"}
-        </Button>
-      </CardHeader>
+          <div className="flex items-center gap-2">
+            <Button
+              disabled={isRefreshing}
+              onClick={async () => {
+                setIsRefreshing(true);
+                try {
+                  await onRefresh();
+                } finally {
+                  setIsRefreshing(false);
+                }
+              }}
+            >
+              <RefreshCcw
+                className={`mr-2 h-4 w-4 ${isRefreshing && "animate-spin"}`}
+              />
+              {isRefreshing ? "Refreshing..." : "Refresh"}
+            </Button>
+          </div>
+        </CardHeader>
 
-      <CardContent className="space-y-3 max-h-96 overflow-y-auto">
-        {docs.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            No documents uploaded yet.
-          </p>
-        )}
+        <CardContent className="space-y-3 max-h-96 overflow-y-auto">
+          {docs.length > 3 && (
+            <Alert className="py-2">
+              <Info className="h-4 w-4" />
+              <AlertTitle>Scroll to view more documents</AlertTitle>
+            </Alert>
+          )}
 
-        {docs.map((doc) => (
-          <div
-            key={doc._id}
-            className="flex items-center justify-between gap-3 rounded-lg border p-3"
-          >
-            <div className="w-full flex items-center gap-3">
-              <Image src={pdfSvg} alt="pdf" width={40} height={40} />
+          {docs.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              No documents uploaded yet.
+            </p>
+          )}
 
-              <div className="w-full flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <Badge variant={doc.type === "cv" ? "default" : "outline"}>
-                      {doc.type === "cv" ? "CV" : "Cover Letter"}
-                    </Badge>
-                    {doc.isDefault && <Badge variant="outline">Default</Badge>}
+          {docs.map((doc) => (
+            <div
+              key={doc._id}
+              className="flex items-center justify-between gap-3 rounded-lg border p-3"
+            >
+              <div className="w-full flex items-center gap-3">
+                <Image
+                  src={"/images/pdf.png"}
+                  alt="pdf"
+                  width={40}
+                  height={40}
+                />
+
+                <div className="w-full flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant={doc.type === "cv" ? "default" : "outline"}
+                      >
+                        {doc.type === "cv" ? "CV" : "Cover Letter"}
+                      </Badge>
+                      {doc.isDefault && (
+                        <Badge variant="outline">Default</Badge>
+                      )}
+                    </div>
+
+                    <p className="mt-1 truncate max-w-lg text-sm font-medium">
+                      {doc.originalName ?? doc.path.split("/").pop()}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Uploaded: {new Date(doc.createdAt).toLocaleString()}
+                    </p>
                   </div>
 
-                  <p className="mt-1 truncate max-w-lg text-sm font-medium">
-                    {doc.originalName ?? doc.path.split("/").pop()}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Uploaded: {new Date(doc.createdAt).toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => openDoc(doc._id)}
-                      disabled={busyId === doc._id}
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Open
-                    </Button>
-
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
+                  <div className="shrink-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
                         <Button
-                          variant="destructive"
-                          size="sm"
+                          variant="outline"
+                          size="icon"
                           disabled={busyId === doc._id}
+                        >
+                          <EllipsisVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-52">
+                        <DropdownMenuItem onClick={() => openDoc(doc._id)}>
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          Open
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={viewDocPlaceholder}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          View
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            toggleDefaultPlaceholder(doc.isDefault)
+                          }
+                        >
+                          {doc.isDefault ? (
+                            <StarOff className="mr-2 h-4 w-4" />
+                          ) : (
+                            <Star className="mr-2 h-4 w-4" />
+                          )}
+                          {doc.isDefault
+                            ? "Unset as Default"
+                            : "Set as Default"}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
+                          onClick={() => setPendingDeleteId(doc._id)}
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
                           Delete
-                        </Button>
-                      </AlertDialogTrigger>
-
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Delete this document?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will remove it from storage and you won’t be
-                            able to recover it.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteDoc(doc._id)}>
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-
-                  <Button variant={"outline"} className="w-full">
-                    {doc.isDefault ? (
-                      <>Unset as Default</>
-                    ) : (
-                      <>Set as Default</>
-                    )}
-                  </Button>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+          ))}
+        </CardContent>
+      </Card>
+
+      <AlertDialog
+        open={Boolean(pendingDeleteId)}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this document?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. The document will be removed from
+              storage permanently.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!pendingDeleteId) return;
+                void deleteDoc(pendingDeleteId);
+                setPendingDeleteId(null);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 

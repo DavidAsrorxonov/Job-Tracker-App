@@ -49,7 +49,7 @@ export default function UploadClient({
         </div>
 
         <aside className="w-80 shrink-0">
-          <div className="sticky top-32">
+          <div className="sticky top-40">
             <PieChartForDocsAnalysis counts={counts} />
           </div>
         </aside>

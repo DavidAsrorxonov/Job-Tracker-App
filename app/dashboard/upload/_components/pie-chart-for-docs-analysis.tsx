@@ -26,11 +26,11 @@ export default function PieChartForDocsAnalysis({
   counts: Counts;
 }) {
   const chartData = [
-    { name: "cv", count: counts.cv, fill: "#3ECF8E" },
+    { name: "cv", count: counts.cv, fill: "#016238" },
     {
       name: "coverLetter",
       count: counts.coverLetter,
-      fill: "#2CB67D",
+      fill: "#3ECF8E",
     },
   ];
 

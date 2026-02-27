@@ -56,6 +56,10 @@ const Navbar = () => {
               <Link href={"/dashboard"}>
                 <Button>Dashboard</Button>
               </Link>
+
+              <Link href={"/dashboard/upload"}>
+                <Button variant={"outline"}>My Documents</Button>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

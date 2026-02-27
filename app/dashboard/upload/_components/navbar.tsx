@@ -19,7 +19,7 @@ const Navbar = () => {
   const isUpload = pathname === "/dashboard/upload";
 
   return (
-    <div className="w-full border-b bg-muted/40">
+    <div className="sticky top-16 z-50 w-full backdrop-blur-lg bg-background/60 border border-border">
       <div className="mx-auto max-w-6xl px-6 py-4">
         <div className="w-full flex justify-between items-center">
           <Breadcrumb>

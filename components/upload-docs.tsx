@@ -114,7 +114,7 @@ export default function UploadDocs() {
   }
 
   return (
-    <Card className="w-full max-w-xl">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Upload documents</CardTitle>
         <CardDescription>

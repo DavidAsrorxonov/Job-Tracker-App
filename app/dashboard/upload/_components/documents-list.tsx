@@ -120,7 +120,7 @@ const DocumentsList = () => {
   }
 
   return (
-    <Card className="max-w-xl">
+    <Card className="w-full">
       <CardHeader className="flex justify-between">
         <div className="flex flex-col">
           <CardTitle>Your Documents</CardTitle>
@@ -176,7 +176,7 @@ const DocumentsList = () => {
                       )}
                     </div>
 
-                    <p className="mt-1 truncate text-sm font-medium max-w-42.5">
+                    <p className="mt-1 truncate max-w-lg text-sm font-medium">
                       {doc.originalName ?? doc.path.split("/").pop()}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -184,47 +184,59 @@ const DocumentsList = () => {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => openDoc(doc._id)}
-                      disabled={busyId === doc._id}
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Open
-                    </Button>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => openDoc(doc._id)}
+                        disabled={busyId === doc._id}
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Open
+                      </Button>
 
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          disabled={busyId === doc._id}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
-                        </Button>
-                      </AlertDialogTrigger>
-
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Delete this document?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will remove it from storage and you won’t be
-                            able to recover it.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteDoc(doc._id)}>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            disabled={busyId === doc._id}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
                             Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                          </Button>
+                        </AlertDialogTrigger>
+
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Delete this document?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will remove it from storage and you won’t be
+                              able to recover it.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => deleteDoc(doc._id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+
+                    <Button variant={"outline"} className="w-full">
+                      {doc.isDefault ? (
+                        <>Unset as Default</>
+                      ) : (
+                        <>Set as Default</>
+                      )}
+                    </Button>
                   </div>
                 </div>
               </div>

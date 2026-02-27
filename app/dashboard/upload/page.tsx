@@ -8,15 +8,17 @@ const Upload = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex">
-        <div className="p-6 flex h-fit">
+      <div className="w-full flex">
+        <div className="w-1/2 p-6 flex h-fit">
           <UploadDocs />
         </div>
 
-        <div className="p-6">
+        <div className="w-1/2 p-6">
           <DocumentsList />
         </div>
       </div>
+
+      {/* <div className="h-[400px] w-full">Hello</div> */}
     </div>
   );
 };

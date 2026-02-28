@@ -75,19 +75,22 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     return error instanceof Error ? error.message : "Something went wrong";
   }
 
+  async function getSignedUrl(docId: string): Promise<string> {
+    const res = await fetch("/api/user-documents/signed-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ docId }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error ?? "Failed to generate signed url");
+    return json.url;
+  }
+
   async function openDoc(docId: string) {
     setBusyId(docId);
     try {
-      const res = await fetch("/api/user-documents/signed-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ docId }),
-      });
-
-      const json = await res.json();
-      if (!res.ok)
-        throw new Error(json?.error ?? "Failed to generate signed url");
-      window.open(json.url, "_blank");
+      const url = await getSignedUrl(docId);
+      window.open(url, "_blank");
     } catch (error: unknown) {
       toast.error("Failed to open document", {
         description: getErrorMessage(error),
@@ -130,16 +133,8 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
   async function viewDoc(docId: string, fileName?: string) {
     setBusyId(docId);
     try {
-      const res = await fetch("/api/user-documents/signed-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ docId }),
-      });
-      const json = await res.json();
-      if (!res.ok)
-        throw new Error(json?.error ?? "Failed to generate signed url");
-
-      setPreviewUrl(json.url);
+      const url = await getSignedUrl(docId);
+      setPreviewUrl(url);
       setPreviewFileName(fileName);
       setPreviewOpen(true);
     } catch (error: unknown) {

@@ -251,7 +251,6 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                          className="text-destructive focus:text-destructive"
                           onClick={() => setPendingDeleteId(doc._id)}
                         >
                           <Trash2 className="mr-2 h-4 w-4" />

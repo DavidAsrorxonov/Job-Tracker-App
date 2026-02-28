@@ -4,15 +4,17 @@ import UploadDocs from "@/components/upload-docs";
 import { useMemo, useState } from "react";
 import DocumentsList from "./documents-list";
 import PieChartForDocsAnalysis from "./pie-chart-for-docs-analysis";
+import TotalFileSize from "./total-file-size";
 
-type UserDoc = {
+export interface UserDoc {
   _id: string;
   type: "cv" | "cover-letter";
   path: string;
   originalName?: string;
   createdAt: string;
   isDefault?: boolean;
-};
+  size?: number;
+}
 
 export default function UploadClient({
   initialDocs,
@@ -38,9 +40,10 @@ export default function UploadClient({
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex gap-6">
+      <div className="flex flex-col gap-6 lg:flex-row">
         <div className="flex flex-col gap-6 flex-1 min-w-0">
           <UploadDocs onUploaded={refreshDocs} />
+
           <DocumentsList
             docs={docs}
             setDocs={setDocs}
@@ -48,9 +51,11 @@ export default function UploadClient({
           />
         </div>
 
-        <aside className="w-80 shrink-0">
-          <div className="sticky top-40">
+        <aside className="w-full lg:w-80 shrink-0">
+          <div className="space-y-6 lg:sticky lg:top-40">
             <PieChartForDocsAnalysis counts={counts} />
+
+            <TotalFileSize docs={docs} />
           </div>
         </aside>
       </div>

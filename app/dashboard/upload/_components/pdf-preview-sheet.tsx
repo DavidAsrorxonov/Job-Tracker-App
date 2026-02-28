@@ -14,7 +14,7 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -42,6 +42,13 @@ export default function PDFPreviewSheet({
   const [scale, setScale] = useState(1.0);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    setPageNumber(1);
+    setScale(1.0);
+    setNumPages(0);
+    setLoading(true);
+  }, [url]);
+
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     setPageNumber(1);
@@ -50,6 +57,10 @@ export default function PDFPreviewSheet({
 
   function onDocumentLoadStart() {
     setLoading(true);
+  }
+
+  function onDocumentLoadError() {
+    setLoading(false);
   }
 
   return (
@@ -120,6 +131,7 @@ export default function PDFPreviewSheet({
               file={url}
               onLoadStart={onDocumentLoadStart}
               onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
               loading={
                 <div className="flex items-center gap-2 mt-20 text-muted-foreground">
                   <Loader2 className="h-5 w-5 animate-spin" />

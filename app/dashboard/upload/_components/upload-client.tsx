@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import DocumentsList from "./documents-list";
 import PieChartForDocsAnalysis from "./pie-chart-for-docs-analysis";
 import TotalFileSize from "./total-file-size";
+import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
 
 export interface UserDoc {
   _id: string;
@@ -55,7 +56,7 @@ export default function UploadClient({
           <div className="space-y-6 lg:sticky lg:top-40">
             <PieChartForDocsAnalysis counts={counts} />
 
-            <TotalFileSize docs={docs} />
+            <TotalFileSize docs={docs} limitBytes={MAX_LIMIT_FILE_SIZE} />
           </div>
         </aside>
       </div>

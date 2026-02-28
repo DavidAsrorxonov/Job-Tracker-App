@@ -16,8 +16,6 @@ const Upload = async () => {
     updatedAt: d.updatedAt?.toISOString?.() ?? d.updatedAt,
   }));
 
-  console.log("SAFE DOCS: ", safeDocs);
-
   return (
     <div>
       <Navbar />

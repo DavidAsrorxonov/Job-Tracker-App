@@ -40,6 +40,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import svgPdf from "../../../../public/svgs/pdf-svgrepo-com.svg";
 
 type UserDoc = {
   _id: string;
@@ -187,12 +188,7 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
               className="flex items-center justify-between gap-3 rounded-lg border p-3"
             >
               <div className="w-full flex items-center gap-3">
-                <Image
-                  src={"/images/pdf.png"}
-                  alt="pdf"
-                  width={40}
-                  height={40}
-                />
+                <Image src={svgPdf} alt="pdf" width={40} height={40} />
 
                 <div className="w-full flex items-center justify-between gap-4">
                   <div className="min-w-0">

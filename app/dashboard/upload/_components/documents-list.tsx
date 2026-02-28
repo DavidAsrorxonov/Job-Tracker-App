@@ -42,6 +42,11 @@ import { toast } from "sonner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import svgPdf from "../../../../public/svgs/pdf-svgrepo-com.svg";
 
+import dynamic from "next/dynamic";
+const PDFPreviewSheet = dynamic(() => import("./pdf-preview-sheet"), {
+  ssr: false,
+});
+
 type UserDoc = {
   _id: string;
   type: "cv" | "cover-letter";
@@ -62,23 +67,30 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewFileName, setPreviewFileName] = useState<string | undefined>();
+  const [previewOpen, setPreviewOpen] = useState(false);
+
   function getErrorMessage(error: unknown) {
     return error instanceof Error ? error.message : "Something went wrong";
+  }
+
+  async function getSignedUrl(docId: string): Promise<string> {
+    const res = await fetch("/api/user-documents/signed-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ docId }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error ?? "Failed to generate signed url");
+    return json.url;
   }
 
   async function openDoc(docId: string) {
     setBusyId(docId);
     try {
-      const res = await fetch("/api/user-documents/signed-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ docId }),
-      });
-
-      const json = await res.json();
-      if (!res.ok)
-        throw new Error(json?.error ?? "Failed to generate signed url");
-      window.open(json.url, "_blank");
+      const url = await getSignedUrl(docId);
+      window.open(url, "_blank");
     } catch (error: unknown) {
       toast.error("Failed to open document", {
         description: getErrorMessage(error),
@@ -118,11 +130,22 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     }
   }
 
-  function viewDocPlaceholder() {
-    toast.info("View action is not implemented yet.", {
-      duration: 2000,
-      position: "top-center",
-    });
+  async function viewDoc(docId: string, fileName?: string) {
+    setBusyId(docId);
+    try {
+      const url = await getSignedUrl(docId);
+      setPreviewUrl(url);
+      setPreviewFileName(fileName);
+      setPreviewOpen(true);
+    } catch (error: unknown) {
+      toast.error("Failed to preview document", {
+        description: getErrorMessage(error),
+        duration: 2000,
+        position: "top-center",
+      });
+    } finally {
+      setBusyId(null);
+    }
   }
 
   function toggleDefaultPlaceholder(isDefault?: boolean) {
@@ -227,7 +250,14 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Open
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={viewDocPlaceholder}>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            viewDoc(
+                              doc._id,
+                              doc.originalName ?? doc.path.split("/").pop(),
+                            )
+                          }
+                        >
                           <Eye className="mr-2 h-4 w-4" />
                           View
                         </DropdownMenuItem>
@@ -290,6 +320,13 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <PDFPreviewSheet
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        url={previewUrl}
+        fileName={previewFileName}
+      />
     </>
   );
 };

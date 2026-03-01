@@ -18,6 +18,7 @@ const SignOutBtn = () => {
             description: "Redirecting to sign in...",
             duration: 2000,
           });
+          router.refresh();
           router.push("/sign-in");
         } else {
           toast.error("Failed to sign out", {

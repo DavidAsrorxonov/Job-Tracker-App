@@ -52,6 +52,7 @@ const SignIn = () => {
           description: "Redirecting to dashboard...",
           duration: 1000,
         });
+        router.refresh();
         router.push("/dashboard");
 
         setEmail("");

@@ -1,11 +1,12 @@
 "use client";
 
 import UploadDocs from "@/components/upload-docs";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import DocumentsList from "./documents-list";
 import PieChartForDocsAnalysis from "./pie-chart-for-docs-analysis";
 import TotalFileSize from "./total-file-size";
 import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
+import { useSession } from "@/lib/auth/auth-client";
 
 export interface UserDoc {
   _id: string;
@@ -22,7 +23,30 @@ export default function UploadClient({
 }: {
   initialDocs: UserDoc[];
 }) {
+  const sessionQuery = useSession();
+  const session = (sessionQuery as any)?.data ?? sessionQuery;
+  const isPending = Boolean((sessionQuery as any)?.isPending);
+
+  const userId: string | undefined = session?.user?.id;
+
+  const prevUserIdRef = useRef<string | undefined>(undefined);
+
   const [docs, setDocs] = useState<UserDoc[]>(initialDocs);
+
+  useEffect(() => {
+    if (isPending) return;
+
+    const prevUserId = prevUserIdRef.current;
+    if (prevUserId === userId) return;
+
+    prevUserIdRef.current = userId;
+
+    setDocs([]);
+
+    if (!userId) return;
+
+    void refreshDocs();
+  }, [userId, isPending]);
 
   const counts = useMemo(() => {
     const cv = docs.filter((doc: any) => doc.type === "cv").length;
@@ -33,7 +57,10 @@ export default function UploadClient({
   }, [docs]);
 
   async function refreshDocs() {
-    const res = await fetch("/api/user-documents", { cache: "no-store" });
+    const res = await fetch("/api/user-documents", {
+      cache: "no-store",
+      headers: { "Cache-Control": "no-store" },
+    });
     const json = await res.json();
     if (!res.ok) throw new Error(json?.error ?? "Failed to load documents");
     setDocs(json.docs);

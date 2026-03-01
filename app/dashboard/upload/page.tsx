@@ -1,8 +1,5 @@
-import UploadDocs from "@/components/upload-docs";
 import Navbar from "./_components/navbar";
-import DocumentsList from "./_components/documents-list";
 import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
-import PieChartForDocsAnalysis from "./_components/pie-chart-for-docs-analysis";
 import UploadClient from "./_components/upload-client";
 
 const Upload = async () => {

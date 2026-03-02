@@ -1,9 +1,11 @@
-import KanbanBoard from "@/components/KanbanBoard";
+// import KanbanBoard from "@/components/KanbanBoard";
 import PageLoading from "@/components/page-loading";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board } from "@/lib/models";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import KanbanBoardClient from "@/components/KanbanBoardClient";
 
 const getBoard = async (userId: string) => {
   "use cache";
@@ -48,7 +50,7 @@ const DashboardPage = async () => {
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
 
-        <KanbanBoard board={board} userId={session?.user.id!} />
+        <KanbanBoardClient board={board} userId={session!.user.id} />
       </div>
     </div>
   );

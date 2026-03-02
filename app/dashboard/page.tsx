@@ -2,6 +2,7 @@ import PageLoading from "@/components/page-loading";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board } from "@/lib/models";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import KanbanBoardClient from "@/components/KanbanBoardClient";
 
@@ -28,7 +29,12 @@ const getBoard = async (userId: string) => {
 
 const DashboardPage = async () => {
   const session = await getSession();
-  const board = await getBoard(session?.user.id ?? "");
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  const board = await getBoard(session.user.id);
 
   if (!board) {
     return (
@@ -48,7 +54,7 @@ const DashboardPage = async () => {
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
 
-        <KanbanBoardClient board={board} userId={session!.user.id} />
+        <KanbanBoardClient board={board} userId={session.user.id} />
       </div>
     </div>
   );

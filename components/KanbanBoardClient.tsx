@@ -1,5 +1,6 @@
 "use client";
 
+import type { ComponentProps } from "react";
 import dynamic from "next/dynamic";
 import PageLoading from "@/components/page-loading";
 
@@ -9,7 +10,7 @@ const KanbanBoard = dynamic(() => import("@/components/KanbanBoard"), {
 });
 
 export default function KanbanBoardClient(
-  props: React.ComponentProps<typeof KanbanBoard>,
+  props: ComponentProps<typeof KanbanBoard>,
 ) {
   return <KanbanBoard {...props} />;
 }

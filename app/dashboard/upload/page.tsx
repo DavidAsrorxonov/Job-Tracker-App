@@ -16,20 +16,6 @@ const Upload = async () => {
   return (
     <div>
       <Navbar />
-      {/* <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex gap-6">
-          <div className="flex flex-col gap-6 flex-1 min-w-0">
-            <UploadDocs />
-            <DocumentsList initialDocs={safeDocs} />
-          </div>
-
-          <aside className="w-80 shrink-0">
-            <div className="sticky top-32">
-              <PieChartForDocsAnalysis counts={counts} />
-            </div>
-          </aside>
-        </div>
-      </main> */}
       <UploadClient initialDocs={safeDocs} />
     </div>
   );

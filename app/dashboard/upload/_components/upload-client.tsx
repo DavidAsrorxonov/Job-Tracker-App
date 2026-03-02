@@ -1,12 +1,18 @@
 "use client";
 
-import UploadDocs from "@/components/upload-docs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import DocumentsList from "./documents-list";
 import PieChartForDocsAnalysis from "./pie-chart-for-docs-analysis";
 import TotalFileSize from "./total-file-size";
 import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
 import { useSession } from "@/lib/auth/auth-client";
+import dynamic from "next/dynamic";
+import PageLoading from "@/components/page-loading";
+
+const UploadDocs = dynamic(() => import("@/components/upload-docs"), {
+  ssr: false,
+  loading: () => <PageLoading text="Loading document uploader" />,
+});
 
 export interface UserDoc {
   _id: string;

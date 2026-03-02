@@ -2,7 +2,6 @@ import { getTotalFileSize } from "@/lib/helper/getTotalFileSize";
 import { UserDoc } from "./upload-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { FileText, HardDrive, Scale } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 

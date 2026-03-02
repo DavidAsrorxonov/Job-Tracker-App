@@ -1,3 +1,5 @@
+import PageLoading from "@/components/page-loading";
+
 export default function Loading() {
-  return <div className="p-6">Loading…</div>;
+  return <PageLoading text="Loading Job Details..." />;
 }

@@ -57,3 +57,9 @@ function computeFollowUpMeta(followUps: Date[]) {
   const isNextOverdue = next ? isBefore(startOfDay(next), today) : false;
   return { last, next, isNextOverdue };
 }
+
+function computeOverdueFromSchedule(followUps: Date[]) {
+  const today = startOfDay(new Date());
+  const overdue = followUps.some((d) => isBefore(startOfDay(d), today));
+  return overdue;
+}

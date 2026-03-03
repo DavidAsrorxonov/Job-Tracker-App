@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/helper/formatDate";
 import { normalizeUrl } from "@/lib/helper/normalizeUrl";
 import { ExternalLink } from "lucide-react";
 import "../_styles/panel.css";
+import { WarningAboutEditing } from "./warning-about-editing";
 
 type Job = {
   _id: string;
@@ -32,6 +33,9 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
 
   return (
     <header className="w-full border-b border-r border-dashed border-border bg-background/60 backdrop-blur-lg">
+      <div className="w-full flex items-center justify-center">
+        <WarningAboutEditing />
+      </div>
       <div className="px-6 py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">

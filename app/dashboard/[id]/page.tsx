@@ -28,10 +28,12 @@ export default async function JobDetails({
             <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
           )}
 
-          <NotesAndDescriptionPanel
-            description={data.description}
-            notes={data.notes}
-          />
+          <div className="min-w-md">
+            <NotesAndDescriptionPanel
+              description={data.description}
+              notes={data.notes}
+            />
+          </div>
         </div>
       </div>
     </div>

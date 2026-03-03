@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { upsertAppliedData } from "@/lib/actions/applied";
 import { normalizeDates } from "@/lib/helper/normalizeDates";
 import { cn } from "@/lib/utils";
 import { format, isBefore, isSameDay, startOfDay, addDays } from "date-fns";
@@ -248,7 +249,7 @@ export default function AppliedPanel({
   const [saving, setSaving] = useState(false);
 
   async function persist(next: IAppliedData) {
-    await new Promise((r) => setTimeout(r, 150));
+    await upsertAppliedData(jobId, next);
   }
 
   useEffect(() => {

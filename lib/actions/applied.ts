@@ -11,7 +11,7 @@ export async function upsertAppliedData(jobId: string, appliedData: any) {
 
   await connectDB();
 
-  await JobApplication.updateOne(
+  const result = await JobApplication.updateOne(
     {
       _id: jobId,
       userId: session.user.id,
@@ -23,6 +23,10 @@ export async function upsertAppliedData(jobId: string, appliedData: any) {
       },
     },
   );
+
+  if (result.matchedCount === 0) {
+    throw new Error("Job application not found or unauthorized");
+  }
 
   const id = jobId;
   revalidatePath(`/dashboard/${id}`);

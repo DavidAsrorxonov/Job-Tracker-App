@@ -38,6 +38,7 @@ import {
   Bell,
 } from "lucide-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export interface IAppliedData {
   appliedDate: Date;
@@ -204,7 +205,7 @@ export default function AppliedPanel({
         ? new Date(appliedData.lastFollowUpDate)
         : undefined,
     });
-  }, [jobId, appliedData?.appliedDate, appliedData?.expectedResponseDate]);
+  }, [jobId, appliedData]);
 
   const followUps = useMemo(
     () => normalizeDates(data.followUpDates as any),
@@ -266,6 +267,13 @@ export default function AppliedPanel({
       try {
         setSaving(true);
         await persist(payload);
+      } catch (e) {
+        toast.error("Failed to save applied data", {
+          description: "Please try again",
+          duration: 2000,
+          position: "top-center",
+        });
+        console.error(e);
       } finally {
         setSaving(false);
       }

@@ -146,4 +146,40 @@ export default function AppliedPanel({
         : undefined,
     });
   }, [jobId, appliedData?.appliedDate, appliedData?.expectedResponseDate]);
+
+  function addFollowUp(date: Date | undefined) {
+    if (!date) return;
+    setDraft((p) => {
+      const next = normalizeDates([...(p.followUpDates ?? []), date]);
+      return { ...p, followUpDates: next };
+    });
+  }
+
+  function removeFollowUp(date: Date) {
+    setDraft((p) => ({
+      ...p,
+      followUpDates: normalizeDates(p.followUpDates).filter(
+        (d) => !isSameDay(d, date),
+      ),
+    }));
+  }
+
+  async function save() {
+    const normalized = {
+      ...draft,
+      followUpDates: normalizeDates(draft.followUpDates as any),
+      lastFollowUpDate: undefined as Date | undefined, // compute on server or client (below)
+    } satisfies IAppliedData;
+
+    const f = normalizeDates(normalized.followUpDates as any);
+    const last = f.filter((d) => !isBefore(today, startOfDay(d))).slice(-1)[0];
+    normalized.lastFollowUpDate = last;
+
+    await onSave(jobId, normalized);
+    setOpen(false);
+  }
+
+  const topAppliedDate = appliedData?.appliedDate
+    ? new Date(appliedData.appliedDate)
+    : undefined;
 }

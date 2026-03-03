@@ -247,6 +247,8 @@ export default function AppliedPanel({
   }
 
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
+  const saveSeqRef = useRef(0);
+  const latestSaveSeqRef = useRef(0);
   const [saving, setSaving] = useState(false);
 
   async function persist(next: IAppliedData) {
@@ -263,11 +265,15 @@ export default function AppliedPanel({
       lastFollowUpDate: computedLast,
     };
     if (saveTimer.current) clearTimeout(saveTimer.current);
+    const nextSeq = ++saveSeqRef.current;
+    latestSaveSeqRef.current = nextSeq;
     saveTimer.current = setTimeout(async () => {
+      const capturedSeq = nextSeq;
       try {
         setSaving(true);
         await persist(payload);
       } catch (e) {
+        if (capturedSeq !== latestSaveSeqRef.current) return;
         toast.error("Failed to save applied data", {
           description: "Please try again",
           duration: 2000,
@@ -275,7 +281,9 @@ export default function AppliedPanel({
         });
         console.error(e);
       } finally {
-        setSaving(false);
+        if (capturedSeq === latestSaveSeqRef.current) {
+          setSaving(false);
+        }
       }
     }, 700);
     return () => {

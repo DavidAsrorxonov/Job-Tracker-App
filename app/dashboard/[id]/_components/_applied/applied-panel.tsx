@@ -1,6 +1,6 @@
 "use client";
 
-import { isSameDay } from "date-fns";
+import { isBefore, isSameDay, startOfDay } from "date-fns";
 
 export interface IAppliedData {
   appliedDate: Date;
@@ -41,4 +41,19 @@ function normalizeDates(dates: (Date | string)[] | undefined) {
   }
 
   uniq.sort((a, b) => a.getTime() - b.getTime());
+}
+
+function computeFollowUpMeta(followUps: Date[]) {
+  const today = startOfDay(new Date());
+  const pastOrToday = followUps.filter((d) => !isBefore(today, startOfDay(d)));
+  const future = followUps.filter((d) => isBefore(today, startOfDay(d)));
+
+  const last = pastOrToday.length
+    ? pastOrToday[pastOrToday.length - 1]
+    : undefined;
+
+  const next = future.length ? future[0] : undefined;
+
+  const isNextOverdue = next ? isBefore(startOfDay(next), today) : false;
+  return { last, next, isNextOverdue };
 }

@@ -188,6 +188,7 @@ export default function AppliedPanel({
   }));
 
   useEffect(() => {
+    isMounted.current = false;
     setData({
       appliedDate: appliedData?.appliedDate
         ? new Date(appliedData.appliedDate)
@@ -249,13 +250,24 @@ export default function AppliedPanel({
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
   const saveSeqRef = useRef(0);
   const latestSaveSeqRef = useRef(0);
+  const isMounted = useRef(false);
   const [saving, setSaving] = useState(false);
+
+  const followUpsKey = useMemo(
+    () => followUps.map((d) => d.toISOString()).join("|"),
+    [followUps],
+  );
 
   async function persist(next: IAppliedData) {
     await upsertAppliedData(jobId, next);
   }
 
   useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
+
     const computedLast = followUps
       .filter((d) => !isBefore(today, startOfDay(d)))
       .slice(-1)[0];
@@ -264,9 +276,11 @@ export default function AppliedPanel({
       followUpDates: followUps,
       lastFollowUpDate: computedLast,
     };
+
     if (saveTimer.current) clearTimeout(saveTimer.current);
     const nextSeq = ++saveSeqRef.current;
     latestSaveSeqRef.current = nextSeq;
+
     saveTimer.current = setTimeout(async () => {
       const capturedSeq = nextSeq;
       try {
@@ -286,6 +300,7 @@ export default function AppliedPanel({
         }
       }
     }, 700);
+
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
@@ -298,7 +313,7 @@ export default function AppliedPanel({
     data.referralContact,
     data.expectedResponseDate,
     data.applicationNotes,
-    followUps.map((d) => d.toISOString()).join("|"),
+    followUpsKey,
   ]);
 
   const resumeLabel =

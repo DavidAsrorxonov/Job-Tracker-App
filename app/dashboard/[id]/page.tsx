@@ -3,6 +3,7 @@ import JobDetailsHeader from "./_components/job-details-header";
 import "./_styles/panel.css";
 import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
+import AppliedPanel from "./_components/_applied/applied-panel";
 
 export default async function JobDetails({
   params,
@@ -16,6 +17,13 @@ export default async function JobDetails({
 
   if ("error" in result) return <div>{error as string}</div>;
 
+  const testResumeData = [
+    { id: "1", value: "Resume 1", label: "Resume 1" },
+    { id: "2", value: "Resume 2", label: "Resume 2" },
+  ];
+
+  const saveData = () => {};
+
   return (
     <div>
       <div className="flex flex-col gap-4 pt-3">
@@ -26,6 +34,14 @@ export default async function JobDetails({
         <div className="w-full flex gap-2 px-4">
           {(data.status === "wish-list" || data.status === "Wish List") && (
             <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
+          )}
+
+          {(data.status === "applied" || data.status === "Applied") && (
+            <AppliedPanel
+              jobId={data._id}
+              appliedData={data.appliedData}
+              resumes={testResumeData}
+            />
           )}
 
           <div className="min-w-md">

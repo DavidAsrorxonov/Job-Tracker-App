@@ -43,6 +43,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import svgPdf from "../../../../public/svgs/pdf-svgrepo-com.svg";
 
 import dynamic from "next/dynamic";
+import { setUnsetDefaultCvCoverLetter } from "@/lib/documents/set-unset-default-cv-cover-letter";
 const PDFPreviewSheet = dynamic(() => import("./pdf-preview-sheet"), {
   ssr: false,
 });
@@ -82,7 +83,8 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
       body: JSON.stringify({ docId }),
     });
     const json = await res.json();
-    if (!res.ok) throw new Error(json?.error ?? "Failed to generate signed url");
+    if (!res.ok)
+      throw new Error(json?.error ?? "Failed to generate signed url");
     return json.url;
   }
 
@@ -148,16 +150,45 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     }
   }
 
-  function toggleDefaultPlaceholder(isDefault?: boolean) {
-    toast.info(
-      isDefault
-        ? "Unset default is not implemented yet."
-        : "Set as default is not implemented yet.",
-      {
+  async function toggleDefault(
+    docId: string,
+    type: "cv" | "cover-letter",
+    isDefault: boolean | undefined,
+  ) {
+    setBusyId(docId);
+    try {
+      const result = await setUnsetDefaultCvCoverLetter(
+        isDefault ? "" : docId,
+        type,
+      );
+
+      if (!result.success) throw new Error(result.error);
+
+      setDocs((prev) =>
+        prev.map((doc) => {
+          if (doc.type !== type) return doc;
+          if (doc._id === docId) return { ...doc, isDefault: !isDefault };
+
+          return { ...doc, isDefault: false };
+        }),
+      );
+
+      toast.success(isDefault ? "Default removed" : "Set as default", {
+        description: isDefault
+          ? "This document is no longer the default."
+          : "This document will be pre-selected for new applications.",
         duration: 2000,
         position: "top-center",
-      },
-    );
+      });
+    } catch (error) {
+      toast.error("Failed to update default", {
+        description: getErrorMessage(error),
+        duration: 2000,
+        position: "top-center",
+      });
+    } finally {
+      setBusyId(null);
+    }
   }
 
   return (
@@ -263,8 +294,9 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() =>
-                            toggleDefaultPlaceholder(doc.isDefault)
+                            toggleDefault(doc._id, doc.type, doc.isDefault)
                           }
+                          disabled={busyId === doc._id}
                         >
                           {doc.isDefault ? (
                             <StarOff className="mr-2 h-4 w-4" />

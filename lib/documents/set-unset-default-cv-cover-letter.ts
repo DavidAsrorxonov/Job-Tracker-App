@@ -1,3 +1,5 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
@@ -10,7 +12,7 @@ export const setUnsetDefaultCvCoverLetter = async (
   try {
     const session = await getSession();
 
-    if (session?.user.id) throw new Error("Unauthorized");
+    if (!session?.user.id) throw new Error("Unauthorized");
 
     await connectDB();
 

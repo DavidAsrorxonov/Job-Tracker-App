@@ -32,6 +32,8 @@ const Navbar = () => {
             <Button variant={"outline"} onClick={handleBack}>
               Go Back One Step
             </Button>
+            <div className="w-px border border-primary border-dashed h-8 mx-2" />
+
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>

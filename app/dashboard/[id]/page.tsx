@@ -44,7 +44,7 @@ export default async function JobDetails({
             />
           )}
 
-          <div className="min-w-md">
+          <div className="max-w-md">
             <NotesAndDescriptionPanel
               description={data.description}
               notes={data.notes}

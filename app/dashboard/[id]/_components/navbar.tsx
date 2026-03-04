@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -9,6 +9,10 @@ const Navbar = () => {
 
   const handleBack = () => {
     router.back();
+  };
+
+  const handleForward = () => {
+    router.forward();
   };
 
   return (
@@ -22,7 +26,10 @@ const Navbar = () => {
         <h1 className="font-bold text-xl">Job Workshop Dashboard</h1>
       </div>
 
-      <div className="w-10" />
+      <Button variant={"outline"} onClick={handleForward}>
+        Forward
+        <ArrowRight className="h-5 w-5 mr-2" />
+      </Button>
     </nav>
   );
 };

@@ -167,6 +167,8 @@ export default function AppliedPanel({
   resumes?: Resumes[];
 }) {
   const today = startOfDay(new Date());
+  const [saving, setSaving] = useState<boolean>(false);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
 
   const [editing, setEditing] = useState<EditingKey>(null);
   const [data, setData] = useState<IAppliedData>(() => ({
@@ -187,8 +189,12 @@ export default function AppliedPanel({
       : undefined,
   }));
 
+  function updateData(updater: (p: IAppliedData) => IAppliedData) {
+    setData(updater);
+    setIsDirty(true);
+  }
+
   useEffect(() => {
-    isMounted.current = false;
     setData({
       appliedDate: appliedData?.appliedDate
         ? new Date(appliedData.appliedDate)
@@ -206,6 +212,7 @@ export default function AppliedPanel({
         ? new Date(appliedData.lastFollowUpDate)
         : undefined,
     });
+    setIsDirty(false);
   }, [jobId, appliedData]);
 
   const followUps = useMemo(
@@ -232,14 +239,14 @@ export default function AppliedPanel({
 
   function addFollowUp(date: Date | undefined) {
     if (!date) return;
-    setData((p) => ({
+    updateData((p) => ({
       ...p,
       followUpDates: normalizeDates([...(p.followUpDates ?? []), date]),
     }));
   }
 
   function removeFollowUp(date: Date) {
-    setData((p) => ({
+    updateData((p) => ({
       ...p,
       followUpDates: normalizeDates(p.followUpDates).filter(
         (d) => !isSameDay(d, date),
@@ -247,27 +254,7 @@ export default function AppliedPanel({
     }));
   }
 
-  const saveTimer = useRef<NodeJS.Timeout | null>(null);
-  const saveSeqRef = useRef(0);
-  const latestSaveSeqRef = useRef(0);
-  const isMounted = useRef(false);
-  const [saving, setSaving] = useState(false);
-
-  const followUpsKey = useMemo(
-    () => followUps.map((d) => d.toISOString()).join("|"),
-    [followUps],
-  );
-
-  async function persist(next: IAppliedData) {
-    await upsertAppliedData(jobId, next);
-  }
-
-  useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
-
+  async function handleSave() {
     const computedLast = followUps
       .filter((d) => !isBefore(today, startOfDay(d)))
       .slice(-1)[0];
@@ -277,44 +264,26 @@ export default function AppliedPanel({
       lastFollowUpDate: computedLast,
     };
 
-    if (saveTimer.current) clearTimeout(saveTimer.current);
-    const nextSeq = ++saveSeqRef.current;
-    latestSaveSeqRef.current = nextSeq;
-
-    saveTimer.current = setTimeout(async () => {
-      const capturedSeq = nextSeq;
-      try {
-        setSaving(true);
-        await persist(payload);
-      } catch (e) {
-        if (capturedSeq !== latestSaveSeqRef.current) return;
-        toast.error("Failed to save applied data", {
-          description: "Please try again",
-          duration: 2000,
-          position: "top-center",
-        });
-        console.error(e);
-      } finally {
-        if (capturedSeq === latestSaveSeqRef.current) {
-          setSaving(false);
-        }
-      }
-    }, 700);
-
-    return () => {
-      if (saveTimer.current) clearTimeout(saveTimer.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    data.appliedDate,
-    data.applicationMethod,
-    data.resumeVersion,
-    data.coverLetterUsed,
-    data.referralContact,
-    data.expectedResponseDate,
-    data.applicationNotes,
-    followUpsKey,
-  ]);
+    try {
+      setSaving(true);
+      await upsertAppliedData(jobId, payload);
+      setIsDirty(false);
+      toast.success("Saved", {
+        duration: 2000,
+        description: "Your changes have been saved",
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error("Failed to save", {
+        duration: 2000,
+        description: "Something went wrong. Please try again",
+        position: "top-center",
+      });
+      console.log(error);
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const resumeLabel =
     resumes.find((r) => r.value === data.resumeVersion)?.label ??
@@ -329,25 +298,24 @@ export default function AppliedPanel({
               Application Journey
             </CardTitle>
             <p className="text-xs text-muted-foreground">
-              Click any chip to edit · Changes save automatically
+              Click any chip to edit · Press save when done
             </p>
           </div>
 
-          <div>
-            {saving ? (
-              <Badge
-                variant="secondary"
-                className="font-normal text-xs gap-1.5 animate-pulse"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-400 inline-block" />
-                Saving…
-              </Badge>
-            ) : (
-              <Badge variant="outline" className="font-normal text-xs gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
-                Saved
-              </Badge>
+          <div className="flex items-center gap-2">
+            {isDirty && (
+              <span className="text-xs text-muted-foreground">
+                Unsaved changes
+              </span>
             )}
+            <Button
+              size="sm"
+              onClick={handleSave}
+              disabled={saving || !isDirty}
+              className="h-7 text-xs"
+            >
+              {saving ? "Saving…" : "Save"}
+            </Button>
           </div>
         </div>
       </CardHeader>
@@ -384,7 +352,7 @@ export default function AppliedPanel({
                       selected={data.appliedDate}
                       onSelect={(d) => {
                         if (!d) return;
-                        setData((p) => ({ ...p, appliedDate: d }));
+                        updateData((p) => ({ ...p, appliedDate: d }));
                         setEditing(null);
                       }}
                       autoFocus
@@ -405,7 +373,7 @@ export default function AppliedPanel({
                 <Select
                   value={data.applicationMethod ?? ""}
                   onValueChange={(v) => {
-                    setData((p) => ({ ...p, applicationMethod: v as any }));
+                    updateData((p) => ({ ...p, applicationMethod: v as any }));
                     setEditing(null);
                   }}
                 >
@@ -432,7 +400,7 @@ export default function AppliedPanel({
                 <Select
                   value={data.resumeVersion ?? ""}
                   onValueChange={(v) => {
-                    setData((p) => ({ ...p, resumeVersion: v }));
+                    updateData((p) => ({ ...p, resumeVersion: v }));
                     setEditing(null);
                   }}
                 >
@@ -462,7 +430,7 @@ export default function AppliedPanel({
 
               <Chip
                 onClick={() =>
-                  setData((p) => ({
+                  updateData((p) => ({
                     ...p,
                     coverLetterUsed: !p.coverLetterUsed,
                   }))
@@ -478,7 +446,7 @@ export default function AppliedPanel({
                     autoFocus
                     value={data.referralContact ?? ""}
                     onChange={(e) =>
-                      setData((p) => ({
+                      updateData((p) => ({
                         ...p,
                         referralContact: e.target.value,
                       }))
@@ -706,7 +674,7 @@ export default function AppliedPanel({
                     mode="single"
                     selected={data.expectedResponseDate}
                     onSelect={(d) => {
-                      setData((p) => ({
+                      updateData((p) => ({
                         ...p,
                         expectedResponseDate: d ?? undefined,
                       }));
@@ -742,7 +710,10 @@ export default function AppliedPanel({
                 autoFocus
                 value={data.applicationNotes ?? ""}
                 onChange={(e) =>
-                  setData((p) => ({ ...p, applicationNotes: e.target.value }))
+                  updateData((p) => ({
+                    ...p,
+                    applicationNotes: e.target.value,
+                  }))
                 }
                 onBlur={() => setEditing(null)}
                 className="min-h-24 text-sm resize-none"

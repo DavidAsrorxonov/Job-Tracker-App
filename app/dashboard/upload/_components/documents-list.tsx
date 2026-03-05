@@ -28,7 +28,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Download,
   EllipsisVertical,
   ExternalLink,
   Eye,
@@ -41,13 +40,10 @@ import {
   Trash2,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import { toast } from "sonner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import svgPdf from "../../../../public/svgs/pdf-svgrepo-com.svg";
 
 import dynamic from "next/dynamic";
-import { setUnsetDefaultCvCoverLetter } from "@/lib/documents/set-unset-default-cv-cover-letter";
 import { UserDoc } from "@/types/user-documents";
 import { useDocumentsList } from "@/lib/hooks/useDocumentsList";
 const PDFPreviewSheet = dynamic(() => import("./pdf-preview-sheet"), {

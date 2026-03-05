@@ -8,6 +8,7 @@ import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
 import { useSession } from "@/lib/auth/auth-client";
 import dynamic from "next/dynamic";
 import PageLoading from "@/components/page-loading";
+import DefaultDocumentsList from "./default-documents-list";
 
 const UploadDocs = dynamic(() => import("@/components/upload-docs"), {
   ssr: false,
@@ -72,23 +73,32 @@ export default function UploadClient({
     setDocs(json.docs);
   }
 
+  const defaultCV = docs.filter(
+    (doc) => doc.isDefault === true && doc.type === "cv",
+  )[0];
+
+  const defaultCoverLetter = docs.filter(
+    (doc) => doc.isDefault === true && doc.type === "cover-letter",
+  )[0];
+
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col gap-6 lg:flex-row">
         <div className="flex flex-col gap-6 flex-1 min-w-0">
           <UploadDocs onUploaded={refreshDocs} />
-
           <DocumentsList
             docs={docs}
             setDocs={setDocs}
             onRefresh={refreshDocs}
           />
         </div>
-
         <aside className="w-full lg:w-80 shrink-0">
           <div className="space-y-6 lg:sticky lg:top-40">
+            <DefaultDocumentsList
+              cv={defaultCV}
+              coverLetter={defaultCoverLetter}
+            />
             <PieChartForDocsAnalysis counts={counts} />
-
             <TotalFileSize docs={docs} limitBytes={MAX_LIMIT_FILE_SIZE} />
           </div>
         </aside>

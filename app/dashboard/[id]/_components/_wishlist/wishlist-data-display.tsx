@@ -83,7 +83,7 @@ const WishlistDataDisplay = ({
     <CardHeader className="border-b border-border/50 bg-muted/20 px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="space-y-0.5">
-          <CardTitle className="text-base font-semibold tracking-tight text-muted-foreground">
+          <CardTitle className="text-xl font-bold tracking-tight">
             Wishlist Notes
           </CardTitle>
           <p className="text-xs text-muted-foreground">

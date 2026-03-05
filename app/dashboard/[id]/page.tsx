@@ -5,6 +5,7 @@ import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 import AppliedPanel from "./_components/_applied/applied-panel";
 import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
+import WishlistReminderBanner from "./_components/_wishlist/wishlist-reminder-banner";
 
 export default async function JobDetails({
   params,
@@ -44,6 +45,8 @@ export default async function JobDetails({
                 appliedData={data.appliedData}
                 resumes={testResumeData}
               />
+
+              <WishlistReminderBanner />
 
               <WishlistDataDisplay wishlistData={data.wishlistData} />
             </div>

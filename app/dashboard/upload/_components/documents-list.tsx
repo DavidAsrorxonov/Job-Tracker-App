@@ -23,13 +23,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Download,
   EllipsisVertical,
   ExternalLink,
   Eye,
+  FolderOpen,
+  Hash,
   Info,
   RefreshCcw,
   Star,
@@ -191,6 +195,15 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     }
   }
 
+  function copyToClipboard(value: string) {
+    navigator.clipboard.writeText(value);
+    toast.success("Copied to clipboard", {
+      duration: 2000,
+      position: "top-center",
+      description: `Document ID: ${value}`,
+    });
+  }
+
   return (
     <>
       <Card className="w-full">
@@ -277,6 +290,23 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-52">
+                        <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                          {doc.originalName ?? "Unnamed"}
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem
+                          onClick={() => copyToClipboard(doc._id)}
+                        >
+                          <Hash className="mr-2 h-4 w-4" />
+                          Copy ID
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => copyToClipboard(doc.path)}
+                        >
+                          <FolderOpen className="mr-2 h-4 w-4" />
+                          Copy Path
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => openDoc(doc._id)}>
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Open

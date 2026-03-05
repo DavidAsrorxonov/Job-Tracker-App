@@ -81,7 +81,7 @@ function DocCard({
             </p>
             {doc.isDefault && (
               <Badge
-                variant="secondary"
+                variant="outline"
                 className="text-xs font-normal gap-1 py-0"
               >
                 <Star className="h-2.5 w-2.5" /> Default

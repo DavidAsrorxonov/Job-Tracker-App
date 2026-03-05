@@ -9,6 +9,7 @@ import { useSession } from "@/lib/auth/auth-client";
 import dynamic from "next/dynamic";
 import PageLoading from "@/components/page-loading";
 import DefaultDocumentsList from "./default-documents-list";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const UploadDocs = dynamic(() => import("@/components/upload-docs"), {
   ssr: false,
@@ -83,8 +84,8 @@ export default function UploadClient({
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex flex-col gap-6 lg:flex-row">
-        <div className="flex flex-col gap-6 flex-1 min-w-0">
+      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <div className="flex flex-col gap-6 min-w-0">
           <UploadDocs onUploaded={refreshDocs} />
           <DocumentsList
             docs={docs}
@@ -92,14 +93,31 @@ export default function UploadClient({
             onRefresh={refreshDocs}
           />
         </div>
-        <aside className="w-full lg:w-80 shrink-0">
-          <div className="space-y-6 lg:sticky lg:top-40">
-            <DefaultDocumentsList
-              cv={defaultCV}
-              coverLetter={defaultCoverLetter}
-            />
-            <PieChartForDocsAnalysis counts={counts} />
-            <TotalFileSize docs={docs} limitBytes={MAX_LIMIT_FILE_SIZE} />
+
+        <aside className="lg:sticky lg:top-40">
+          <div className="rounded-2xl border bg-background p-4 shadow-sm">
+            <Tabs defaultValue="defaults" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="defaults">Defaults</TabsTrigger>
+                <TabsTrigger value="chart">Chart</TabsTrigger>
+                <TabsTrigger value="size">Size</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="defaults" className="mt-4">
+                <DefaultDocumentsList
+                  cv={defaultCV}
+                  coverLetter={defaultCoverLetter}
+                />
+              </TabsContent>
+
+              <TabsContent value="chart" className="mt-4">
+                <PieChartForDocsAnalysis counts={counts} />
+              </TabsContent>
+
+              <TabsContent value="size" className="mt-4">
+                <TotalFileSize docs={docs} limitBytes={MAX_LIMIT_FILE_SIZE} />
+              </TabsContent>
+            </Tabs>
           </div>
         </aside>
       </div>

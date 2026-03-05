@@ -4,6 +4,7 @@ import "./_styles/panel.css";
 import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 import AppliedPanel from "./_components/_applied/applied-panel";
+import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
 
 export default async function JobDetails({
   params,
@@ -37,11 +38,15 @@ export default async function JobDetails({
           )}
 
           {(data.status === "applied" || data.status === "Applied") && (
-            <AppliedPanel
-              jobId={data._id}
-              appliedData={data.appliedData}
-              resumes={testResumeData}
-            />
+            <div className="w-full">
+              <AppliedPanel
+                jobId={data._id}
+                appliedData={data.appliedData}
+                resumes={testResumeData}
+              />
+
+              <WishlistDataDisplay wishlistData={data.wishlistData} />
+            </div>
           )}
 
           <div className="max-w-md">

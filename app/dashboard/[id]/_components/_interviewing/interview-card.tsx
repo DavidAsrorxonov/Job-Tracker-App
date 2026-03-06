@@ -22,6 +22,21 @@ const typeConfig: Record<
   other: { label: "Other", icon: HelpCircle },
 };
 
+const outcomeConfig = {
+  passed: {
+    label: "Passed",
+    className: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+  },
+  waiting: {
+    label: "Waiting",
+    className: "bg-amber-500/10 text-amber-600 border-amber-500/20",
+  },
+  failed: {
+    label: "Failed",
+    className: "bg-destructive/10 text-destructive border-destructive/20",
+  },
+};
+
 const InterviewCard = ({
   interviewData,
   onClick,

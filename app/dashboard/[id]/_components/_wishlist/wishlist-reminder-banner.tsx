@@ -2,7 +2,7 @@
 
 import { BookOpen } from "lucide-react";
 
-const WishlistReminder = () => {
+const WishlistReminderBanner = () => {
   return (
     <div className="relative my-6 flex items-center gap-4">
       <div className="flex-1 h-1 bg-linear-to-r from-transparent to-border" />
@@ -22,4 +22,4 @@ const WishlistReminder = () => {
   );
 };
 
-export default WishlistReminder;
+export default WishlistReminderBanner;

@@ -194,14 +194,16 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-col gap-3 min-h-[calc(100vh-4rem)] items-center justify-center p-4">
-      <Alert className="w-full max-w-lg border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-        <AlertTriangleIcon />
-        <AlertTitle>Please enter a valid email address</AlertTitle>
-        <AlertDescription>
-          A confirmation code will be sent to this email address to verify your
-          identity. Please ensure the address is correct.
-        </AlertDescription>
-      </Alert>
+      {step === "register" && (
+        <Alert className="w-full max-w-lg border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+          <AlertTriangleIcon />
+          <AlertTitle>Please enter a valid email address</AlertTitle>
+          <AlertDescription>
+            A confirmation code will be sent to this email address to verify
+            your identity. Please ensure the address is correct.
+          </AlertDescription>
+        </Alert>
+      )}
       <Card className="w-full max-w-lg shadow-lg p-4">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-primary">

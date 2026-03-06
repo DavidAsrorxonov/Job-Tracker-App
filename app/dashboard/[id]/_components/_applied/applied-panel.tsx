@@ -286,10 +286,14 @@ export default function AppliedPanel({
     }
   }
 
-  const resumeLabel =
-    cvDocs.find((d) => d._id?.toString() === data.resumeVersion)
-      ?.originalName ??
-    (data.resumeVersion ? data.resumeVersion : "Select resume");
+  const selectedCv = cvDocs.find((d) => d._id === data.resumeVersion);
+  const resumeLabel = selectedCv
+    ? (selectedCv.originalName ??
+      selectedCv.path.split("/").pop() ??
+      "Unnamed CV")
+    : data.resumeVersion
+      ? "CV not found"
+      : "Select resume";
 
   return (
     <Card className="w-full shadow-sm border-border/60 h-fit overflow-hidden">

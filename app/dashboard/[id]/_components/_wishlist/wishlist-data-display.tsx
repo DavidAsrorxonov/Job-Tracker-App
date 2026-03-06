@@ -56,7 +56,7 @@ function Section({
 const WishlistDataDisplay = ({
   wishlistData,
 }: {
-  wishlistData: IWishlistData;
+  wishlistData?: IWishlistData;
 }) => {
   if (!wishlistData) return null;
 

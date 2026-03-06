@@ -4,6 +4,7 @@ import { useState } from "react";
 import AddInterviewCTA from "./add-interview-cta";
 import InterviewDetailsSheet from "./interview-details-sheet";
 import InterviewCard, { SingleInterview } from "./interview-card";
+import InterviewPrepPanel from "./interview-prep-panel";
 
 const InterviewSection = () => {
   const [open, setOpen] = useState(false);
@@ -29,6 +30,18 @@ const InterviewSection = () => {
         interviewData={mockInterview}
         onClick={() => console.log("clicked")}
       />
+
+      <InterviewPrepPanel
+        jobId="1234"
+        prepNotes="Research their recent Series B funding."
+        questionsToAsk={[
+          "What does onboarding look like?",
+          "How is tech debt handled?",
+        ]}
+        technicalTopics={["System design", "React performance"]}
+        nextSteps="Follow up by March 5th if no response."
+      />
+
       <InterviewDetailsSheet open={open} onOpenChange={setOpen} />
     </>
   );

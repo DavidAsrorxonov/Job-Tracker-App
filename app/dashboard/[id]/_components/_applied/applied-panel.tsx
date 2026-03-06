@@ -22,7 +22,9 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { upsertAppliedData } from "@/lib/actions/applied";
 import { normalizeDates } from "@/lib/helper/normalizeDates";
+import { IUserDocuments } from "@/lib/models/user-documents";
 import { cn } from "@/lib/utils";
+import { UserDoc } from "@/types/user-documents";
 import { format, isBefore, isSameDay, startOfDay, addDays } from "date-fns";
 import {
   CalendarDays,
@@ -51,12 +53,6 @@ export interface IAppliedData {
   expectedResponseDate?: Date;
   applicationNotes?: string;
 }
-
-export type Resumes = {
-  id: string;
-  value: string;
-  label: string;
-};
 
 type EditingKey =
   | "appliedDate"
@@ -160,34 +156,37 @@ function TimelineStep({
 export default function AppliedPanel({
   jobId,
   appliedData,
-  resumes = [],
+  cvDocs,
 }: {
   jobId: string;
   appliedData?: IAppliedData;
-  resumes?: Resumes[];
+  cvDocs: UserDoc[];
 }) {
   const today = startOfDay(new Date());
   const [saving, setSaving] = useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
 
   const [editing, setEditing] = useState<EditingKey>(null);
-  const [data, setData] = useState<IAppliedData>(() => ({
-    appliedDate: appliedData?.appliedDate
-      ? new Date(appliedData.appliedDate)
-      : new Date(),
-    applicationMethod: appliedData?.applicationMethod,
-    resumeVersion: appliedData?.resumeVersion,
-    coverLetterUsed: appliedData?.coverLetterUsed ?? false,
-    referralContact: appliedData?.referralContact ?? "",
-    followUpDates: normalizeDates(appliedData?.followUpDates as any),
-    expectedResponseDate: appliedData?.expectedResponseDate
-      ? new Date(appliedData.expectedResponseDate)
-      : undefined,
-    applicationNotes: appliedData?.applicationNotes ?? "",
-    lastFollowUpDate: appliedData?.lastFollowUpDate
-      ? new Date(appliedData.lastFollowUpDate)
-      : undefined,
-  }));
+  const [data, setData] = useState<IAppliedData>(() => {
+    const defaultCV = cvDocs.find((d) => d.isDefault); // ✅ compute inside initializer
+    return {
+      appliedDate: appliedData?.appliedDate
+        ? new Date(appliedData.appliedDate)
+        : new Date(),
+      applicationMethod: appliedData?.applicationMethod,
+      resumeVersion: appliedData?.resumeVersion ?? defaultCV?._id ?? undefined, // ✅
+      coverLetterUsed: appliedData?.coverLetterUsed ?? false,
+      referralContact: appliedData?.referralContact ?? "",
+      followUpDates: normalizeDates(appliedData?.followUpDates as any),
+      expectedResponseDate: appliedData?.expectedResponseDate
+        ? new Date(appliedData.expectedResponseDate)
+        : undefined,
+      applicationNotes: appliedData?.applicationNotes ?? "",
+      lastFollowUpDate: appliedData?.lastFollowUpDate
+        ? new Date(appliedData.lastFollowUpDate)
+        : undefined,
+    };
+  });
 
   function updateData(updater: (p: IAppliedData) => IAppliedData) {
     setData(updater);
@@ -195,12 +194,14 @@ export default function AppliedPanel({
   }
 
   useEffect(() => {
+    const defaultCV = cvDocs.find((d) => d.isDefault);
     setData({
       appliedDate: appliedData?.appliedDate
         ? new Date(appliedData.appliedDate)
         : new Date(),
       applicationMethod: appliedData?.applicationMethod,
-      resumeVersion: appliedData?.resumeVersion,
+      resumeVersion:
+        appliedData?.resumeVersion ?? defaultCV?._id?.toString() ?? undefined,
       coverLetterUsed: appliedData?.coverLetterUsed ?? false,
       referralContact: appliedData?.referralContact ?? "",
       followUpDates: normalizeDates(appliedData?.followUpDates as any),
@@ -286,7 +287,8 @@ export default function AppliedPanel({
   }
 
   const resumeLabel =
-    resumes.find((r) => r.value === data.resumeVersion)?.label ??
+    cvDocs.find((d) => d._id?.toString() === data.resumeVersion)
+      ?.originalName ??
     (data.resumeVersion ? data.resumeVersion : "Select resume");
 
   return (
@@ -408,14 +410,27 @@ export default function AppliedPanel({
                     <SelectValue placeholder="Select resume" />
                   </SelectTrigger>
                   <SelectContent>
-                    {resumes.length === 0 ? (
+                    {cvDocs.length === 0 ? (
                       <SelectItem value="__none" disabled>
-                        No resumes uploaded
+                        No CVs uploaded
                       </SelectItem>
                     ) : (
-                      resumes.map((r) => (
-                        <SelectItem key={r.id} value={r.value}>
-                          {r.label}
+                      cvDocs.map((doc) => (
+                        <SelectItem
+                          key={doc._id.toString()}
+                          value={doc._id.toString()}
+                        >
+                          <div className="flex items-center gap-2">
+                            {doc.originalName ?? doc.path.split("/").pop()}
+                            {doc.isDefault && (
+                              <Badge
+                                variant="secondary"
+                                className="text-xs py-0 font-normal"
+                              >
+                                default
+                              </Badge>
+                            )}
+                          </div>
                         </SelectItem>
                       ))
                     )}

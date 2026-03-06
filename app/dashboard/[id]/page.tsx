@@ -4,6 +4,10 @@ import "./_styles/panel.css";
 import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 import AppliedPanel from "./_components/_applied/applied-panel";
+import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
+import WishlistReminderBanner from "./_components/_wishlist/wishlist-reminder-banner";
+import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
+import { UserDoc } from "@/types/user-documents";
 
 export default async function JobDetails({
   params,
@@ -12,17 +16,24 @@ export default async function JobDetails({
 }) {
   const { id } = await params;
 
-  const result = await getJobApplicationById(id);
+  const [{ docs }, result] = await Promise.all([
+    getUserDocumentsForPage(),
+    getJobApplicationById(id),
+  ]);
+
+  const cvDocs: UserDoc[] = docs
+    .filter((d) => d.type === "cv")
+    .map((d) => ({
+      _id: d._id.toString(),
+      type: d.type,
+      path: d.path,
+      originalName: d.originalName,
+      createdAt: d.createdAt.toISOString(),
+      isDefault: d.isDefault,
+    }));
   const { data, error } = result;
 
   if ("error" in result) return <div>{error as string}</div>;
-
-  const testResumeData = [
-    { id: "1", value: "Resume 1", label: "Resume 1" },
-    { id: "2", value: "Resume 2", label: "Resume 2" },
-  ];
-
-  const saveData = () => {};
 
   return (
     <div>
@@ -31,17 +42,23 @@ export default async function JobDetails({
           <JobDetailsHeader job={data} />
         </div>
 
-        <div className="w-full flex gap-2 px-4">
+        <div className="w-full flex gap-2 px-4 pb-10">
           {(data.status === "wish-list" || data.status === "Wish List") && (
             <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
           )}
 
           {(data.status === "applied" || data.status === "Applied") && (
-            <AppliedPanel
-              jobId={data._id}
-              appliedData={data.appliedData}
-              resumes={testResumeData}
-            />
+            <div className="w-full">
+              <AppliedPanel
+                jobId={data._id}
+                appliedData={data.appliedData}
+                cvDocs={cvDocs}
+              />
+
+              <WishlistReminderBanner />
+
+              <WishlistDataDisplay wishlistData={data.wishlistData} />
+            </div>
           )}
 
           <div className="max-w-md">

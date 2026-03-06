@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import RatingDots from "./_components/rating-dots";
 
-type SingleInterview = IInterviewData["interviews"][number];
+export type SingleInterview = IInterviewData["interviews"][number];
 
 const typeConfig: Record<
   SingleInterview["type"],

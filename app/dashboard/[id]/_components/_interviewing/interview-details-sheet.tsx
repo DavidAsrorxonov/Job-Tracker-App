@@ -11,7 +11,9 @@ import {
   UserCheck,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { upsertSingleInterview } from "@/lib/actions/interviewing";
+import { toast } from "sonner";
 
 const typeOptions: {
   value: SingleInterview["type"];
@@ -73,6 +75,40 @@ const InterviewDetailsSheet = ({
   const isEditingMode = Boolean(interviewData);
 
   const [saving, setSaving] = useState<boolean>(false);
+  const [data, setData] = useState<Omit<SingleInterview, "_id">>(
+    interviewData ?? emptyInterview,
+  );
+
+  useEffect(() => {
+    setData(interviewData ?? emptyInterview);
+  }, [interviewData, open]);
+
+  function updateData(
+    updater: (p: Omit<SingleInterview, "_id">) => Omit<SingleInterview, "_id">,
+  ) {
+    setData(updater);
+  }
+
+  async function handleSave() {
+    try {
+      setSaving(true);
+      await upsertSingleInterview(jobId, { ...data, _id: interviewData?._id });
+      toast.success(isEditingMode ? "Interview updated" : "Interview added", {
+        duration: 2000,
+        position: "top-center",
+      });
+      onOpenChange(false);
+    } catch (error) {
+      toast.error("Failed to save", {
+        duration: 2000,
+        description: "Something went wrong. Please try again",
+        position: "top-center",
+      });
+      console.log(error);
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

@@ -42,7 +42,7 @@ const InterviewSection = () => {
         nextSteps="Follow up by March 5th if no response."
       />
 
-      <InterviewDetailsSheet open={open} onOpenChange={setOpen} />
+      {/* <InterviewDetailsSheet open={open} onOpenChange={setOpen} /> */}
     </>
   );
 };

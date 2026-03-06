@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddInterviewCTA from "./add-interview-cts";
+import AddInterviewCTA from "./add-interview-cta";
 import InterviewDetailsSheet from "./interview-details-sheet";
 
 const InterviewSection = () => {

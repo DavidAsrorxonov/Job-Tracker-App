@@ -33,7 +33,7 @@ export default async function JobDetails({
           <JobDetailsHeader job={data} />
         </div>
 
-        <div className="w-full flex gap-2 px-4">
+        <div className="w-full flex gap-2 px-4 pb-10">
           {(data.status === "wish-list" || data.status === "Wish List") && (
             <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
           )}

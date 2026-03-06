@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "./_components/navbar";
+import Footer from "./_components/footer";
 
 export const metadata: Metadata = {
   title: "Job Tracker | Job Details Dashboard",
@@ -15,6 +16,7 @@ export default function JobDetailsLayout({
     <div>
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 }

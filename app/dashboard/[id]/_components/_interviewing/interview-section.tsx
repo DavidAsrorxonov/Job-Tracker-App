@@ -10,7 +10,7 @@ const InterviewSection = () => {
   return (
     <>
       <AddInterviewCTA onAdd={() => setOpen(true)} />
-      <InterviewDetailsSheet />
+      <InterviewDetailsSheet open={open} onOpenChange={setOpen} />
     </>
   );
 };

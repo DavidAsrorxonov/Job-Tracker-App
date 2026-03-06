@@ -1,6 +1,11 @@
 "use client";
 
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { SingleInterview } from "./interview-card";
 import {
   Brain,
@@ -14,6 +19,13 @@ import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { upsertSingleInterview } from "@/lib/actions/interviewing";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const typeOptions: {
   value: SingleInterview["type"];
@@ -112,7 +124,41 @@ const InterviewDetailsSheet = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent>Details</SheetContent>
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="mb-6">
+          <SheetTitle>
+            {isEditingMode ? "Edit Interview" : "Add Interview"}
+          </SheetTitle>
+        </SheetHeader>
+
+        <div className="space-y-5">
+          <FormField label="Interview Type">
+            <Select
+              value={data.type}
+              onValueChange={(v) =>
+                updateData((p) => ({
+                  ...p,
+                  type: v as SingleInterview["type"],
+                }))
+              }
+            >
+              <SelectTrigger className="text-sm">
+                <SelectValue placeholder="Select Interview Type" />
+              </SelectTrigger>
+              <SelectContent>
+                {typeOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    <div className="flex items-center gap-2">
+                      <opt.icon className="h-3.5 w-3.5" />
+                      {opt.label}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormField>
+        </div>
+      </SheetContent>
     </Sheet>
   );
 };

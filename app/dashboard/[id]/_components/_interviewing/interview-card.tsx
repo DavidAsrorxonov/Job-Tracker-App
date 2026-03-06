@@ -1,12 +1,21 @@
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { IInterviewData } from "@/lib/models/job-application";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import {
   Brain,
+  Calendar,
+  ChevronRight,
+  Clock,
   Code2,
   HelpCircle,
   Phone,
   Trophy,
+  User,
   UserCheck,
 } from "lucide-react";
+import RatingDots from "./_components/rating-dots";
 
 type SingleInterview = IInterviewData["interviews"][number];
 
@@ -41,76 +50,103 @@ const InterviewCard = ({
   interviewData,
   onClick,
 }: {
-  interviewData: IInterviewData;
+  interviewData: SingleInterview;
   onClick: () => void;
 }) => {
-  const mockInterviewData: IInterviewData = {
-    interviews: [
-      {
-        //   _id: new mongoose.Types.ObjectId("507f1f77bcf86cd799439011"),
-        type: "phone_screen",
-        scheduledDate: new Date("2026-02-15T10:00:00"),
-        completedDate: new Date("2026-02-15T10:30:00"),
-        duration: 30,
-        interviewer: "Sarah Johnson (HR)",
-        notes:
-          "Very friendly conversation, asked about my background and motivation. They seem to move fast.",
-        questionsAsked: [
-          "Tell me about yourself",
-          "Why are you interested in this role?",
-          "What's your expected salary?",
-        ],
-        outcome: "passed",
-        rating: 4,
-      },
-      {
-        //   _id: new mongoose.Types.ObjectId("507f1f77bcf86cd799439012"),
-        type: "technical",
-        scheduledDate: new Date("2026-02-22T14:00:00"),
-        completedDate: new Date("2026-02-22T15:30:00"),
-        duration: 90,
-        interviewer: "Mike Chen (Senior Engineer)",
-        notes:
-          "Heavy focus on system design. Got a bit stuck on the distributed cache question but recovered well.",
-        questionsAsked: [
-          "Design a URL shortener",
-          "Explain CAP theorem",
-          "Reverse a linked list",
-        ],
-        outcome: "waiting",
-        rating: 3,
-      },
-      {
-        //   _id: new mongoose.Types.ObjectId("507f1f77bcf86cd799439013"),
-        type: "behavioral",
-        scheduledDate: new Date("2026-03-10T11:00:00"),
-        duration: 60,
-        interviewer: "Lisa Park (Engineering Manager)",
-        notes: "",
-        questionsAsked: [],
-        outcome: undefined,
-        rating: undefined,
-      },
-    ],
-    prepNotes:
-      "Research their recent Series B funding. They use a microservices architecture. Emphasize my experience with distributed systems and React.",
-    questionsToAsk: [
-      "What does the onboarding process look like?",
-      "How does the team handle technical debt?",
-      "What's the biggest challenge the team is facing right now?",
-    ],
-    technicalTopics: [
-      "System design",
-      "React performance",
-      "TypeScript",
-      "REST vs GraphQL",
-      "CI/CD pipelines",
-    ],
-    nextSteps:
-      "Waiting for feedback on the technical round. Follow up by March 5th if no response.",
-  };
+  const { label, icon: Icon } = typeConfig[interviewData.type];
+  const outcome = interviewData.outcome
+    ? outcomeConfig[interviewData.outcome]
+    : null;
+  const isUpcoming =
+    interviewData.scheduledDate && !interviewData.completedDate;
 
-  return <div>{}</div>;
+  return (
+    <Card
+      onClick={onClick}
+      className={cn(
+        "cursor-pointer transition-all duration-200 hover:shadow-md hover:border-border group",
+        isUpcoming && "border-primary/30 bg-primary/2",
+      )}
+    >
+      <CardContent className="px-4 py-3.5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 min-w-0">
+            <div
+              className={cn(
+                "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md",
+                isUpcoming
+                  ? "bg-primary/10 text-primary"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              <Icon className="h-4 w-4" />
+            </div>
+
+            <div className="min-w-0 space-y-1.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <p className="text-sm font-semibold">{label}</p>
+                {outcome && (
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "text-xs font-normal py-0",
+                      outcome.className,
+                    )}
+                  >
+                    {outcome.label}
+                  </Badge>
+                )}
+                {isUpcoming && (
+                  <Badge
+                    variant="outline"
+                    className="text-xs font-normal py-0 border-primary/30 text-primary bg-primary/5"
+                  >
+                    Upcoming
+                  </Badge>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                {interviewData.scheduledDate && (
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {format(
+                      new Date(interviewData.scheduledDate),
+                      "MMM d, yyyy",
+                    )}
+                  </span>
+                )}
+                {interviewData.duration && (
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {interviewData.duration} min
+                  </span>
+                )}
+                {interviewData.interviewer && (
+                  <span className="flex items-center gap-1 truncate max-w-40">
+                    <User className="h-3 w-3 shrink-0" />
+                    <span className="truncate">
+                      {interviewData.interviewer}
+                    </span>
+                  </span>
+                )}
+              </div>
+
+              {interviewData.notes?.trim() && (
+                <p className="text-xs text-muted-foreground line-clamp-1">
+                  {interviewData.notes}
+                </p>
+              )}
+
+              <RatingDots rating={interviewData.rating} />
+            </div>
+          </div>
+
+          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/40 mt-1 transition-transform group-hover:translate-x-0.5" />
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default InterviewCard;

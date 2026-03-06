@@ -16,7 +16,11 @@ export default async function JobDetails({
 }) {
   const { id } = await params;
 
-  const { docs } = await getUserDocumentsForPage();
+  const [{ docs }, result] = await Promise.all([
+    getUserDocumentsForPage(),
+    getJobApplicationById(id),
+  ]);
+
   const cvDocs: UserDoc[] = docs
     .filter((d) => d.type === "cv")
     .map((d) => ({
@@ -27,8 +31,6 @@ export default async function JobDetails({
       createdAt: d.createdAt.toISOString(),
       isDefault: d.isDefault,
     }));
-
-  const result = await getJobApplicationById(id);
   const { data, error } = result;
 
   if ("error" in result) return <div>{error as string}</div>;

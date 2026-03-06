@@ -1,3 +1,5 @@
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+
 const InterviewDetailsSheet = ({
   open,
   onOpenChange,
@@ -5,7 +7,11 @@ const InterviewDetailsSheet = ({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  return <div>InterviewDetailsSheet</div>;
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent>Details</SheetContent>
+    </Sheet>
+  );
 };
 
 export default InterviewDetailsSheet;

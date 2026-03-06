@@ -8,6 +8,7 @@ import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
 import WishlistReminderBanner from "./_components/_wishlist/wishlist-reminder-banner";
 import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
 import { UserDoc } from "@/types/user-documents";
+import InterviewSection from "./_components/_interviewing/interview-section";
 
 export default async function JobDetails({
   params,
@@ -58,6 +59,13 @@ export default async function JobDetails({
               <WishlistReminderBanner />
 
               <WishlistDataDisplay wishlistData={data.wishlistData} />
+            </div>
+          )}
+
+          {(data.status === "interviewing" ||
+            data.status === "Interviewing") && (
+            <div className="w-full">
+              <InterviewSection />
             </div>
           )}
 

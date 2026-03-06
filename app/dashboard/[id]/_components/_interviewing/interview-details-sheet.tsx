@@ -131,14 +131,14 @@ const InterviewDetailsSheet = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto px-6">
         <SheetHeader className="mb-6">
           <SheetTitle>
             {isEditingMode ? "Edit Interview" : "Add Interview"}
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-5">
+        <div className="space-y-5 mt-2">
           <FormField label="Interview Type">
             <Select
               value={data.type}
@@ -306,7 +306,7 @@ const InterviewDetailsSheet = ({
           </FormField>
         </div>
 
-        <div className="mt-8 flex items-center justify-end gap-2">
+        <div className="mt-8 flex items-center justify-end gap-2 pb-10">
           <Button
             variant={"outline"}
             size={"sm"}

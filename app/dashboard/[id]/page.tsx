@@ -65,7 +65,10 @@ export default async function JobDetails({
           {(data.status === "interviewing" ||
             data.status === "Interviewing") && (
             <div className="w-full">
-              <InterviewSection />
+              <InterviewSection
+                jobId={data._id}
+                interviewData={data.interviewData}
+              />
             </div>
           )}
 

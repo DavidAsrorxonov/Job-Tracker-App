@@ -23,10 +23,10 @@ export async function upsertInterviewPrepData(
     { _id: jobId, userId: session.user.id },
     {
       $set: {
-        "interviewingData.prepNotes": data.prepNotes,
-        "interviewingData.questionsToAsk": data.questionsToAsk,
-        "interviewingData.technicalTopics": data.technicalTopics,
-        "interviewingData.nextSteps": data.nextSteps,
+        "interviewData.prepNotes": data.prepNotes,
+        "interviewData.questionsToAsk": data.questionsToAsk,
+        "interviewData.technicalTopics": data.technicalTopics,
+        "interviewData.nextSteps": data.nextSteps,
         updatedAt: new Date(),
       },
     },
@@ -51,11 +51,11 @@ export async function upsertSingleInterview(jobId: string, interview: any) {
         {
           _id: jobId,
           userId: session.user.id,
-          "interviewingData.interviews._id": interview._id,
+          "interviewData.interviews._id": interview._id,
         },
         {
           $set: {
-            "interviewingData.interviews.$": interview,
+            "interviewData.interviews.$": interview,
             updatedAt: new Date(),
           },
         },
@@ -63,7 +63,7 @@ export async function upsertSingleInterview(jobId: string, interview: any) {
     : await JobApplication.updateOne(
         { _id: jobId, userId: session.user.id },
         {
-          $push: { "interviewingData.interviews": interview },
+          $push: { "interviewData.interviews": interview },
           $set: { updatedAt: new Date() },
         },
       );

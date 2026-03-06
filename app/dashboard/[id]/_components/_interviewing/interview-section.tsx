@@ -44,6 +44,7 @@ const InterviewSection = ({
             <InterviewCard
               key={interview._id?.toString()}
               interviewData={interview}
+              jobId={jobId}
               onClick={() => handleEdit(interview)}
             />
           ))

@@ -73,3 +73,20 @@ export async function upsertSingleInterview(jobId: string, interview: any) {
 
   revalidatePath(`/dashboard/${jobId}`);
 }
+
+export async function deleteInterview(jobId: string, interviewId: string) {
+  const session = await getSession();
+  if (!session?.user.id) throw new Error("Unauthorized");
+
+  await connectDB();
+
+  const result = await JobApplication.updateOne(
+    { _id: jobId, userId: session.user.id },
+    { $pull: { "interviewData.interviews": { _id: interviewId } } },
+  );
+
+  if (result.matchedCount === 0)
+    throw new Error("Job application not found or unauthorized");
+
+  revalidatePath(`/dashboard/${jobId}`);
+}

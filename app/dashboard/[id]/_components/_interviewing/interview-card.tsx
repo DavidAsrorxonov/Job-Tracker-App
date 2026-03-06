@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { IInterviewData } from "@/lib/models/job-application";
@@ -11,11 +13,16 @@ import {
   Code2,
   HelpCircle,
   Phone,
+  Trash2,
   Trophy,
   User,
   UserCheck,
 } from "lucide-react";
 import RatingDots from "./_components/rating-dots";
+import { useState } from "react";
+import { deleteInterview } from "@/lib/actions/interviewing";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export type SingleInterview = IInterviewData["interviews"][number];
 
@@ -48,17 +55,40 @@ const outcomeConfig = {
 
 const InterviewCard = ({
   interviewData,
+  jobId,
   onClick,
 }: {
   interviewData: SingleInterview;
+  jobId: string;
   onClick: () => void;
 }) => {
+  const [deleting, setDeleting] = useState(false);
   const { label, icon: Icon } = typeConfig[interviewData.type];
   const outcome = interviewData.outcome
     ? outcomeConfig[interviewData.outcome]
     : null;
   const isUpcoming =
     interviewData.scheduledDate && !interviewData.completedDate;
+
+  async function handleDelete(e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      setDeleting(true);
+      await deleteInterview(jobId, interviewData._id!.toString());
+      toast.success("Interview deleted", {
+        duration: 2000,
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error("Failed to delete", {
+        duration: 2000,
+        position: "top-center",
+      });
+      console.error(error);
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   return (
     <Card
@@ -142,7 +172,23 @@ const InterviewCard = ({
             </div>
           </div>
 
-          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/40 mt-1 transition-transform group-hover:translate-x-0.5" />
+          <div className="flex items-center gap-1 mt-0.5 shrink-0">
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              className="h-7 w-7 p-0 text-muted-foreground/40 hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
+              {deleting ? (
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              ) : (
+                <Trash2 className="h-3.5 w-3.5" />
+              )}
+            </Button>
+            <ChevronRight className="h-4 w-4 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5" />
+          </div>
         </div>
       </CardContent>
     </Card>

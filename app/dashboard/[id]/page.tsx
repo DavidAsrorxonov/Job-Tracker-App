@@ -9,7 +9,7 @@ import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
 import { UserDoc } from "@/types/user-documents";
 import InterviewSection from "./_components/_interviewing/interview-section";
 import SectionDivider from "@/components/section-divider";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Route } from "lucide-react";
 
 export default async function JobDetails({
   params,
@@ -51,6 +51,12 @@ export default async function JobDetails({
 
           {(data.status === "applied" || data.status === "Applied") && (
             <div className="w-full">
+              <SectionDivider
+                icon={Route}
+                title="Application Journey"
+                description="Track how and when you applied."
+              />
+
               <AppliedPanel
                 jobId={data._id}
                 appliedData={data.appliedData}

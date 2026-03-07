@@ -5,10 +5,11 @@ import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 import AppliedPanel from "./_components/_applied/applied-panel";
 import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
-import WishlistReminderBanner from "./_components/_wishlist/wishlist-reminder-banner";
 import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
 import { UserDoc } from "@/types/user-documents";
 import InterviewSection from "./_components/_interviewing/interview-section";
+import SectionDivider from "@/components/section-divider";
+import { BookOpen } from "lucide-react";
 
 export default async function JobDetails({
   params,
@@ -56,7 +57,11 @@ export default async function JobDetails({
                 cvDocs={cvDocs}
               />
 
-              <WishlistReminderBanner />
+              <SectionDivider
+                icon={BookOpen}
+                title="Quick Recap?"
+                description="Your wishlist notes are below."
+              />
 
               <WishlistDataDisplay wishlistData={data.wishlistData} />
             </div>

@@ -131,8 +131,8 @@ const InterviewDetailsSheet = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto px-6">
-        <SheetHeader className="mb-6">
+      <SheetContent className="w-full sm:max-w-2xl overflow-y-auto px-6">
+        <SheetHeader className="mb-6 border-b border-border">
           <SheetTitle>
             {isEditingMode ? "Edit Interview" : "Add Interview"}
           </SheetTitle>

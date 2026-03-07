@@ -77,7 +77,7 @@ const AppliedDataDisplay = ({
     );
 
   const today = startOfDay(new Date());
-  const followUps = appliedData.followUpDates ?? [];
+  const followUps = (appliedData.followUpDates ?? []).filter(Boolean);
   const overdueFollowUps = followUps.filter((d) =>
     isBefore(startOfDay(new Date(d)), today),
   );
@@ -97,13 +97,15 @@ const AppliedDataDisplay = ({
               Recorded when you applied · Read only
             </p>
           </div>
-          <Badge
-            variant="outline"
-            className="text-xs font-normal gap-1 text-muted-foreground"
-          >
-            <CalendarDays className="h-3 w-3" />
-            {format(new Date(appliedData.appliedDate), "MMM d, yyyy")}
-          </Badge>
+          {appliedData.appliedDate ? (
+            <Badge
+              variant="outline"
+              className="text-xs font-normal gap-1 text-muted-foreground"
+            >
+              <CalendarDays className="h-3 w-3" />
+              {format(new Date(appliedData.appliedDate), "MMM d, yyyy")}
+            </Badge>
+          ) : null}
         </div>
       </CardHeader>
 
@@ -213,7 +215,9 @@ const AppliedDataDisplay = ({
                 <p className="text-xs text-muted-foreground">
                   {upcomingFollowUps.length} upcoming · Next:{" "}
                   <span className="font-medium text-foreground">
-                    {format(new Date(upcomingFollowUps[0]), "MMM d, yyyy")}
+                    {upcomingFollowUps[0]
+                      ? format(new Date(upcomingFollowUps[0]), "MMM d, yyyy")
+                      : "—"}
                   </span>
                 </p>
               )}

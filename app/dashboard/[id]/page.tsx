@@ -10,6 +10,7 @@ import { UserDoc } from "@/types/user-documents";
 import InterviewSection from "./_components/_interviewing/interview-section";
 import SectionDivider from "@/components/section-divider";
 import { BookOpen, Route } from "lucide-react";
+import AppliedSection from "./_components/_applied/applied-section";
 
 export default async function JobDetails({
   params,
@@ -50,27 +51,12 @@ export default async function JobDetails({
           )}
 
           {(data.status === "applied" || data.status === "Applied") && (
-            <div className="w-full">
-              <SectionDivider
-                icon={Route}
-                title="Application Journey"
-                description="Track how and when you applied."
-              />
-
-              <AppliedPanel
-                jobId={data._id}
-                appliedData={data.appliedData}
-                cvDocs={cvDocs}
-              />
-
-              <SectionDivider
-                icon={BookOpen}
-                title="Quick Recap?"
-                description="Your wishlist notes are below."
-              />
-
-              <WishlistDataDisplay wishlistData={data.wishlistData} />
-            </div>
+            <AppliedSection
+              jobId={data._id}
+              appliedData={data.appliedData}
+              wishlistData={data.wishlistData}
+              cvDocs={cvDocs}
+            />
           )}
 
           {(data.status === "interviewing" ||

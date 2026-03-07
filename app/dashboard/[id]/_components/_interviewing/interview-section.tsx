@@ -7,14 +7,28 @@ import InterviewCard, { SingleInterview } from "./interview-card";
 import InterviewPrepPanel from "./interview-prep-panel";
 import { IInterviewData } from "@/lib/models/job-application";
 import SectionDivider from "@/components/section-divider";
-import { CalendarCheck, NotebookPen } from "lucide-react";
+import {
+  CalendarCheck,
+  CalendarDays,
+  ChevronDown,
+  NotebookPen,
+} from "lucide-react";
+import { IAppliedData } from "../_applied/applied-panel";
+import AppliedDataDisplay from "../_applied/applied-data-display";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const InterviewSection = ({
   jobId,
   interviewData,
+  appliedData,
 }: {
   jobId: string;
   interviewData: IInterviewData;
+  appliedData: IAppliedData;
 }) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectedInterview, setSelectedInterview] =
@@ -80,6 +94,27 @@ const InterviewSection = ({
           <AddInterviewCTA onAdd={handleAdd} />
         </div>
       </div>
+
+      <SectionDivider
+        icon={CalendarCheck}
+        title="Your Interviews"
+        description="Track each round below."
+      />
+
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <button className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors group">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Applied Details</span>
+            </div>
+            <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <AppliedDataDisplay appliedData={appliedData} />
+        </CollapsibleContent>
+      </Collapsible>
 
       <InterviewDetailsSheet
         open={sheetOpen}

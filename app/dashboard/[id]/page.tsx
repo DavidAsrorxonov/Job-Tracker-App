@@ -65,6 +65,7 @@ export default async function JobDetails({
               <InterviewSection
                 jobId={data._id}
                 interviewData={data.interviewData}
+                appliedData={data.appliedData}
               />
             </div>
           )}

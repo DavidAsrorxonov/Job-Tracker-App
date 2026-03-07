@@ -5,12 +5,14 @@ import AddInterviewCTA from "./add-interview-cta";
 import InterviewDetailsSheet from "./interview-details-sheet";
 import InterviewCard, { SingleInterview } from "./interview-card";
 import InterviewPrepPanel from "./interview-prep-panel";
-import { IInterviewData } from "@/lib/models/job-application";
+import { IInterviewData, IWishlistData } from "@/lib/models/job-application";
 import SectionDivider from "@/components/section-divider";
 import {
+  BookOpen,
   CalendarCheck,
   CalendarDays,
   ChevronDown,
+  FileUser,
   NotebookPen,
 } from "lucide-react";
 import { IAppliedData } from "../_applied/applied-panel";
@@ -20,15 +22,18 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import WishlistDataDisplay from "../_wishlist/wishlist-data-display";
 
 const InterviewSection = ({
   jobId,
   interviewData,
   appliedData,
+  wishlistData,
 }: {
   jobId: string;
   interviewData: IInterviewData;
   appliedData: IAppliedData;
+  wishlistData?: IWishlistData;
 }) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectedInterview, setSelectedInterview] =
@@ -96,9 +101,9 @@ const InterviewSection = ({
       </div>
 
       <SectionDivider
-        icon={CalendarCheck}
-        title="Your Interviews"
-        description="Track each round below."
+        icon={FileUser}
+        title="Applied Details"
+        description="Check your previous notes."
       />
 
       <Collapsible>
@@ -113,6 +118,27 @@ const InterviewSection = ({
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2">
           <AppliedDataDisplay appliedData={appliedData} />
+        </CollapsibleContent>
+      </Collapsible>
+
+      <SectionDivider
+        icon={BookOpen}
+        title="Wishlist Details"
+        description="Check your previous notes."
+      />
+
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <button className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors group">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Wishlist Details</span>
+            </div>
+            <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <WishlistDataDisplay wishlistData={wishlistData} />
         </CollapsibleContent>
       </Collapsible>
 

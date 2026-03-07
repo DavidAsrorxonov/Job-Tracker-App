@@ -131,185 +131,193 @@ const InterviewDetailsSheet = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-2xl overflow-y-auto px-6">
-        <SheetHeader className="mb-6 border-b border-border">
+      <SheetContent className="w-full sm:max-w-2xl p-0 flex flex-col h-screen">
+        <SheetHeader className="px-6 py-4 border-b border-border shrink-0">
           <SheetTitle>
             {isEditingMode ? "Edit Interview" : "Add Interview"}
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-5 mt-2">
-          <FormField label="Interview Type">
-            <Select
-              value={data.type}
-              onValueChange={(v) =>
-                updateData((p) => ({
-                  ...p,
-                  type: v as SingleInterview["type"],
-                }))
-              }
-            >
-              <SelectTrigger className="text-sm">
-                <SelectValue placeholder="Select Interview Type" />
-              </SelectTrigger>
-              <SelectContent>
-                {typeOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    <div className="flex items-center gap-2">
-                      <opt.icon className="h-3.5 w-3.5" />
-                      {opt.label}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
+        <div className="flex-1 overflow-y-auto px-6 py-4 overscroll-contain">
+          <div className="space-y-5">
+            <FormField label="Interview Type">
+              <Select
+                value={data.type}
+                onValueChange={(v) =>
+                  updateData((p) => ({
+                    ...p,
+                    type: v as SingleInterview["type"],
+                  }))
+                }
+              >
+                <SelectTrigger className="text-sm">
+                  <SelectValue placeholder="Select Interview Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {typeOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      <div className="flex items-center gap-2">
+                        <opt.icon className="h-3.5 w-3.5" />
+                        {opt.label}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormField>
 
-          <FormField label="Interviewer">
-            <Input
-              value={data.interviewer ?? ""}
-              onChange={(e) =>
-                updateData((p) => ({ ...p, interviewer: e.target.value }))
-              }
-              placeholder="e.g. John Smith (Engineering Manager)"
-              className="text-sm"
-            />
-          </FormField>
+            <FormField label="Interviewer">
+              <Input
+                value={data.interviewer ?? ""}
+                onChange={(e) =>
+                  updateData((p) => ({ ...p, interviewer: e.target.value }))
+                }
+                placeholder="e.g. John Smith (Engineering Manager)"
+                className="text-sm"
+              />
+            </FormField>
 
-          <div className="grid grid-cols-2 gap-3">
-            <DatePickerField
-              label="Scheduled Date"
-              value={
-                data.scheduledDate ? new Date(data.scheduledDate) : undefined
-              }
-              onChange={(d) => updateData((p) => ({ ...p, scheduledDate: d }))}
-            />
-            <DatePickerField
-              label="Completed Date"
-              value={
-                data.completedDate ? new Date(data.completedDate) : undefined
-              }
-              onChange={(d) => updateData((p) => ({ ...p, completedDate: d }))}
-            />
-          </div>
-
-          <FormField label="Duration (minutes)">
-            <Input
-              type="number"
-              value={data.duration ?? ""}
-              onChange={(e) =>
-                updateData((p) => ({
-                  ...p,
-                  duration: e.target.value ? Number(e.target.value) : undefined,
-                }))
-              }
-              placeholder="e.g. 60"
-              className="text-sm"
-            />
-          </FormField>
-
-          <Separator />
-
-          <FormField label="Outcome">
-            <Select
-              value={data.outcome ?? ""}
-              onValueChange={(v) =>
-                updateData((p) => ({
-                  ...p,
-                  outcome: v as SingleInterview["outcome"],
-                }))
-              }
-            >
-              <SelectTrigger className="text-sm">
-                <SelectValue placeholder="Select outcome" />
-              </SelectTrigger>
-              <SelectContent>
-                {outcomeOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
-
-          <FormField label="Rating">
-            <div className="flex items-center gap-2">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() =>
-                    updateData((p) => ({
-                      ...p,
-                      rating: p.rating === i + 1 ? undefined : i + 1,
-                    }))
-                  }
-                  className={cn(
-                    "h-7 w-7 rounded-full border transition-all text-xs font-semibold",
-                    (data.rating ?? 0) > i
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border text-muted-foreground hover:border-primary/50",
-                  )}
-                >
-                  {i + 1}
-                </button>
-              ))}
-              {data.rating && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    updateData((p) => ({ ...p, rating: undefined }))
-                  }
-                  className="text-xs text-muted-foreground hover:text-destructive ml-1"
-                >
-                  Clear
-                </button>
-              )}
+            <div className="grid grid-cols-2 gap-3">
+              <DatePickerField
+                label="Scheduled Date"
+                value={
+                  data.scheduledDate ? new Date(data.scheduledDate) : undefined
+                }
+                onChange={(d) =>
+                  updateData((p) => ({ ...p, scheduledDate: d }))
+                }
+              />
+              <DatePickerField
+                label="Completed Date"
+                value={
+                  data.completedDate ? new Date(data.completedDate) : undefined
+                }
+                onChange={(d) =>
+                  updateData((p) => ({ ...p, completedDate: d }))
+                }
+              />
             </div>
-          </FormField>
 
-          <Separator />
+            <FormField label="Duration (minutes)">
+              <Input
+                type="number"
+                value={data.duration ?? ""}
+                onChange={(e) =>
+                  updateData((p) => ({
+                    ...p,
+                    duration: e.target.value
+                      ? Number(e.target.value)
+                      : undefined,
+                  }))
+                }
+                placeholder="e.g. 60"
+                className="text-sm"
+              />
+            </FormField>
 
-          <FormField label="Questions Asked">
-            <ListEditor
-              items={data.questionsAsked ?? []}
-              onAdd={(value) =>
-                updateData((p) => ({
-                  ...p,
-                  questionsAsked: [...(p.questionsAsked ?? []), value],
-                }))
-              }
-              onRemove={(index) =>
-                updateData((p) => ({
-                  ...p,
-                  questionsAsked: (p.questionsAsked ?? []).filter(
-                    (_, i) => i !== index,
-                  ),
-                }))
-              }
-              placeholder="e.g. Design a URL shortener"
-            />
-          </FormField>
+            <Separator />
 
-          <Separator />
+            <FormField label="Outcome">
+              <Select
+                value={data.outcome ?? ""}
+                onValueChange={(v) =>
+                  updateData((p) => ({
+                    ...p,
+                    outcome: v as SingleInterview["outcome"],
+                  }))
+                }
+              >
+                <SelectTrigger className="text-sm">
+                  <SelectValue placeholder="Select outcome" />
+                </SelectTrigger>
+                <SelectContent>
+                  {outcomeOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormField>
 
-          <FormField label="Notes">
-            <Textarea
-              value={data.notes ?? ""}
-              onChange={(e) =>
-                updateData((p) => ({ ...p, notes: e.target.value }))
-              }
-              placeholder="How did it go? Any observations or things to remember..."
-              className="min-h-28 text-sm resize-none"
-            />
-          </FormField>
+            <FormField label="Rating">
+              <div className="flex items-center gap-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() =>
+                      updateData((p) => ({
+                        ...p,
+                        rating: p.rating === i + 1 ? undefined : i + 1,
+                      }))
+                    }
+                    className={cn(
+                      "h-7 w-7 rounded-full border transition-all text-xs font-semibold",
+                      (data.rating ?? 0) > i
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border text-muted-foreground hover:border-primary/50",
+                    )}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                {data.rating && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      updateData((p) => ({ ...p, rating: undefined }))
+                    }
+                    className="text-xs text-muted-foreground hover:text-destructive ml-1"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </FormField>
+
+            <Separator />
+
+            <FormField label="Questions Asked">
+              <ListEditor
+                items={data.questionsAsked ?? []}
+                onAdd={(value) =>
+                  updateData((p) => ({
+                    ...p,
+                    questionsAsked: [...(p.questionsAsked ?? []), value],
+                  }))
+                }
+                onRemove={(index) =>
+                  updateData((p) => ({
+                    ...p,
+                    questionsAsked: (p.questionsAsked ?? []).filter(
+                      (_, i) => i !== index,
+                    ),
+                  }))
+                }
+                placeholder="e.g. Design a URL shortener"
+              />
+            </FormField>
+
+            <Separator />
+
+            <FormField label="Notes">
+              <Textarea
+                value={data.notes ?? ""}
+                onChange={(e) =>
+                  updateData((p) => ({ ...p, notes: e.target.value }))
+                }
+                placeholder="How did it go? Any observations or things to remember..."
+                className="min-h-28 text-sm resize-none"
+              />
+            </FormField>
+          </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-end gap-2 pb-10">
+        <div className="border-t border-border px-6 py-4 shrink-0 flex items-center justify-end gap-2">
           <Button
-            variant={"outline"}
-            size={"sm"}
+            variant="outline"
+            size="sm"
             onClick={() => onOpenChange(false)}
             disabled={saving}
           >

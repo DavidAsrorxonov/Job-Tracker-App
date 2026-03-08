@@ -2,10 +2,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IOfferData } from "@/lib/models/job-application";
-import { CalendarDays, Clock, Rocket } from "lucide-react";
+import { CalendarDays, Clock, Rocket, Tag, X } from "lucide-react";
 import { useState } from "react";
 import DatePickerField from "../_interviewing/_components/date-picker-field";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 type OfferPanelProps = {
   data: IOfferData;
@@ -112,6 +113,35 @@ const OfferDetailsPanel = ({ data, updateData }: OfferPanelProps) => {
         </Section>
 
         <Separator />
+
+        <Section icon={Tag} title="Benefits">
+          <div className="space-y-2">
+            {(data.benefits ?? []).length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {(data.benefits ?? []).map((benefit, i) => (
+                  <Badge
+                    key={i}
+                    variant={"outline"}
+                    className="text-xs font-normal gap-1 pr-1"
+                  >
+                    {benefit}
+                    <button
+                      type="button"
+                      onClick={() => removeBenefit(i)}
+                      className="ml-0.5 hover:text-destructive transition-colors"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">
+                No benefits added yet.
+              </p>
+            )}
+          </div>
+        </Section>
       </CardContent>
     </Card>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IOfferData } from "@/lib/models/job-application";
 import { ThumbsDown, ThumbsUp } from "lucide-react";

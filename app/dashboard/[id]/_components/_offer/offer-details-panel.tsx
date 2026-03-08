@@ -2,11 +2,22 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IOfferData } from "@/lib/models/job-application";
-import { CalendarDays, Clock, Rocket, Tag, X } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  MessageSquare,
+  Plus,
+  Rocket,
+  Tag,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import DatePickerField from "../_interviewing/_components/date-picker-field";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 type OfferPanelProps = {
   data: IOfferData;
@@ -140,7 +151,44 @@ const OfferDetailsPanel = ({ data, updateData }: OfferPanelProps) => {
                 No benefits added yet.
               </p>
             )}
+            <div className="flex items-center gap-2">
+              <Input
+                value={benefitInput}
+                onChange={(e) => setBenefitInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addBenefit();
+                  }
+                }}
+                placeholder="e.g. Health insurance, 401k, Remote..."
+                className="h-8 text-sm"
+              />
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="h-8 shrink-0"
+                onClick={addBenefit}
+                disabled={!benefitInput.trim()}
+              >
+                <Plus className="h-3.5 w-3.5" />
+              </Button>
+            </div>
           </div>
+        </Section>
+
+        <Separator />
+
+        <Section icon={MessageSquare} title="Negotiation Notes">
+          <Textarea
+            value={data.negotiationNotes ?? ""}
+            onChange={(e) =>
+              updateData((p) => ({ ...p, negotiationNotes: e.target.value }))
+            }
+            placeholder="What did you negotiate? Counter offers, responses, anything worth noting..."
+            className="min-h-24 text-sm resize-none"
+          />
         </Section>
       </CardContent>
     </Card>

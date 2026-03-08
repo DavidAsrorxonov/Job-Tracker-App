@@ -26,7 +26,7 @@ const ProsAndConsPanel = ({ data, updateData }: OfferPanelProps) => {
       </CardHeader>
 
       <CardContent className="px-6 py-5">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-[1fr_auto_1fr] sm:items-start">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-600">
               <ThumbsUp className="h-3.5 w-3.5" />
@@ -59,7 +59,10 @@ const ProsAndConsPanel = ({ data, updateData }: OfferPanelProps) => {
             />
           </div>
 
-          <Separator orientation="vertical" className="hidden sm:block" />
+          <Separator
+            orientation="vertical"
+            className="hidden h-auto sm:block"
+          />
 
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-destructive/80">

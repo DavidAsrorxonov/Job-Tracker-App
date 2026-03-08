@@ -10,6 +10,7 @@ import { IInterviewData } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
+  ArrowRight,
   BookOpen,
   Brain,
   CalendarDays,
@@ -255,6 +256,60 @@ const InterviewDataDisplay = ({
                     </p>
                   </Row>
                 )}
+                {interviewData.questionsToAsk?.length ? (
+                  <Row icon={HelpCircle} label="Questions">
+                    <ul className="space-y-1">
+                      {interviewData.questionsToAsk.map((q, i) => (
+                        <li
+                          key={i}
+                          className="text-sm text-foreground/80 flex items-start gap-1.5"
+                        >
+                          <span className="text-muted-foreground shrink-0">
+                            ·
+                          </span>
+                          {q}
+                        </li>
+                      ))}
+                    </ul>
+                  </Row>
+                ) : null}
+                {interviewData.technicalTopics?.length ? (
+                  <Row icon={Code2} label="Topics">
+                    <div className="flex flex-wrap gap-1.5">
+                      {interviewData.technicalTopics.map((t, i) => (
+                        <Badge
+                          key={i}
+                          variant="secondary"
+                          className="text-xs font-normal"
+                        >
+                          {t}
+                        </Badge>
+                      ))}
+                    </div>
+                  </Row>
+                ) : null}
+                {interviewData.nextSteps && (
+                  <Row icon={ArrowRight} label="Next Steps">
+                    <p className="text-sm text-foreground/80">
+                      {interviewData.nextSteps}
+                    </p>
+                  </Row>
+                )}
+              </div>
+            )}
+
+            {hasInterviews && (
+              <div className="px-4 py-4 space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+                  Interviews
+                </p>
+                {interviewData.interviews.map((interview, index) => (
+                  <SingleInterviewCollapsible
+                    key={interview._id?.toString() ?? index}
+                    interview={interview}
+                    index={index}
+                  />
+                ))}
               </div>
             )}
           </div>

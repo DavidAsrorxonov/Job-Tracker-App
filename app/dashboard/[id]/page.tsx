@@ -78,7 +78,7 @@ export default async function JobDetails({
             />
           )}
 
-          <div className="max-w-md">
+          <div className="w-full max-w-md self-start sticky top-32 h-fit">
             <NotesAndDescriptionPanel
               description={data.description}
               notes={data.notes}

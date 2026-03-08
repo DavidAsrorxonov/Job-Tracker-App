@@ -1,7 +1,11 @@
 "use client";
 
 import SectionDivider from "@/components/section-divider";
-import { IOfferData, IWishlistData } from "@/lib/models/job-application";
+import {
+  IInterviewData,
+  IOfferData,
+  IWishlistData,
+} from "@/lib/models/job-application";
 import { useState } from "react";
 import { toast } from "sonner";
 import OfferOverviewPanel from "./offer-overview-panel";
@@ -12,6 +16,7 @@ import {
   DollarSign,
   FileUser,
   ListChecks,
+  Podcast,
   Scale,
   Trophy,
 } from "lucide-react";
@@ -28,17 +33,20 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import InterviewDataDisplay from "../_interviewing/interview-data-display";
 
 const OfferSection = ({
   jobId,
   offerData,
   appliedData,
   wishlistData,
+  interviewData,
 }: {
   jobId: string;
   offerData?: IOfferData;
   appliedData?: IAppliedData;
   wishlistData?: IWishlistData;
+  interviewData?: IInterviewData;
 }) => {
   const [saving, setSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -114,6 +122,14 @@ const OfferSection = ({
         description="What's your final call?"
       />
       <DecisionPanel data={data} updateData={updateData} />
+
+      <SectionDivider
+        icon={Podcast}
+        title="Interview Details"
+        description="Your interview notes are below."
+      />
+
+      <InterviewDataDisplay interviewData={interviewData} />
 
       <SectionDivider
         icon={FileUser}

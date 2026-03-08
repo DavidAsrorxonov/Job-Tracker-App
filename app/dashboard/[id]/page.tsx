@@ -78,6 +78,7 @@ export default async function JobDetails({
               offerData={data.offerData}
               appliedData={data.appliedData}
               wishlistData={data.wishlistData}
+              interviewData={data.interviewData}
             />
           )}
 

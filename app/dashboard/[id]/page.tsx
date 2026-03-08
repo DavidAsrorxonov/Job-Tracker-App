@@ -5,9 +5,12 @@ import NotesAndDescriptionPanel from "./_components/notes-and-desc-panel";
 import WishlistPanel from "./_components/_wishlist/wishlist-panel";
 import AppliedPanel from "./_components/_applied/applied-panel";
 import WishlistDataDisplay from "./_components/_wishlist/wishlist-data-display";
-import WishlistReminderBanner from "./_components/_wishlist/wishlist-reminder-banner";
 import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
 import { UserDoc } from "@/types/user-documents";
+import InterviewSection from "./_components/_interviewing/interview-section";
+import SectionDivider from "@/components/section-divider";
+import { BookOpen, Route } from "lucide-react";
+import AppliedSection from "./_components/_applied/applied-section";
 
 export default async function JobDetails({
   params,
@@ -48,16 +51,23 @@ export default async function JobDetails({
           )}
 
           {(data.status === "applied" || data.status === "Applied") && (
+            <AppliedSection
+              jobId={data._id}
+              appliedData={data.appliedData}
+              wishlistData={data.wishlistData}
+              cvDocs={cvDocs}
+            />
+          )}
+
+          {(data.status === "interviewing" ||
+            data.status === "Interviewing") && (
             <div className="w-full">
-              <AppliedPanel
+              <InterviewSection
                 jobId={data._id}
+                interviewData={data.interviewData}
                 appliedData={data.appliedData}
-                cvDocs={cvDocs}
+                wishlistData={data.wishlistData}
               />
-
-              <WishlistReminderBanner />
-
-              <WishlistDataDisplay wishlistData={data.wishlistData} />
             </div>
           )}
 

@@ -174,7 +174,8 @@ export default function AppliedPanel({
         ? new Date(appliedData.appliedDate)
         : new Date(),
       applicationMethod: appliedData?.applicationMethod,
-      resumeVersion: appliedData?.resumeVersion ?? defaultCV?._id ?? undefined, // ✅
+      resumeVersion:
+        appliedData?.resumeVersion ?? defaultCV?.originalName ?? undefined, // ✅
       coverLetterUsed: appliedData?.coverLetterUsed ?? false,
       referralContact: appliedData?.referralContact ?? "",
       followUpDates: normalizeDates(appliedData?.followUpDates as any),
@@ -201,7 +202,7 @@ export default function AppliedPanel({
         : new Date(),
       applicationMethod: appliedData?.applicationMethod,
       resumeVersion:
-        appliedData?.resumeVersion ?? defaultCV?._id?.toString() ?? undefined,
+        appliedData?.resumeVersion ?? defaultCV?.originalName ?? undefined,
       coverLetterUsed: appliedData?.coverLetterUsed ?? false,
       referralContact: appliedData?.referralContact ?? "",
       followUpDates: normalizeDates(appliedData?.followUpDates as any),
@@ -286,7 +287,7 @@ export default function AppliedPanel({
     }
   }
 
-  const selectedCv = cvDocs.find((d) => d._id === data.resumeVersion);
+  const selectedCv = cvDocs.find((d) => d.originalName === data.resumeVersion);
   const resumeLabel = selectedCv
     ? (selectedCv.originalName ??
       selectedCv.path.split("/").pop() ??
@@ -406,7 +407,13 @@ export default function AppliedPanel({
                 <Select
                   value={data.resumeVersion ?? ""}
                   onValueChange={(v) => {
-                    updateData((p) => ({ ...p, resumeVersion: v }));
+                    const selected = cvDocs.find(
+                      (doc) => doc._id.toString() === v,
+                    );
+                    updateData((p) => ({
+                      ...p,
+                      resumeVersion: selected?.originalName ?? v,
+                    }));
                     setEditing(null);
                   }}
                 >

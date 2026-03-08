@@ -9,7 +9,6 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
-import React from "react";
 
 const DatePickerField = ({
   label,

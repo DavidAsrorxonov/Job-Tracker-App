@@ -10,6 +10,7 @@ import OfferDetailsPanel from "./offer-details-panel";
 import ProsAndConsPanel from "./pros-and-cons-panel";
 import DecisionPanel from "./decision-panel";
 import { Button } from "@/components/ui/button";
+import { upsertOfferData } from "@/lib/actions/offer";
 
 const OfferSection = ({
   jobId,
@@ -30,7 +31,7 @@ const OfferSection = ({
   async function handleSave() {
     try {
       setSaving(true);
-      //   await upsertOfferData(jobId, data);
+      await upsertOfferData(jobId, data);
       setIsDirty(false);
       toast.success("Saved", {
         duration: 2000,

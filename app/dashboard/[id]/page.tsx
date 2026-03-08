@@ -11,6 +11,7 @@ import InterviewSection from "./_components/_interviewing/interview-section";
 import SectionDivider from "@/components/section-divider";
 import { BookOpen, Route } from "lucide-react";
 import AppliedSection from "./_components/_applied/applied-section";
+import OfferSection from "./_components/_offer/offer-section";
 
 export default async function JobDetails({
   params,
@@ -69,6 +70,10 @@ export default async function JobDetails({
                 wishlistData={data.wishlistData}
               />
             </div>
+          )}
+
+          {(data.status === "offer" || data.status === "Offer") && (
+            <OfferSection jobId={data._id} offerData={data.offerData} />
           )}
 
           <div className="max-w-md">

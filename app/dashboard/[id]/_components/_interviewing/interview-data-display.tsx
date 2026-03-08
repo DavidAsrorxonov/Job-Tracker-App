@@ -45,6 +45,26 @@ const outcomeConfig = {
   },
 };
 
+function Row({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ElementType;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-3 text-sm">
+      <div className="flex items-center gap-2 w-32 shrink-0 text-muted-foreground">
+        <Icon className="h-3.5 w-3.5 shrink-0" />
+        <span className="text-xs">{label}</span>
+      </div>
+      <div className="flex-1 text-foreground">{children}</div>
+    </div>
+  );
+}
+
 const InterviewDataDisplay = ({
   interviewData,
 }: {

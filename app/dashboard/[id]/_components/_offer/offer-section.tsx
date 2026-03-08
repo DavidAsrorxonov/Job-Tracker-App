@@ -68,8 +68,8 @@ const OfferSection = ({
 
       <SectionDivider
         icon={DollarSign}
-        title="Compensation"
-        description="Salary, equity and bonus breakdown."
+        title="Got an offer, huh?"
+        description="Let's talk money.💰"
       />
       <OfferOverviewPanel data={data} updateData={updateData} />
 

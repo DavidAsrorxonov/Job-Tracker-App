@@ -14,6 +14,7 @@ export async function upsertOfferData(jobId: string, data: IOfferData) {
     { _id: jobId, userId: session.user.id },
     { $set: { offerData: data, updatedAt: new Date() } },
   );
-  if (result.matchedCount === 0) throw new Error("Not found");
+  if (result.matchedCount === 0)
+    throw new Error("Job application not found or unauthorized");
   revalidatePath(`/dashboard/${jobId}`);
 }

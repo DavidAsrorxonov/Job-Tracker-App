@@ -60,7 +60,7 @@ const DecisionPanel = ({ data, updateData }: OfferPanelProps) => {
     <Card className="w-full shadow-sm border-border/60">
       <CardHeader className="border-b border-border/50 bg-muted/30 px-6 py-4">
         <div className="flex items-center justify-between gap-3">
-          <div className="space-y-0 5">
+          <div className="space-y-0.5">
             <CardTitle className="text-base font-semibold tracking-tight">
               Decision
             </CardTitle>

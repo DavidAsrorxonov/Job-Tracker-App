@@ -103,7 +103,7 @@ const InterviewSection = ({
       <SectionDivider
         icon={FileUser}
         title="Applied Details"
-        description="Check your previous notes."
+        description="Track how and when you applied."
       />
 
       <Collapsible>
@@ -124,7 +124,7 @@ const InterviewSection = ({
       <SectionDivider
         icon={BookOpen}
         title="Wishlist Details"
-        description="Check your previous notes."
+        description="Your wishlist notes are below."
       />
 
       <Collapsible>

@@ -22,7 +22,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { upsertAppliedData } from "@/lib/actions/applied";
 import { normalizeDates } from "@/lib/helper/normalizeDates";
-import { IUserDocuments } from "@/lib/models/user-documents";
 import { cn } from "@/lib/utils";
 import { UserDoc } from "@/types/user-documents";
 import { format, isBefore, isSameDay, startOfDay, addDays } from "date-fns";
@@ -39,7 +38,7 @@ import {
   MessageSquare,
   Bell,
 } from "lucide-react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export interface IAppliedData {

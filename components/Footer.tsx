@@ -1,17 +1,12 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { useRouter } from "next/navigation";
 import SpotlightFooter from "./effects/spotlight-footer";
 import Link from "next/link";
 
 const Footer = () => {
-  const router = useRouter();
-
   return (
     <footer className="relative w-full overflow-hidden">
       <Card className="rounded-none border-none">

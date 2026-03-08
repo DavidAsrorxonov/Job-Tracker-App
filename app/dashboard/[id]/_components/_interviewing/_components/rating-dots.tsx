@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import React from "react";
 
 const RatingDots = ({ rating }: { rating?: number }) => {
   if (!rating) return null;

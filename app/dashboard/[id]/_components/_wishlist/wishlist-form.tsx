@@ -276,7 +276,7 @@ export default function WishlistForm({
           }
         />
         <ChipInput
-          label="Gaps"
+          label="Gaps (Skills the job needs that you don't have yet)"
           value={values.requirementsMatch?.gaps ?? []}
           onChange={(next) =>
             setValues((p) => ({

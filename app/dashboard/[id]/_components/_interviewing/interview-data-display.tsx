@@ -1,19 +1,29 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { IInterviewData } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
+  BookOpen,
   Brain,
+  CalendarDays,
   CheckCircle2,
   ChevronDown,
   Clock,
   Code2,
   HelpCircle,
+  MessageSquare,
+  NotebookPen,
   Phone,
+  Timer,
   Trophy,
+  User,
   UserCheck,
   XCircle,
 } from "lucide-react";
@@ -111,6 +121,77 @@ function SingleInterviewCollapsible({
           <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0" />
         </button>
       </CollapsibleTrigger>
+
+      <CollapsibleContent>
+        <div className="mt-2 ml-3 pl-3 border-l border-border/50 space-y-3 py-2">
+          {interview.interviewer && (
+            <Row icon={User} label="Interviewer">
+              <span className="text-sm">{interview.interviewer}</span>
+            </Row>
+          )}
+          {interview.scheduledDate && (
+            <Row icon={CalendarDays} label="Scheduled">
+              <span className="text-sm">
+                {format(new Date(interview.scheduledDate), "PPP")}
+              </span>
+            </Row>
+          )}
+          {interview.completedDate && (
+            <Row icon={CheckCircle2} label="Completed">
+              <span className="text-sm">
+                {format(new Date(interview.completedDate), "PPP")}
+              </span>
+            </Row>
+          )}
+          {interview.duration && (
+            <Row icon={Timer} label="Duration">
+              <span className="text-sm">{interview.duration} min</span>
+            </Row>
+          )}
+          {interview.rating && (
+            <Row icon={Trophy} label="Rating">
+              <div className="flex items-center gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={cn(
+                      "h-1.5 w-1.5 rounded-full",
+                      i < (interview.rating ?? 0)
+                        ? "bg-primary"
+                        : "bg-muted-foreground/20",
+                    )}
+                  />
+                ))}
+                <span className="text-xs text-muted-foreground ml-1">
+                  {interview.rating}/5
+                </span>
+              </div>
+            </Row>
+          )}
+          {interview.questionsAsked && interview.questionsAsked.length > 0 && (
+            <Row icon={HelpCircle} label="Questions">
+              <ul className="space-y-1">
+                {interview.questionsAsked.map((q, i) => (
+                  <li
+                    key={i}
+                    className="text-sm text-foreground/80 flex items-start gap-1.5"
+                  >
+                    <span className="text-muted-foreground shrink-0">·</span>
+                    {q}
+                  </li>
+                ))}
+              </ul>
+            </Row>
+          )}
+          {interview.notes?.trim() && (
+            <Row icon={MessageSquare} label="Notes">
+              <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
+                {interview.notes}
+              </p>
+            </Row>
+          )}
+        </div>
+      </CollapsibleContent>
     </Collapsible>
   );
 }
@@ -120,7 +201,67 @@ const InterviewDataDisplay = ({
 }: {
   interviewData?: IInterviewData;
 }) => {
-  return <div>InterviewDataDisplay</div>;
+  if (!interviewData) return null;
+
+  const hasGlobalData =
+    interviewData.prepNotes ||
+    interviewData.questionsToAsk?.length ||
+    interviewData.technicalTopics?.length ||
+    interviewData.nextSteps;
+
+  const hasInterviews = interviewData.interviews?.length > 0;
+  const hasAnyData = hasGlobalData || hasInterviews;
+
+  return (
+    <Collapsible>
+      <CollapsibleTrigger asChild>
+        <button className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors group">
+          <div className="flex items-center gap-2">
+            <NotebookPen className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm font-medium">Interview Notes</span>
+            {hasInterviews && (
+              <Badge variant="secondary" className="text-xs font-normal py-0">
+                {interviewData.interviews.length} interview
+                {interviewData.interviews.length > 1 ? "s" : ""}
+              </Badge>
+            )}
+          </div>
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+        </button>
+      </CollapsibleTrigger>
+
+      <CollapsibleContent className="mt-2">
+        {!hasAnyData ? (
+          <div className="px-4 py-8 flex flex-col items-center justify-center text-center gap-2 rounded-lg border border-dashed border-border/60">
+            <NotebookPen
+              className="h-10 w-10 text-muted-foreground/20"
+              strokeWidth={1}
+            />
+            <p className="text-sm text-muted-foreground">
+              No interview notes recorded.
+            </p>
+          </div>
+        ) : (
+          <div className="rounded-lg border border-border/60 bg-muted/10 divide-y divide-border/50">
+            {hasGlobalData && (
+              <div className="px-4 py-4 space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Prep Notes
+                </p>
+                {interviewData.prepNotes && (
+                  <Row icon={BookOpen} label="Notes">
+                    <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
+                      {interviewData.prepNotes}
+                    </p>
+                  </Row>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </CollapsibleContent>
+    </Collapsible>
+  );
 };
 
 export default InterviewDataDisplay;

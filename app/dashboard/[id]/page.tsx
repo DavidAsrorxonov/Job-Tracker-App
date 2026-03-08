@@ -73,7 +73,12 @@ export default async function JobDetails({
           )}
 
           {(data.status === "offer" || data.status === "Offer") && (
-            <OfferSection jobId={data._id} offerData={data.offerData} />
+            <OfferSection
+              jobId={data._id}
+              offerData={data.offerData}
+              appliedData={data.appliedData}
+              wishlistData={data.wishlistData}
+            />
           )}
 
           <div className="max-w-md">

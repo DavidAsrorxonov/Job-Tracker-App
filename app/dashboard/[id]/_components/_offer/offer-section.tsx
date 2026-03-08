@@ -1,23 +1,44 @@
 "use client";
 
 import SectionDivider from "@/components/section-divider";
-import { IOfferData } from "@/lib/models/job-application";
+import { IOfferData, IWishlistData } from "@/lib/models/job-application";
 import { useState } from "react";
 import { toast } from "sonner";
 import OfferOverviewPanel from "./offer-overview-panel";
-import { DollarSign, ListChecks, Scale, Trophy } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  ChevronDown,
+  DollarSign,
+  FileUser,
+  ListChecks,
+  Scale,
+  Trophy,
+} from "lucide-react";
 import OfferDetailsPanel from "./offer-details-panel";
 import ProsAndConsPanel from "./pros-and-cons-panel";
 import DecisionPanel from "./decision-panel";
 import { Button } from "@/components/ui/button";
 import { upsertOfferData } from "@/lib/actions/offer";
+import AppliedDataDisplay from "../_applied/applied-data-display";
+import { IAppliedData } from "../_applied/applied-panel";
+import WishlistDataDisplay from "../_wishlist/wishlist-data-display";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const OfferSection = ({
   jobId,
   offerData,
+  appliedData,
+  wishlistData,
 }: {
   jobId: string;
   offerData?: IOfferData;
+  appliedData?: IAppliedData;
+  wishlistData?: IWishlistData;
 }) => {
   const [saving, setSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -93,6 +114,48 @@ const OfferSection = ({
         description="What's your final call?"
       />
       <DecisionPanel data={data} updateData={updateData} />
+
+      <SectionDivider
+        icon={FileUser}
+        title="Applied Details"
+        description="Track how and when you applied"
+      />
+
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <button className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors group">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Applied Details</span>
+            </div>
+            <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <AppliedDataDisplay appliedData={appliedData} />
+        </CollapsibleContent>
+      </Collapsible>
+
+      <SectionDivider
+        icon={BookOpen}
+        title="Wishlist"
+        description="Your wishlist notes are below."
+      />
+
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <button className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors group">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Wishlist Details</span>
+            </div>
+            <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <WishlistDataDisplay wishlistData={wishlistData} />
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 };

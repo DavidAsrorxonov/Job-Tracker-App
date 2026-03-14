@@ -2,13 +2,15 @@ import { getJobApplicationById } from "@/lib/actions/job-applications";
 import { ITimelineEntry } from "@/lib/models/job-application";
 import { differenceInDays } from "date-fns";
 import { notFound } from "next/navigation";
+import TimelineFeed from "./_components/timeline-feed";
 
 export default async function TimelinePage({
   params,
 }: {
   params: { id: string };
 }) {
-  const job = await getJobApplicationById(params.id);
+  const { id } = await params;
+  const job = await getJobApplicationById(id);
   if (!job) notFound();
 
   const timeline: ITimelineEntry[] = (job.data.timeline ?? [])
@@ -57,6 +59,7 @@ export default async function TimelinePage({
           },
           { label: "Stage Changes", value: statusChanges },
           { label: "Interviews", value: interviews },
+          { label: "Follow Ups", value: followUps },
         ].map(({ label, value }) => (
           <div
             key={label}
@@ -68,7 +71,7 @@ export default async function TimelinePage({
         ))}
       </div>
 
-      {/* <TimelineFeed timeline={timeline} /> */}
+      <TimelineFeed timeline={timeline} />
     </div>
   );
 }

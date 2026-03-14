@@ -69,7 +69,7 @@ const RejectionMotivationBanner = () => {
 
       <div className="flex flex-col items-center gap-2">
         <p className="text-xs text-muted-foreground">
-          Keep going. The right opportunity is out there.
+          Keep going. The right opportunity is out there!
         </p>
         <Button
           variant="outline"

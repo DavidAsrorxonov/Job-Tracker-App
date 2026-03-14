@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Job Tracker | Upload Documents",
+  title: "Ascendio | Upload Documents",
   description: "Upload documents for job applications",
 };
 

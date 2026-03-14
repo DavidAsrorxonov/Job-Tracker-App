@@ -100,13 +100,7 @@ export interface ITimelineEntry {
   date: Date;
   action: string;
   description?: string;
-  type:
-    | "status_change"
-    | "interview"
-    | "follow_up"
-    | "note"
-    | "document"
-    | "other";
+  type: "status_change" | "interview" | "follow_up" | "other";
   automated?: boolean;
 }
 
@@ -145,14 +139,7 @@ const TimelineEntrySchema = new Schema<ITimelineEntry>(
     description: String,
     type: {
       type: String,
-      enum: [
-        "status_change",
-        "interview",
-        "follow_up",
-        "note",
-        "document",
-        "other",
-      ],
+      enum: ["status_change", "interview", "follow_up", "other"],
       default: "other",
     },
     automated: { type: Boolean, default: false },

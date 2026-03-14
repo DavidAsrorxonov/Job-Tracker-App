@@ -5,6 +5,15 @@ import connectDB from "../db";
 import { JobApplication } from "../models";
 import { revalidatePath } from "next/cache";
 
+const typeLabel: Record<string, string> = {
+  phone_screen: "Phone Screen",
+  technical: "Technical",
+  behavioral: "Behavioral",
+  hiring_manager: "Hiring Manager",
+  final: "Final Round",
+  other: "Other",
+};
+
 export async function upsertInterviewPrepData(
   jobId: string,
   data: {

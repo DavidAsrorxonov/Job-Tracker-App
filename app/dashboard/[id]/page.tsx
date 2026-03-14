@@ -8,6 +8,7 @@ import { UserDoc } from "@/types/user-documents";
 import InterviewSection from "./_components/_interviewing/interview-section";
 import AppliedSection from "./_components/_applied/applied-section";
 import OfferSection from "./_components/_offer/offer-section";
+import RejectedSection from "./_components/_rejected/rejection-section";
 
 export default async function JobDetails({
   params,
@@ -75,6 +76,13 @@ export default async function JobDetails({
               appliedData={data.appliedData}
               wishlistData={data.wishlistData}
               interviewData={data.interviewData}
+            />
+          )}
+
+          {(data.status === "rejected" || data.status === "Rejected") && (
+            <RejectedSection
+              jobId={data._id}
+              rejectedData={data.rejectedData}
             />
           )}
 

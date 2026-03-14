@@ -10,6 +10,7 @@ import { Badge } from "./ui/badge";
 const Hero = () => {
   return (
     <section className="relative w-full py-32">
+      <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       <motion.div
         className="absolute inset-0 pointer-events-none -z-10"
         initial={{ opacity: 0 }}
@@ -38,7 +39,7 @@ const Hero = () => {
           Capture, organize and manage your job search in one place
         </p>
         <div className="flex flex-col items-center gap-4">
-          <Link href={"/sign-up"}>
+          <Link href={"/sign-in"}>
             <Button size="lg" className="h-12 px-8 text-lg font-medium">
               Start for free
               <ArrowRightIcon className="ml-2" />

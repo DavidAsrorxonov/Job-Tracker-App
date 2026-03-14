@@ -100,13 +100,13 @@ const Footer = () => {
               <h2
                 className="
                   text-center font-extrabold uppercase leading-none
-                  tracking-tighter text-primary
+                  tracking-widest text-primary
                   whitespace-nowrap
                   text-[clamp(2.5rem,12vw,10rem)]
                   select-none
                 "
               >
-                JOB TRACKER
+                ASCENDIO
               </h2>
             </div>
             <SpotlightFooter

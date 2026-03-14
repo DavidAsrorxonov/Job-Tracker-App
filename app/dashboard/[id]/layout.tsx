@@ -3,7 +3,7 @@ import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
 
 export const metadata: Metadata = {
-  title: "Job Tracker | Job Details Dashboard",
+  title: "Ascendio | Job Details Dashboard",
   description: "Job details dashboard for job applications",
 };
 

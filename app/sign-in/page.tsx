@@ -1,71 +1,36 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import { GoogleIcon } from "@/components/google-icon";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/auth/auth-client";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setError("");
+  const handleGoogleSignIn = async () => {
     setLoading(true);
-
     try {
-      const result = await signIn.email({
-        email,
-        password,
+      await signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
       });
-
-      if (result.error) {
-        toast.error("Failed to sign in", {
-          position: "top-center",
-          description: result.error.message ?? "Please try again",
-          duration: 2000,
-        });
-        setError(result.error.message ?? "Failed to sign in");
-      } else {
-        toast.success("Successfully signed in", {
-          position: "top-center",
-          description: "Redirecting to dashboard...",
-          duration: 1000,
-        });
-        router.refresh();
-        router.push("/dashboard");
-
-        setEmail("");
-        setPassword("");
-      }
     } catch (error) {
-      setError("An unexpected error has occurred");
-      toast("Error signing in", {
-        duration: 2000,
+      toast.error("Failed to sign in", {
         position: "top-center",
         description: "Please try again",
+        duration: 2000,
       });
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -73,63 +38,43 @@ const SignIn = () => {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-primary">
-            Sign In
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Enter your credentials to access your account
-          </CardDescription>
+      <Card className="w-full max-w-lg shadow-lg">
+        <CardHeader className="items-center text-center space-y-3">
+          <CardTitle>Welcome to</CardTitle>
+          <div className="w-full flex items-center justify-center">
+            <Image
+              src={"/images/ascendio-glowing-cropped.png"}
+              alt="Ascendio"
+              width={300}
+              height={300}
+            />
+          </div>
+          <div>
+            <CardDescription className="mt-1">
+              Sign in to manage your applications
+            </CardDescription>
+          </div>
         </CardHeader>
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <CardContent className="space-y-4">
-            {error && <Badge variant={"destructive"}>{error}</Badge>}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="johndoe@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="John Doe"
-                required
-                minLength={8}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary/90"
-              disabled={loading}
-            >
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              New here?
-              <Link
-                href={"/sign-up"}
-                className="font-medium text-primary hover:underline"
-              >
-                {" "}
-                Sign Up
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
+        <CardContent className="space-y-4">
+          <Button
+            variant="outline"
+            className="w-full gap-2"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
+            {loading ? (
+              "Redirecting..."
+            ) : (
+              <>
+                <GoogleIcon />
+                Continue with Google
+              </>
+            )}
+          </Button>
+          <p className="text-center text-xs text-muted-foreground">
+            By continuing, you agree to our terms of service and privacy policy.
+          </p>
+        </CardContent>
       </Card>
     </div>
   );

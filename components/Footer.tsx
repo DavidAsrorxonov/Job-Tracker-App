@@ -106,7 +106,7 @@ const Footer = () => {
                   select-none
                 "
               >
-                JOB TRACKER
+                ASCENDIO
               </h2>
             </div>
             <SpotlightFooter

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Quote } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 const quotes = [
   {
@@ -51,10 +51,10 @@ const quotes = [
 const RejectionMotivationBanner = () => {
   const router = useRouter();
 
-  const quote = useMemo(
-    () => quotes[Math.floor(Math.random() * quotes.length)],
-    [],
-  );
+  const [quote, setQuote] = useState(quotes[0]);
+  useEffect(() => {
+    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+  }, []);
 
   return (
     <div className="w-full rounded-xl border border-border/60 bg-muted/20 px-8 py-8 flex flex-col items-center text-center gap-6">

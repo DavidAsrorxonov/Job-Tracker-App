@@ -17,7 +17,8 @@ export async function upsertRejectedData(jobId: string, data: any) {
     { $set: { rejectedData: data, updatedAt: new Date() } },
   );
 
-  if (result.matchedCount === 0) throw new Error("Not found");
+  if (result.matchedCount === 0)
+    throw new Error("Job application not found or unauthorized");
 
   revalidatePath(`/dashboard/${jobId}`);
 }

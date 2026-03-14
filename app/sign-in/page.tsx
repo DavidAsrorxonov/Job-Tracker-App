@@ -19,21 +19,20 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
-    try {
-      await signIn.social({
-        provider: "google",
-        callbackURL: "/dashboard",
-      });
-    } catch (error) {
+    const { error } = await signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+
+    if (error) {
       toast.error("Failed to sign in", {
         position: "top-center",
-        description: "Please try again",
+        description: "Something went wrong. Please try again",
         duration: 2000,
       });
       console.error(error);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (

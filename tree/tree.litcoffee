@@ -2,6 +2,8 @@
 
 **Generated:** 3/15/2026, 3:19:20 AM
 
+**v1.0.0**
+
 ```
 ├── 📁 .github
 │   └── 📁 workflows

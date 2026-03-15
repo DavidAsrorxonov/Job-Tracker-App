@@ -4,50 +4,62 @@ import { ITimelineEntry } from "@/lib/models/job-application";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday, formatDistanceToNow } from "date-fns";
-import { GitBranch, Bell, CalendarDays, Zap, Activity } from "lucide-react";
+import {
+  GitBranch,
+  Bell,
+  CalendarDays,
+  Zap,
+  Activity,
+  Clock3,
+} from "lucide-react";
 
 const typeConfig: Record<
   ITimelineEntry["type"],
   {
     icon: React.ElementType;
-    gradient: string;
+    label: string;
+    dot: string;
     glow: string;
     badgeClass: string;
-    label: string;
-    lineColor: string;
+    accentLine: string;
+    softBg: string;
   }
 > = {
   status_change: {
     icon: GitBranch,
-    gradient: "from-blue-500 to-cyan-400",
-    glow: "shadow-blue-500/40",
-    badgeClass: "border-blue-500/30 text-blue-400 bg-blue-500/10",
     label: "Stage Change",
-    lineColor: "from-blue-500/40 to-transparent",
+    dot: "bg-blue-500",
+    glow: "shadow-[0_0_0_6px_rgba(59,130,246,0.12)]",
+    badgeClass: "border-blue-500/20 bg-blue-500/10 text-blue-400",
+    accentLine: "from-blue-500/70 to-blue-500/0",
+    softBg: "from-blue-500/10 via-blue-500/5 to-transparent",
   },
   interview: {
     icon: CalendarDays,
-    gradient: "from-emerald-500 to-teal-400",
-    glow: "shadow-emerald-500/40",
-    badgeClass: "border-emerald-500/30 text-emerald-400 bg-emerald-500/10",
     label: "Interview",
-    lineColor: "from-emerald-500/40 to-transparent",
+    dot: "bg-emerald-500",
+    glow: "shadow-[0_0_0_6px_rgba(16,185,129,0.12)]",
+    badgeClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-400",
+    accentLine: "from-emerald-500/70 to-emerald-500/0",
+    softBg: "from-emerald-500/10 via-emerald-500/5 to-transparent",
   },
   follow_up: {
     icon: Bell,
-    gradient: "from-amber-500 to-orange-400",
-    glow: "shadow-amber-500/40",
-    badgeClass: "border-amber-500/30 text-amber-400 bg-amber-500/10",
     label: "Follow-up",
-    lineColor: "from-amber-500/40 to-transparent",
+    dot: "bg-amber-500",
+    glow: "shadow-[0_0_0_6px_rgba(245,158,11,0.12)]",
+    badgeClass: "border-amber-500/20 bg-amber-500/10 text-amber-400",
+    accentLine: "from-amber-500/70 to-amber-500/0",
+    softBg: "from-amber-500/10 via-amber-500/5 to-transparent",
   },
   other: {
     icon: Zap,
-    gradient: "from-slate-400 to-slate-300",
-    glow: "shadow-slate-400/20",
-    badgeClass: "border-slate-500/30 text-slate-400 bg-slate-500/10",
     label: "Other",
-    lineColor: "from-slate-500/30 to-transparent",
+    dot: "bg-slate-400",
+    glow: "shadow-[0_0_0_6px_rgba(148,163,184,0.10)]",
+    badgeClass: "border-slate-500/20 bg-slate-500/10 text-slate-300",
+    accentLine: "from-slate-400/50 to-slate-400/0",
+    softBg: "from-slate-400/10 via-slate-400/5 to-transparent",
   },
 };
 
@@ -59,11 +71,13 @@ function formatDateLabel(date: Date) {
 
 function groupByDay(entries: ITimelineEntry[]) {
   const map = new Map<string, ITimelineEntry[]>();
+
   for (const entry of entries) {
     const key = format(new Date(entry.date), "yyyy-MM-dd");
     if (!map.has(key)) map.set(key, []);
     map.get(key)!.push(entry);
   }
+
   return Array.from(map.entries()).map(([, dayEntries]) => ({
     label: formatDateLabel(new Date(dayEntries[0].date)),
     date: new Date(dayEntries[0].date),
@@ -71,13 +85,39 @@ function groupByDay(entries: ITimelineEntry[]) {
   }));
 }
 
+function DayMarker({
+  label,
+  date,
+  count,
+}: {
+  label: string;
+  date: Date;
+  count: number;
+}) {
+  return (
+    <div className="relative pl-16">
+      <div className="absolute left-[1.1rem] top-1.5 h-4 w-4 rounded-full border border-border bg-background shadow-sm" />
+      <div className="absolute left-[1.55rem] top-6 -bottom-8 w-px bg-linear-to-b from-border via-border/40 to-transparent" />
+
+      <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-3 py-1.5 backdrop-blur-sm shadow-sm">
+        <span className="text-xs font-semibold text-foreground">{label}</span>
+        <span className="text-[10px] text-muted-foreground">
+          {format(date, "yyyy")}
+        </span>
+        <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
+        <span className="text-[10px] text-muted-foreground">
+          {count} event{count > 1 ? "s" : ""}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function EntryCard({
   entry,
-  index,
   isLast,
 }: {
   entry: ITimelineEntry;
-  index: number;
   isLast: boolean;
 }) {
   const config = typeConfig[entry.type];
@@ -85,78 +125,88 @@ function EntryCard({
   const date = new Date(entry.date);
 
   return (
-    <div
-      className="relative flex gap-4 group"
-      style={{ animationDelay: `${index * 60}ms` }}
-    >
+    <div className="relative pl-16 group">
       {!isLast && (
-        <div className="absolute left-4.75top-10 bottom-0 w-px bg-linear-to-b from-border/60 to-transparent" />
+        <div className="absolute left-6 top-10 -bottom-6 w-px bg-linear-to-b from-border via-border/50 to-transparent" />
       )}
 
-      <div className="relative shrink-0 mt-1">
+      <div className="absolute left-[0.92rem] top-5">
         <div
           className={cn(
-            "relative flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br shadow-lg transition-transform duration-300 group-hover:scale-110",
-            config.gradient,
+            "relative flex h-5 w-5 items-center justify-center rounded-full border-4 border-background transition-transform duration-300 group-hover:scale-110",
+            config.dot,
             config.glow,
           )}
         >
-          <Icon className="h-4 w-4 text-white" />
-          <div
-            className={cn(
-              "absolute inset-0 rounded-full bg-linear-to-br opacity-0 group-hover:opacity-30 transition-opacity duration-300 blur-sm scale-150",
-              config.gradient,
-            )}
-          />
+          <div className="absolute h-2 w-2 rounded-full bg-white/80" />
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 pb-6">
+      <div className="absolute left-8 top-[1.7rem] h-px w-6 bg-linear-to-r from-border to-transparent" />
+
+      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/70 backdrop-blur-xl transition-all duration-300 hover:border-border hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)]">
         <div
           className={cn(
-            "rounded-xl border bg-card/50 backdrop-blur-sm px-4 py-3.5 transition-all duration-300",
-            "border-border/40 hover:border-border/80 hover:bg-card/80",
-            "group-hover:shadow-lg group-hover:shadow-black/5",
+            "absolute inset-y-0 left-0 w-1 bg-linear-to-b",
+            config.accentLine,
           )}
-        >
-          <div className="flex items-start justify-between gap-3 flex-wrap mb-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="text-sm font-semibold text-foreground leading-tight">
-                {entry.action}
-              </p>
-              <Badge
-                variant="outline"
-                className={cn(
-                  "text-[10px] font-medium py-0 h-4",
-                  config.badgeClass,
-                )}
-              >
-                {config.label}
-              </Badge>
-              {entry.automated && (
+        />
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-0 bg-linear-to-br opacity-70",
+            config.softBg,
+          )}
+        />
+
+        <div className="relative px-5 py-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-border/50 bg-background/70">
+                  <Icon className="h-4 w-4 text-foreground/80" />
+                </div>
+
                 <Badge
                   variant="outline"
-                  className="text-[10px] font-normal py-0 h-4 border-muted-foreground/20 text-muted-foreground/60"
+                  className={cn(
+                    "h-6 rounded-full px-2.5 text-[11px]",
+                    config.badgeClass,
+                  )}
                 >
-                  auto
+                  {config.label}
                 </Badge>
+
+                {entry.automated && (
+                  <Badge
+                    variant="outline"
+                    className="h-6 rounded-full border-muted-foreground/20 bg-muted/40 px-2.5 text-[11px] text-muted-foreground"
+                  >
+                    automated
+                  </Badge>
+                )}
+              </div>
+
+              <h3 className="text-sm font-semibold leading-6 text-foreground">
+                {entry.action}
+              </h3>
+
+              {entry.description && (
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {entry.description}
+                </p>
               )}
             </div>
-            <div className="flex flex-col items-end shrink-0 gap-0.5">
-              <span className="text-xs font-medium text-muted-foreground tabular-nums">
-                {format(date, "h:mm a")}
-              </span>
-              <span className="text-[10px] text-muted-foreground/50">
+
+            <div className="flex shrink-0 flex-col items-end gap-1 rounded-xl border border-border/40 bg-background/60 px-3 py-2 text-right">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-foreground/80">
+                <Clock3 className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="tabular-nums">{format(date, "h:mm a")}</span>
+              </div>
+              <span className="text-[11px] text-muted-foreground">
                 {formatDistanceToNow(date, { addSuffix: true })}
               </span>
             </div>
           </div>
-
-          {entry.description && (
-            <p className="text-xs text-muted-foreground leading-relaxed mt-1.5 border-t border-border/30 pt-1.5">
-              {entry.description}
-            </p>
-          )}
         </div>
       </div>
     </div>
@@ -166,20 +216,21 @@ function EntryCard({
 const TimelineFeed = ({ timeline }: { timeline: ITimelineEntry[] }) => {
   if (timeline.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 gap-4">
-        <div className="relative">
-          <div className="h-16 w-16 rounded-full bg-muted/30 flex items-center justify-center">
-            <Activity className="h-7 w-7 text-muted-foreground/30" />
+      <div className="relative overflow-hidden rounded-3xl border border-dashed border-border/60 bg-card/40 px-6 py-16">
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent" />
+        <div className="relative flex flex-col items-center justify-center gap-4 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-background/70 shadow-sm">
+            <Activity className="h-7 w-7 text-muted-foreground/40" />
           </div>
-          <div className="absolute inset-0 rounded-full bg-primary/5 blur-xl" />
-        </div>
-        <div className="text-center space-y-1">
-          <p className="text-sm font-semibold text-muted-foreground">
-            No activity yet
-          </p>
-          <p className="text-xs text-muted-foreground/50 max-w-48">
-            Events will appear here as you update this job application.
-          </p>
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-foreground/80">
+              No timeline activity yet
+            </p>
+            <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+              As this job moves forward, status updates, interviews, and
+              follow-ups will appear here in chronological order.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -188,37 +239,28 @@ const TimelineFeed = ({ timeline }: { timeline: ITimelineEntry[] }) => {
   const groups = groupByDay(timeline);
 
   return (
-    <div className="space-y-8">
-      {groups.map((group, gi) => (
-        <div key={gi} className="space-y-0">
-          <div className="flex items-center gap-3 mb-4 sticky top-0 z-10 py-2">
-            <div className="flex items-center gap-2 bg-background/80 backdrop-blur-sm rounded-full border border-border/50 pl-3 pr-4 py-1.5 shadow-sm">
-              <div className="h-1.5 w-1.5 rounded-full bg-primary/60" />
-              <span className="text-xs font-semibold text-foreground/80 tracking-wide">
-                {group.label}
-              </span>
-              <span className="text-[10px] text-muted-foreground/60 tabular-nums">
-                {format(group.date, "yyyy")}
-              </span>
-            </div>
-            <div className="flex-1 h-px bg-linear-to-r from-border/50 to-transparent" />
-            <span className="text-[10px] text-muted-foreground/40 shrink-0">
-              {group.entries.length} event{group.entries.length > 1 ? "s" : ""}
-            </span>
-          </div>
+    <div className="relative">
+      <div className="space-y-10">
+        {groups.map((group, gi) => (
+          <section key={gi} className="space-y-4">
+            <DayMarker
+              label={group.label}
+              date={group.date}
+              count={group.entries.length}
+            />
 
-          <div>
-            {group.entries.map((entry, ei) => (
-              <EntryCard
-                key={entry._id?.toString() ?? `${gi}-${ei}`}
-                entry={entry}
-                index={ei}
-                isLast={ei === group.entries.length - 1}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+            <div className="space-y-4">
+              {group.entries.map((entry, ei) => (
+                <EntryCard
+                  key={entry._id?.toString() ?? `${gi}-${ei}`}
+                  entry={entry}
+                  isLast={ei === group.entries.length - 1}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   );
 };

@@ -13,6 +13,7 @@ export default async function TimelinePage({
 }) {
   const { id } = await params;
   const job = await getJobApplicationById(id);
+
   if (!job) notFound();
   if ("error" in job || !job.data) notFound();
 
@@ -67,57 +68,80 @@ export default async function TimelinePage({
   ];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
-      <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <div className="h-1.5 w-6 rounded-full bg-primary" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Activity Timeline
-          </p>
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {job.data.position}
-          </h1>
-          <p className="text-muted-foreground mt-0.5">
-            {job.data.company}
-            {appliedDate && (
-              <span className="text-muted-foreground/50 text-sm ml-2">
-                · Applied {format(appliedDate, "MMM d, yyyy")}
-                {daysSinceApplied !== null && ` · ${daysSinceApplied} days ago`}
-              </span>
-            )}
-          </p>
-        </div>
-      </div>
+    <div className="relative mx-auto max-w-7xl px-4 py-8 md:px-6">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(var(--primary),0.08),transparent_35%)]" />
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {stats.map(({ icon: Icon, label, value, color, bg }) => (
-          <div
-            key={label}
-            className="relative rounded-xl border border-border/50 bg-card/50 px-4 py-4 overflow-hidden group hover:border-border/80 transition-colors"
-          >
-            <div
-              className={cn(
-                "absolute -top-3 -right-3 h-12 w-12 rounded-full opacity-20 blur-xl transition-opacity group-hover:opacity-40",
-                bg,
-              )}
-            />
-            <div
-              className={cn(
-                "flex h-7 w-7 items-center justify-center rounded-lg mb-3",
-                bg,
-              )}
-            >
-              <Icon className={cn("h-3.5 w-3.5", color)} />
-            </div>
-            <p className="text-2xl font-bold tracking-tight">{value}</p>
-            <p className="text-[11px] text-muted-foreground mt-0.5">{label}</p>
+      <div className="grid gap-6 lg:grid-cols-5 lg:items-start lg:h-[calc(100vh-8rem)] overflow-hidden">
+        <aside className="lg:col-span-2 h-full min-h-0">
+          <div className="h-full space-y-4">
+            <section className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/50 p-6 backdrop-blur-xl md:p-8">
+              <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent" />
+
+              <div className="relative space-y-4">
+                <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  Activity Timeline
+                </div>
+
+                <div className="space-y-1">
+                  <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                    {job.data.position}
+                  </h1>
+                  <p className="text-sm text-muted-foreground md:text-base">
+                    {job.data.company}
+                  </p>
+
+                  {appliedDate && (
+                    <p className="text-sm text-muted-foreground/80">
+                      Applied on {format(appliedDate, "MMM d, yyyy")}
+                      {daysSinceApplied !== null &&
+                        ` · ${daysSinceApplied} days ago`}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            <section className="grid grid-cols-2 gap-3">
+              {stats.map(({ icon: Icon, label, value, color, bg }) => (
+                <div
+                  key={label}
+                  className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-4 backdrop-blur-sm transition-all duration-300 hover:border-border hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
+                >
+                  <div
+                    className={cn(
+                      "absolute -right-4 -top-4 h-16 w-16 rounded-full blur-2xl opacity-40",
+                      bg,
+                    )}
+                  />
+
+                  <div className="relative">
+                    <div
+                      className={cn(
+                        "mb-3 flex h-9 w-9 items-center justify-center rounded-xl",
+                        bg,
+                      )}
+                    >
+                      <Icon className={cn("h-4 w-4", color)} />
+                    </div>
+
+                    <p className="text-2xl font-bold tracking-tight">{value}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {label}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </section>
           </div>
-        ))}
-      </div>
+        </aside>
 
-      <TimelineFeed timeline={timeline} />
+        <main className="lg:col-span-3 h-full min-h-0">
+          <section className="rounded-3xl border border-border/60 bg-card/30 p-4 backdrop-blur-sm md:p-6 h-full min-h-0 overflow-y-auto">
+            <TimelineFeed timeline={timeline} />
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

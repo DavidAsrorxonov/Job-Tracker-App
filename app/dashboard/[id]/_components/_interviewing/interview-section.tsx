@@ -3,7 +3,7 @@
 import { useState } from "react";
 import AddInterviewCTA from "./add-interview-cta";
 import InterviewDetailsSheet from "./interview-details-sheet";
-import InterviewCard, { SingleInterview } from "./interview-card";
+import InterviewCard from "./interview-card";
 import InterviewPrepPanel from "./interview-prep-panel";
 import { IInterviewData, IWishlistData } from "@/lib/models/job-application";
 import SectionDivider from "@/components/section-divider";
@@ -23,6 +23,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import WishlistDataDisplay from "../_wishlist/wishlist-data-display";
+import { SingleInterview } from "@/config/interview-details-sheet-type";
 
 const InterviewSection = ({
   jobId,

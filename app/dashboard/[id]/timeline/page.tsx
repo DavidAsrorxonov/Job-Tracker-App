@@ -5,6 +5,15 @@ import { ITimelineEntry } from "@/lib/models/job-application";
 import { Activity, GitBranch, CalendarDays, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getJobApplicationById } from "@/lib/actions/job-applications";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function TimelinePage({
   params,
@@ -74,22 +83,25 @@ export default async function TimelinePage({
       <div className="grid gap-6 lg:grid-cols-5 lg:items-start lg:h-[calc(100vh-8rem)] overflow-hidden">
         <aside className="lg:col-span-2 h-full min-h-0">
           <div className="h-full space-y-4">
-            <section className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/50 p-6 backdrop-blur-xl md:p-8">
+            <Card className="relative overflow-hidden p-6 backdrop-blur-xl md:p-8">
               <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent" />
 
-              <div className="relative space-y-4">
-                <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  <div className="h-2 w-2 rounded-full bg-primary" />
+              <CardHeader className="relative space-y-4">
+                <Badge
+                  variant="outline"
+                  className="w-fit rounded-full border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  <div className="mr-2 h-2 w-2 rounded-full bg-primary" />
                   Activity Timeline
-                </div>
+                </Badge>
 
                 <div className="space-y-1">
-                  <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  <CardTitle className="text-2xl font-bold tracking-tight md:text-3xl">
                     {job.data.position}
-                  </h1>
-                  <p className="text-sm text-muted-foreground md:text-base">
+                  </CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground md:text-base">
                     {job.data.company}
-                  </p>
+                  </CardDescription>
 
                   {appliedDate && (
                     <p className="text-sm text-muted-foreground/80">
@@ -99,14 +111,14 @@ export default async function TimelinePage({
                     </p>
                   )}
                 </div>
-              </div>
-            </section>
+              </CardHeader>
+            </Card>
 
-            <section className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {stats.map(({ icon: Icon, label, value, color, bg }) => (
-                <div
+                <Card
                   key={label}
-                  className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-4 backdrop-blur-sm transition-all duration-300 hover:border-border hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
+                  className="relative overflow-hidden p-4 backdrop-blur-sm"
                 >
                   <div
                     className={cn(
@@ -115,7 +127,7 @@ export default async function TimelinePage({
                     )}
                   />
 
-                  <div className="relative">
+                  <CardContent className="relative">
                     <div
                       className={cn(
                         "mb-3 flex h-9 w-9 items-center justify-center rounded-xl",
@@ -129,17 +141,21 @@ export default async function TimelinePage({
                     <p className="mt-1 text-xs text-muted-foreground">
                       {label}
                     </p>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               ))}
-            </section>
+            </div>
           </div>
         </aside>
 
         <main className="lg:col-span-3 h-full min-h-0">
-          <section className="rounded-3xl border border-border/60 bg-card/30 p-4 backdrop-blur-sm md:p-6 h-full min-h-0 overflow-y-auto">
-            <TimelineFeed timeline={timeline} />
-          </section>
+          <Card className="h-full min-h-0 backdrop-blur-sm">
+            <CardContent className="h-full min-h-0 p-6">
+              <ScrollArea className="h-full pr-4">
+                <TimelineFeed timeline={timeline} />
+              </ScrollArea>
+            </CardContent>
+          </Card>
         </main>
       </div>
     </div>

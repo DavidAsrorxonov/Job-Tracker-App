@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { typeConfig } from "@/config/timeline-feed";
 import { ITimelineEntry } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
@@ -36,7 +37,7 @@ export default function EntryCard({
 
       <div className="absolute left-8 top-[1.7rem] h-px w-6 bg-linear-to-r from-border to-transparent" />
 
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/70 backdrop-blur-xl transition-all duration-300 hover:border-border hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)]">
+      <Card className="relative overflow-hidden">
         <div
           className={cn(
             "absolute inset-y-0 left-0 w-1 bg-linear-to-b",
@@ -50,7 +51,7 @@ export default function EntryCard({
           )}
         />
 
-        <div className="relative px-5 py-4">
+        <CardContent className="relative px-5 py-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -99,8 +100,8 @@ export default function EntryCard({
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -6,15 +6,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { SingleInterview } from "./interview-card";
-import {
-  Brain,
-  Code2,
-  HelpCircle,
-  Phone,
-  Trophy,
-  UserCheck,
-} from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { upsertSingleInterview } from "@/lib/actions/interviewing";
@@ -33,25 +24,11 @@ import { cn } from "@/lib/utils";
 import ListEditor from "./_components/list-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
-const typeOptions: {
-  value: SingleInterview["type"];
-  label: string;
-  icon: React.ElementType;
-}[] = [
-  { value: "phone_screen", label: "Phone Screen", icon: Phone },
-  { value: "technical", label: "Technical", icon: Code2 },
-  { value: "behavioral", label: "Behavioral", icon: Brain },
-  { value: "hiring_manager", label: "Hiring Manager", icon: UserCheck },
-  { value: "final", label: "Final Round", icon: Trophy },
-  { value: "other", label: "Other", icon: HelpCircle },
-];
-
-const outcomeOptions = [
-  { value: "passed", label: "Passed" },
-  { value: "waiting", label: "Waiting" },
-  { value: "failed", label: "Failed" },
-];
+import {
+  outcomeOptions,
+  SingleInterview,
+  typeOptions,
+} from "@/config/interview-details-sheet-type";
 
 function FormField({
   label,

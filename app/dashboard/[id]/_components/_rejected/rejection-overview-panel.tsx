@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { stageConfig } from "@/config/rejection-overview-panel-stage";
 import { IRejectedData } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -24,32 +25,6 @@ import {
 type RejectedPanelProps = {
   data: IRejectedData;
   updateData: (updater: (p: IRejectedData) => IRejectedData) => void;
-};
-
-const stageConfig: Record<
-  IRejectedData["rejectionStage"],
-  { label: string; description: string }
-> = {
-  before_apply: {
-    label: "Before Apply",
-    description: "Decided not to apply after research",
-  },
-  after_apply: {
-    label: "After Apply",
-    description: "Rejected after submitting application",
-  },
-  after_screen: {
-    label: "After Screen",
-    description: "Rejected after phone/initial screen",
-  },
-  after_interview: {
-    label: "After Interview",
-    description: "Rejected after one or more interviews",
-  },
-  after_offer: {
-    label: "After Offer",
-    description: "Offer was rescinded",
-  },
 };
 
 function Section({

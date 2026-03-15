@@ -2,56 +2,19 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { IInterviewData } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import {
-  Brain,
-  Calendar,
-  ChevronRight,
-  Clock,
-  Code2,
-  HelpCircle,
-  Phone,
-  Trash2,
-  Trophy,
-  User,
-  UserCheck,
-} from "lucide-react";
+import { Calendar, ChevronRight, Clock, Trash2, User } from "lucide-react";
 import RatingDots from "./_components/rating-dots";
 import { useState } from "react";
 import { deleteInterview } from "@/lib/actions/interviewing";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-
-export type SingleInterview = IInterviewData["interviews"][number];
-
-const typeConfig: Record<
-  SingleInterview["type"],
-  { label: string; icon: React.ElementType }
-> = {
-  phone_screen: { label: "Phone Screen", icon: Phone },
-  technical: { label: "Technical", icon: Code2 },
-  behavioral: { label: "Behavioral", icon: Brain },
-  hiring_manager: { label: "Hiring Manager", icon: UserCheck },
-  final: { label: "Final Round", icon: Trophy },
-  other: { label: "Other", icon: HelpCircle },
-};
-
-const outcomeConfig = {
-  passed: {
-    label: "Passed",
-    className: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-  },
-  waiting: {
-    label: "Waiting",
-    className: "bg-amber-500/10 text-amber-600 border-amber-500/20",
-  },
-  failed: {
-    label: "Failed",
-    className: "bg-destructive/10 text-destructive border-destructive/20",
-  },
-};
+import {
+  outcomeConfig,
+  SingleInterview,
+  typeConfig,
+} from "@/config/interview-card-type";
 
 const InterviewCard = ({
   interviewData,

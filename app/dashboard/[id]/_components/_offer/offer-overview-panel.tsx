@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { equityTypes } from "@/config/offer-overview-panel-equity";
+import { CURRENCIES } from "@/constants/currencies";
 import { IOfferData } from "@/lib/models/job-application";
 import { cn } from "@/lib/utils";
 import { DollarSign, Gift, Percent, TrendingUp } from "lucide-react";
@@ -19,19 +21,6 @@ type OfferPanelProps = {
   data: IOfferData;
   updateData: (updater: (p: IOfferData) => IOfferData) => void;
 };
-
-const CURRENCIES = ["USD", "EUR", "GBP", "CAD", "AUD", "JPY", "CHF", "SGD"];
-
-const equityTypes: {
-  value: NonNullable<IOfferData["equity"]>["type"];
-  label: string;
-}[] = [
-  { value: "equity", label: "Equity" },
-  { value: "stock", label: "Stock Options" },
-  { value: "rsu", label: "RSUs (Restricted Stock Unit)" },
-  { value: "other", label: "Other" },
-  { value: "none", label: "None" },
-];
 
 function StatCard({
   icon: Icon,

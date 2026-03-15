@@ -20,7 +20,7 @@ export default function EntryCard({
   return (
     <div className="relative pl-16 group">
       {!isLast && (
-        <div className="absolute left-6 top-10 -bottom-6 w-px bg-linear-to-b from-border via-border/50 to-transparent" />
+        <div className="absolute left-6 top-10 -bottom-6 w-px bg-border" />
       )}
 
       <div className="absolute left-[0.92rem] top-5">
@@ -35,7 +35,7 @@ export default function EntryCard({
         </div>
       </div>
 
-      <div className="absolute left-8 top-[1.7rem] h-px w-6 bg-linear-to-r from-border to-transparent" />
+      <div className="absolute left-8 top-[1.7rem] h-px w-6 bg-border" />
 
       <Card className="relative overflow-hidden">
         <div

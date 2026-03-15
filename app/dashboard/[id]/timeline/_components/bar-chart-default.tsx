@@ -41,7 +41,7 @@ export function BarChartDefault({ timeline }: { timeline: ITimelineEntry[] }) {
   const chartData = buildChartData(timeline);
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Activity Over Time</CardTitle>
         <CardDescription>Number of events per day</CardDescription>

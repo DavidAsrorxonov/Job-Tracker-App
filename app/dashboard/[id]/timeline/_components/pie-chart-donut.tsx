@@ -67,7 +67,7 @@ export function PieChartDonut({ timeline }: { timeline: ITimelineEntry[] }) {
   const pieChartData = getTheTypeAndCount(timeline);
 
   return (
-    <Card className="flex flex-col">
+    <Card className="w-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>Event Breakdown</CardTitle>
         <CardDescription>Distribution of activity by type</CardDescription>

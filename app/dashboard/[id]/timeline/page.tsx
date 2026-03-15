@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ChartWrapper from "./_components/charts-wrapper";
 
 export default async function TimelinePage({
   params,
@@ -167,6 +168,7 @@ export default async function TimelinePage({
           </Card>
         </main>
       </div>
+      <ChartWrapper timeline={timeline} />
     </div>
   );
 }

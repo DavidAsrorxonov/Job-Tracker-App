@@ -54,7 +54,7 @@ export function BarChartHorizontal({
   const stageDurationData = buildStageDurationData(timeline);
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Stage Duration</CardTitle>
         <CardDescription>Days spent in each stage</CardDescription>

@@ -89,7 +89,7 @@ export default async function TimelinePage({
               <CardHeader className="relative space-y-4">
                 <Badge
                   variant="outline"
-                  className="w-fit rounded-full border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+                  className="w-fit rounded-full border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold font-mono uppercase tracking-[0.18em] text-muted-foreground"
                 >
                   <div className="mr-2 h-2 w-2 rounded-full bg-primary" />
                   Activity Timeline

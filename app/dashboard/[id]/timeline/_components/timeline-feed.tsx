@@ -5,7 +5,14 @@ import { format, isToday, isYesterday } from "date-fns";
 import { Activity } from "lucide-react";
 import DayMarker from "./day-marker";
 import EntryCard from "./entry-card";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function formatDateLabel(date: Date) {
   if (isToday(date)) return "Today";
@@ -59,29 +66,44 @@ const TimelineFeed = ({ timeline }: { timeline: ITimelineEntry[] }) => {
   const groups = groupByDay(timeline);
 
   return (
-    <div className="relative">
-      <div className="space-y-10">
-        {groups.map((group, gi) => (
-          <section key={gi} className="space-y-4">
-            <DayMarker
-              label={group.label}
-              date={group.date}
-              count={group.entries.length}
-            />
+    <Card className="h-full min-h-0 backdrop-blur-sm">
+      <CardHeader className="px-6">
+        <CardTitle className="text-2xl font-semibold tracking-tight">
+          Timeline
+        </CardTitle>
+        <CardDescription className="text-sm text-center text-muted-foreground">
+          As this job moves forward, status updates, interviews, and follow-ups
+          will appear here in chronological order.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="h-full min-h-0 p-6">
+        <ScrollArea className="h-full pr-4">
+          <div className="relative">
+            <div className="space-y-10">
+              {groups.map((group, gi) => (
+                <section key={gi} className="space-y-4">
+                  <DayMarker
+                    label={group.label}
+                    date={group.date}
+                    count={group.entries.length}
+                  />
 
-            <div className="space-y-4">
-              {group.entries.map((entry, ei) => (
-                <EntryCard
-                  key={entry._id?.toString() ?? `${gi}-${ei}`}
-                  entry={entry}
-                  isLast={ei === group.entries.length - 1}
-                />
+                  <div className="space-y-4">
+                    {group.entries.map((entry, ei) => (
+                      <EntryCard
+                        key={entry._id?.toString() ?? `${gi}-${ei}`}
+                        entry={entry}
+                        isLast={ei === group.entries.length - 1}
+                      />
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
-          </section>
-        ))}
-      </div>
-    </div>
+          </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 };
 

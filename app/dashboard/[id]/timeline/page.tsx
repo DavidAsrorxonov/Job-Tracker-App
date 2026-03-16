@@ -43,22 +43,7 @@ export default async function TimelinePage({
         <TimelineStats job={job} timeline={timeline} />
 
         <main className="lg:col-span-3 h-full min-h-0">
-          <Card className="h-full min-h-0 backdrop-blur-sm">
-            <CardHeader className="px-6">
-              <CardTitle className="text-2xl font-semibold tracking-tight">
-                Timeline
-              </CardTitle>
-              <CardDescription className="text-sm text-center text-muted-foreground">
-                As this job moves forward, status updates, interviews, and
-                follow-ups will appear here in chronological order.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="h-full min-h-0 p-6">
-              <ScrollArea className="h-full pr-4">
-                <TimelineFeed timeline={timeline} />
-              </ScrollArea>
-            </CardContent>
-          </Card>
+          <TimelineFeed timeline={timeline} />
         </main>
       </div>
       <ChartWrapper timeline={timeline} />

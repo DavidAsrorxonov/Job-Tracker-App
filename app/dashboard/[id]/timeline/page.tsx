@@ -12,6 +12,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ChartWrapper from "./_components/charts-wrapper";
 import TimelineStats from "./_components/timeline-stats";
+import SectionDivider from "@/components/section-divider";
+import { ChartArea } from "lucide-react";
 
 export default async function TimelinePage({
   params,
@@ -46,6 +48,7 @@ export default async function TimelinePage({
           <TimelineFeed timeline={timeline} />
         </main>
       </div>
+      <SectionDivider title="Charts" icon={ChartArea} description="Visualize" />
       <ChartWrapper timeline={timeline} />
     </div>
   );

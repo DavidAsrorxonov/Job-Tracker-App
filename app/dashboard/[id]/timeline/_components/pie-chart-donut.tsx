@@ -21,8 +21,8 @@ export const description =
   "A donut chart showing the distribution of activities by type.";
 
 const typeColors: Record<string, string> = {
-  status_change: "#016238",
-  interview: "#3b82f6",
+  status_change: "#3c82f5",
+  interview: "#016238",
   follow_up: "#f59e0b",
   other: "#94a3b8",
 };
@@ -33,11 +33,11 @@ const chartConfig = {
   },
   status_change: {
     label: "Stage Change",
-    color: "#016238",
+    color: "#3c82f5",
   },
   interview: {
     label: "Interview",
-    color: "#3b82f6",
+    color: "#016238",
   },
   follow_up: {
     label: "Follow-up",

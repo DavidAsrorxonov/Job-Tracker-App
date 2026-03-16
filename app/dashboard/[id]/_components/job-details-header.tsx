@@ -33,9 +33,6 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
 
   return (
     <header className="w-full border-b border-r border-dashed border-border bg-background/60 backdrop-blur-lg">
-      <div className="w-full flex items-center justify-center">
-        <WarningAboutEditing />
-      </div>
       <div className="px-6 py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
@@ -63,6 +60,8 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
                 </>
               ) : null}
             </div>
+
+            <WarningAboutEditing />
 
             {tags.length > 0 ? (
               <div className="mt-3 flex flex-wrap items-center gap-2">

@@ -1,15 +1,21 @@
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangleIcon } from "lucide-react";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 
 export function WarningAboutEditing() {
   return (
-    <Alert className="w-fit flex items-center justify-center border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-      <AlertTriangleIcon />
-      <AlertDescription className="text-xs">
-        You are viewing the Job Details page. Modifications to the primary job
-        information cannot be made from this page. Please navigate back to the
-        Dashboard to update the details.
-      </AlertDescription>
-    </Alert>
+    <div className="mt-3 flex flex-wrap items-center gap-x-2 rounded-md border border-border/60 bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+      <Lock className="h-4 w-4 shrink-0" />
+
+      <p>
+        Primary job details are managed from the{" "}
+        <Link
+          href="/dashboard"
+          className="font-medium text-foreground underline underline-offset-4 hover:text-primary"
+        >
+          Dashboard
+        </Link>
+        .
+      </p>
+    </div>
   );
 }

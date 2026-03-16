@@ -2,14 +2,6 @@ import { notFound } from "next/navigation";
 import TimelineFeed from "./_components/timeline-feed";
 import { ITimelineEntry } from "@/lib/models/job-application";
 import { getJobApplicationById } from "@/lib/actions/job-applications";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import ChartWrapper from "./_components/charts-wrapper";
 import TimelineStats from "./_components/timeline-stats";
 import SectionDivider from "@/components/section-divider";

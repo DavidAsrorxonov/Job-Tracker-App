@@ -61,7 +61,7 @@ export function RadarChartDefault({
       <CardContent className="pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-62.5"
+          className="mx-auto w-full aspect-square max-h-62.5"
         >
           <RadarChart data={radarData}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />

@@ -11,8 +11,8 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, FileText } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -29,10 +29,15 @@ const Navbar = () => {
       <div className="mx-auto max-w-7xl px-6 py-4">
         <div className="w-full flex justify-between items-center">
           <div className="flex gap-2 items-center justify-center">
-            <Button variant={"outline"} onClick={handleBack}>
+            <Button
+              className="flex gap-1 items-center justify-center"
+              variant={"link"}
+              onClick={handleBack}
+            >
+              <ChevronLeft className="h-5 w-5" />
               Go Back One Step
             </Button>
-            <div className="w-px border border-primary border-dashed h-8 mx-2" />
+            <div className="w-px border border-border h-8 mx-2" />
 
             <Breadcrumb>
               <BreadcrumbList>

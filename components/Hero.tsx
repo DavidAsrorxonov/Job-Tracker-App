@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowRight, PlayCircle, Sparkle, Sparkles } from "lucide-react";
+import { ArrowRight, PlayCircle, Sparkle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ const Hero = () => {
               variant="outline"
               className="px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-muted-foreground"
             >
-              <Sparkles className="mr-2 h-4 w-4" />
+              <Sparkle className="mr-2 h-4 w-4" />
               Built for focused job seekers
             </Badge>
           </motion.div>

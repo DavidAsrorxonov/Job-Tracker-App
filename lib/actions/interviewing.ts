@@ -1,9 +1,19 @@
 "use server";
 
+import { format } from "date-fns";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
 import { JobApplication } from "../models";
 import { revalidatePath } from "next/cache";
+
+const typeLabel: Record<string, string> = {
+  phone_screen: "Phone Screen",
+  technical: "Technical",
+  behavioral: "Behavioral",
+  hiring_manager: "Hiring Manager",
+  final: "Final Round",
+  other: "Other",
+};
 
 export async function upsertInterviewPrepData(
   jobId: string,
@@ -44,32 +54,69 @@ export async function upsertSingleInterview(jobId: string, interview: any) {
 
   await connectDB();
 
-  const isEdit = Boolean(interview._id);
+  const isEdit = !!interview._id;
 
-  const result = isEdit
-    ? await JobApplication.updateOne(
-        {
-          _id: jobId,
-          userId: session.user.id,
-          "interviewData.interviews._id": interview._id,
+  if (isEdit) {
+    const existing = await JobApplication.findOne(
+      { _id: jobId, userId: session.user.id },
+      { "interviewData.interviews": 1 },
+    );
+
+    const existingInterview = existing?.interviewData?.interviews?.find(
+      (i: any) => i._id.toString() === interview._id.toString(),
+    );
+
+    const outcomeChanged =
+      existingInterview &&
+      interview.outcome &&
+      existingInterview.outcome !== interview.outcome;
+
+    const updateOps: any = {
+      $set: {
+        "interviewData.interviews.$[elem]": interview,
+        updatedAt: new Date(),
+      },
+    };
+
+    if (outcomeChanged) {
+      updateOps.$push = {
+        timeline: {
+          date: new Date(),
+          action: "Interview outcome updated",
+          description: `${typeLabel[interview.type] ?? "Interview"} marked as ${interview.outcome}`,
+          type: "interview",
+          automated: true,
         },
-        {
-          $set: {
-            "interviewData.interviews.$": interview,
-            updatedAt: new Date(),
+      };
+    }
+
+    await JobApplication.updateOne(
+      { _id: jobId, userId: session.user.id },
+      updateOps,
+      { arrayFilters: [{ "elem._id": interview._id }] },
+    );
+  } else {
+    await JobApplication.updateOne(
+      { _id: jobId, userId: session.user.id },
+      {
+        $push: {
+          "interviewData.interviews": interview,
+          timeline: {
+            date: new Date(),
+            action: "Interview scheduled",
+            description: `${typeLabel[interview.type] ?? "Interview"} interview scheduled${
+              interview.scheduledDate
+                ? ` for ${format(new Date(interview.scheduledDate), "MMM d, yyyy")}`
+                : ""
+            }`,
+            type: "interview",
+            automated: true,
           },
         },
-      )
-    : await JobApplication.updateOne(
-        { _id: jobId, userId: session.user.id },
-        {
-          $push: { "interviewData.interviews": interview },
-          $set: { updatedAt: new Date() },
-        },
-      );
-
-  if (result.matchedCount === 0)
-    throw new Error("Job application not found or unauthorized");
+        $set: { updatedAt: new Date() },
+      },
+    );
+  }
 
   revalidatePath(`/dashboard/${jobId}`);
 }

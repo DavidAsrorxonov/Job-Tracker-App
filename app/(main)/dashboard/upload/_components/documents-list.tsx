@@ -41,7 +41,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import svgPdf from "../../../../public/svgs/pdf-svgrepo-com.svg";
+import svgPdf from "@/public/svgs/pdf-svgrepo-com.svg";
 
 import dynamic from "next/dynamic";
 import { UserDoc } from "@/types/user-documents";

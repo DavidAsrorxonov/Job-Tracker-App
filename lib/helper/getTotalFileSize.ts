@@ -1,4 +1,4 @@
-import { UserDoc } from "@/app/dashboard/upload/_components/upload-client";
+import { UserDoc } from "@/app/(main)/dashboard/upload/_components/upload-client";
 
 export const getTotalFileSize = (docs: UserDoc[]) => {
   const total = docs.reduce((acc, doc) => acc + doc.size!, 0);

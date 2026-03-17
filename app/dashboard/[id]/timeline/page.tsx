@@ -33,15 +33,23 @@ export default async function TimelinePage({
     <div className="relative mx-auto max-w-7xl px-4 py-8 md:px-6">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(var(--primary),0.08),transparent_35%)]" />
 
-      <div className="grid gap-6 lg:grid-cols-5 lg:items-start lg:h-[calc(100vh-8rem)] overflow-hidden">
+      <div className="grid gap-6 lg:grid-cols-5 lg:items-start lg:h-[calc(100vh-8rem)]">
         <TimelineStats job={job} timeline={timeline} />
-
-        <main className="lg:col-span-3 h-full min-h-0">
+        <main className="lg:col-span-3 h-full min-h-0 overflow-y-auto">
           <TimelineFeed timeline={timeline} />
         </main>
       </div>
-      <SectionDivider title="Charts" icon={ChartArea} description="Visualize" />
-      <ChartWrapper timeline={timeline} />
+
+      <div className="mt-6">
+        <SectionDivider
+          title="Charts"
+          icon={ChartArea}
+          description="Visualize your activity"
+        />
+        <div className="mt-4">
+          <ChartWrapper timeline={timeline} />
+        </div>
+      </div>
     </div>
   );
 }

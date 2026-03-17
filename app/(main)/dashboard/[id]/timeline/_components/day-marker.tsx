@@ -21,7 +21,7 @@ export default function DayMarker({
         </span>
         <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
         <span className="text-[10px] text-muted-foreground">
-          {count} event{count > 1 ? "s" : ""}
+          {count} event{count === 1 ? "" : "s"}
         </span>
       </div>
     </div>

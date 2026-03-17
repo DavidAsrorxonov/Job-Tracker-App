@@ -24,23 +24,30 @@ const SignIn = () => {
   const handleGoogleSignIn = async () => {
     setLoading(true);
 
-    const { error } = await signIn.social({
-      provider: "google",
-      callbackURL: "/dashboard",
-    });
+    try {
+      const { error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      });
 
-    if (error) {
+      if (error) {
+        toast.error("Failed to sign in", {
+          position: "top-center",
+          description: "Something went wrong. Please try again",
+          duration: 2000,
+        });
+        console.error(error);
+      }
+    } catch (error) {
       toast.error("Failed to sign in", {
         position: "top-center",
         description: "Something went wrong. Please try again",
         duration: 2000,
       });
       console.error(error);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setLoading(false);
   };
 
   return (

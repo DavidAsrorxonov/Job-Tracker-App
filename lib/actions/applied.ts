@@ -17,7 +17,7 @@ export async function upsertAppliedData(jobId: string, appliedData: any) {
     { "appliedData.followUpDates": 1 },
   );
 
-  const existingDates: Date[] =
+  const existingDates: string[] =
     existing?.appliedData?.followUpDates?.map((d: Date) =>
       new Date(d).toISOString(),
     ) ?? [];

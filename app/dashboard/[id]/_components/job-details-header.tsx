@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/helper/formatDate";
 import { normalizeUrl } from "@/lib/helper/normalizeUrl";
-import { ExternalLink } from "lucide-react";
+import { Activity, ExternalLink } from "lucide-react";
 import "../_styles/panel.css";
 import { WarningAboutEditing } from "./warning-about-editing";
+import Link from "next/link";
 
 type Job = {
   _id: string;
@@ -80,6 +81,13 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
           </div>
 
           <div className="flex items-center gap-2 sm:pt-1">
+            <Link href={`/dashboard/${job._id}/timeline`}>
+              <Button variant="outline" size="sm">
+                <Activity className="mr-2 h-4 w-4" />
+                Timeline
+              </Button>
+            </Link>
+
             <Button
               variant="outline"
               size="sm"

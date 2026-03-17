@@ -307,8 +307,8 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex space-y-4">
-        <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="w-full flex space-y-4">
+        <div className="flex w-max gap-4 pb-4">
           {sortedColumns.map((col, idx) => {
             const config = COLUMN_CONFIG[idx] || {
               color: "bg-gray-500",

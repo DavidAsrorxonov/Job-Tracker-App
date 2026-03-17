@@ -5,6 +5,7 @@ import { Board } from "@/lib/models";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import KanbanBoardClient from "@/components/KanbanBoardClient";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const getBoard = async (userId: string) => {
   "use cache";
@@ -54,7 +55,10 @@ const DashboardPage = async () => {
           <p className="text-muted-foreground">Track your job applications</p>
         </div>
 
-        <KanbanBoardClient board={board} userId={session.user.id} />
+        <ScrollArea className="w-full">
+          <KanbanBoardClient board={board} userId={session.user.id} />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </div>
   );

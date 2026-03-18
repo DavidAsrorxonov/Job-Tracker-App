@@ -1,3 +1,4 @@
+import Contact from "@/components/contact";
 import CTA from "@/components/cta";
 import FAQ from "@/components/FAQs";
 import Features from "@/components/Features";
@@ -35,7 +36,9 @@ export default function Home() {
 
         <Separator />
 
-        <Footer />
+        <Contact />
+
+        {/* <Footer /> */}
       </main>
     </div>
   );

@@ -3,30 +3,77 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Github, Instagram, Send } from "lucide-react";
+import { ArrowRight, Github, Instagram, Send, Loader2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { SOCIAL_LINKS } from "@/constants/social-links";
+import { sendEmail } from "@/lib/mail/actions/send-email";
+
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/adovudkhan",
+    icon: Instagram,
+    handle: "@adovudkhan",
+  },
+  {
+    label: "Telegram",
+    href: "https://t.me/whoisdave01",
+    icon: Send,
+    handle: "@whoisdave01",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/DavidAsrorxonov",
+    icon: Github,
+    handle: "@DavidAsrorxonov",
+  },
+];
+
+type FormState = "idle" | "loading" | "success" | "error";
 
 const Contact = () => {
-  const [submitted, setSubmitted] = useState(false);
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // code will be added later
-    setSubmitted(true);
+    setFormState("loading");
+    setErrorMessage("");
+
+    const result = await sendEmail(formData);
+
+    if (result.success) {
+      setFormState("success");
+    } else {
+      setErrorMessage(
+        result.error ?? "Something went wrong. Please try again.",
+      );
+      setFormState("error");
+    }
   };
 
   return (
-    <section className="relative py-24 overflow-hidden" id="contact">
+    <section id="contact" className="relative py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 h-150 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-[0.08] blur-[120px]" />
-        <div className="absolute top-0 right-[10%] h-55 w-55 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
-        <div className="absolute bottom-0 left-[10%] h-55 w-55 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
+        <div className="absolute top-1/2 left-1/2 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-[0.06] blur-[100px]" />
+        <div className="absolute top-0 left-[15%] h-50 w-50 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
+        <div className="absolute bottom-0 right-[15%] h-50 w-50 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
       </div>
 
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[28px_28px] mask-[radial-gradient(ellipse_80%_60%_at_50%_0%,#000_60%,transparent_100%)]" />
@@ -68,7 +115,7 @@ const Contact = () => {
           className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start"
         >
           <div className="lg:col-span-3">
-            {submitted ? (
+            {formState === "success" ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -85,6 +132,22 @@ const Contact = () => {
                   Thanks for reaching out — I'll get back to you as soon as
                   possible.
                 </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-fit text-muted-foreground hover:text-foreground mt-2"
+                  onClick={() => {
+                    setFormState("idle");
+                    setFormData({
+                      name: "",
+                      email: "",
+                      subject: "",
+                      message: "",
+                    });
+                  }}
+                >
+                  Send another message
+                </Button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -95,7 +158,10 @@ const Contact = () => {
                       id="name"
                       type="text"
                       placeholder="Your name"
+                      value={formData.name}
+                      onChange={handleChange}
                       required
+                      disabled={formState === "loading"}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -104,7 +170,10 @@ const Contact = () => {
                       id="email"
                       type="email"
                       placeholder="you@example.com"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
+                      disabled={formState === "loading"}
                     />
                   </div>
                 </div>
@@ -115,7 +184,10 @@ const Contact = () => {
                     id="subject"
                     type="text"
                     placeholder="What's this about?"
+                    value={formData.subject}
+                    onChange={handleChange}
                     required
+                    disabled={formState === "loading"}
                   />
                 </div>
 
@@ -125,17 +197,40 @@ const Contact = () => {
                     id="message"
                     placeholder="Your message..."
                     rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
                     required
+                    disabled={formState === "loading"}
                     className="resize-none"
                   />
                 </div>
 
+                {formState === "error" && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-sm text-destructive"
+                  >
+                    {errorMessage}
+                  </motion.p>
+                )}
+
                 <Button
                   type="submit"
+                  disabled={formState === "loading"}
                   className="w-full sm:w-fit px-8 text-[15px] font-medium"
                 >
-                  Send message
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  {formState === "loading" ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send message
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               </form>
             )}
@@ -183,10 +278,10 @@ const Contact = () => {
               <p className="text-xs text-muted-foreground/70 leading-relaxed">
                 Prefer email?{" "}
                 <a
-                  href="mailto:info@ascendio.app"
+                  href="mailto:asrorxonovdovudxon@gmail.com"
                   className="text-primary hover:underline"
                 >
-                  info@ascendio.app
+                  asrorxonovdovudxon@gmail.com
                 </a>
               </p>
             </div>

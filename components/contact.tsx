@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Github, Instagram, Send, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,27 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { sendEmail } from "@/lib/mail/actions/send-email";
-
-const SOCIAL_LINKS = [
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/adovudkhan",
-    icon: Instagram,
-    handle: "@adovudkhan",
-  },
-  {
-    label: "Telegram",
-    href: "https://t.me/whoisdave01",
-    icon: Send,
-    handle: "@whoisdave01",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/DavidAsrorxonov",
-    icon: Github,
-    handle: "@DavidAsrorxonov",
-  },
-];
+import { SOCIAL_LINKS } from "@/constants/social-links";
 
 type FormState = "idle" | "loading" | "success" | "error";
 

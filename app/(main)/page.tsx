@@ -1,3 +1,4 @@
+import CTA from "@/components/cta";
 import FAQ from "@/components/FAQs";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
@@ -27,6 +28,10 @@ export default function Home() {
         <Separator />
 
         <FAQ />
+
+        <Separator />
+
+        <CTA />
 
         <Separator />
 

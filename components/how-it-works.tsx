@@ -6,7 +6,7 @@ import { STEPS } from "@/constants/steps";
 
 const HowItWorks = () => {
   return (
-    <section className="py-24 overflow-hidden">
+    <section className="py-24 overflow-hidden" id="how-it-works">
       <div className="container mx-auto px-4">
         <div className="mb-20 max-w-xl">
           <motion.div

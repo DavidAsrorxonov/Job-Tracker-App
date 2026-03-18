@@ -12,7 +12,7 @@ import { FAQS } from "@/constants/faqs";
 
 const FAQ = () => {
   return (
-    <section className="py-24 overflow-hidden relative">
+    <section className="py-24 overflow-hidden relative" id="faq">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[28px_28px] mask-[radial-gradient(ellipse_80%_60%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

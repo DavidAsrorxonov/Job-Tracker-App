@@ -22,7 +22,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden" id="contact">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 h-150 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-[0.08] blur-[120px]" />
         <div className="absolute top-0 right-[10%] h-55 w-55 rounded-full bg-primary opacity-[0.05] blur-[70px]" />

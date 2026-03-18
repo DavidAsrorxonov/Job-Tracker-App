@@ -38,7 +38,9 @@ export default function Home() {
 
         <Contact />
 
-        {/* <Footer /> */}
+        <Separator />
+
+        <Footer />
       </main>
     </div>
   );

@@ -132,8 +132,7 @@ const Contact = () => {
 
                 <Button
                   type="submit"
-                  size="lg"
-                  className="w-full sm:w-fit h-12 px-8 text-[15px] font-medium"
+                  className="w-full sm:w-fit px-8 text-[15px] font-medium"
                 >
                   Send message
                   <ArrowRight className="ml-2 h-4 w-4" />

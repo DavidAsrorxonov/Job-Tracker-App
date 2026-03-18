@@ -76,7 +76,9 @@ const Footer = () => {
               className="h-auto p-0 text-sm text-muted-foreground"
               asChild
             >
-              <a href="#">Privacy Policy</a>
+              <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </a>
             </Button>
             <Button
               variant="link"

@@ -116,7 +116,9 @@ const SignIn = () => {
               </Link>{" "}
               and{" "}
               <Link
-                href="#"
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-medium text-foreground underline underline-offset-4"
               >
                 Privacy Policy

@@ -109,7 +109,9 @@ const SignIn = () => {
             <p className="mt-14 text-xs leading-6 text-muted-foreground">
               By continuing, you agree to our{" "}
               <Link
-                href="#"
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-medium text-foreground underline underline-offset-4"
               >
                 Terms of Service

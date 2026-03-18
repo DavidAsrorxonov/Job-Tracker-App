@@ -85,7 +85,9 @@ const Footer = () => {
               className="h-auto p-0 text-sm text-muted-foreground"
               asChild
             >
-              <a href="#">Terms of Service</a>
+              <a href="/terms" target="_blank" rel="noopener noreferrer">
+                Terms of Service
+              </a>
             </Button>
             <span className="inline-flex items-center gap-1.5">
               Crafted by

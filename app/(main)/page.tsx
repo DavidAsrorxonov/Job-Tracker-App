@@ -1,6 +1,10 @@
+import Contact from "@/components/contact";
+import CTA from "@/components/cta";
+import FAQ from "@/components/FAQs";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
+import HowItWorks from "@/components/how-it-works";
 import ImageTabs from "@/components/image-tabs";
 import { Separator } from "@/components/ui/separator";
 
@@ -12,11 +16,29 @@ export default function Home() {
 
         <Separator />
 
+        <HowItWorks />
+
+        <Separator />
+
         <ImageTabs />
 
         <Separator />
 
         <Features />
+
+        <Separator />
+
+        <FAQ />
+
+        <Separator />
+
+        <CTA />
+
+        <Separator />
+
+        <Contact />
+
+        <Separator />
 
         <Footer />
       </main>

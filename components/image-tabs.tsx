@@ -97,6 +97,8 @@ const ImageTabs = () => {
               <TabsContent
                 key={tab.value}
                 value={tab.value}
+                forceMount
+                hidden={activeTab !== tab.value}
                 className="mt-0 outline-none"
               >
                 <AnimatePresence mode="wait">

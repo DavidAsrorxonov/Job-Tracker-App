@@ -6,6 +6,7 @@ async function main() {
   const email = process.env.TEST_EMAIL;
   if (!email) {
     console.error("✗ No test email found! Aborting the operation.");
+    process.exitCode = 1;
     return;
   }
 
@@ -15,7 +16,7 @@ async function main() {
 
   const result = await sendEmail({
     name: "Test User",
-    email: "dovudxon.asrorxonov@icloud.com",
+    email: email,
     subject: "Test",
     message: "This is testing",
   });
@@ -24,7 +25,11 @@ async function main() {
     console.log("✓ Email sent successfully");
   } else {
     console.error("✗ Failed to send email:", result.error);
+    process.exitCode = 1;
   }
 }
 
-main();
+main().catch((error) => {
+  console.error("✗ Unexpected error while sending test email:", error);
+  process.exitCode = 1;
+});

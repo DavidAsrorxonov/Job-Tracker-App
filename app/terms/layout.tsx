@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ascendio | Terms and Conditions",
-  description: "Terms and Conditions for Ascendio",
+  title: "Ascendio | Terms of Service",
+  description: "Terms of Service for Ascendio",
 };
 
 export default function TermsLayout({

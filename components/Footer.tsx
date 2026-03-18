@@ -94,6 +94,7 @@ const Footer = () => {
               <Link
                 href="https://github.com/DavidAsrorxonov"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-foreground transition-colors"
               >
                 @David

@@ -235,6 +235,7 @@ const Contact = () => {
                     key={social.label}
                     href={social.href}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex items-center gap-4 rounded-xl border border-border/50 bg-muted/20 px-5 py-4 transition-all duration-200 hover:border-primary/30 hover:bg-primary/5"
                   >
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">

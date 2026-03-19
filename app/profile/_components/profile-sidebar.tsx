@@ -5,6 +5,9 @@ import { TabId, TABS } from "../page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   activeTab: TabId;
@@ -94,6 +97,22 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
           );
         })}
       </nav>
+
+      <div className="flex-1" />
+
+      <Separator />
+
+      <Button
+        variant="ghost"
+        size="sm"
+        asChild
+        className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
+      >
+        <Link href="/dashboard">
+          <ArrowLeft className="h-4 w-4" />
+          Back to dashboard
+        </Link>
+      </Button>
     </aside>
   );
 };

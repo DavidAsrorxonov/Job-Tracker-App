@@ -6,6 +6,7 @@ import PreferencesTab from "./_components/preferences-tab";
 import DocumentsTab from "./_components/documents-tab";
 import DangerZoneTab from "./_components/danger-zone-tab";
 import { useState } from "react";
+import ProfileSidebar from "./_components/profile-sidebar";
 
 export type TabId = "profile" | "preferences" | "documents" | "danger-zone";
 
@@ -26,7 +27,17 @@ const TABS_CONTENT: Record<TabId, React.ReactNode> = {
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<TabId>("profile");
 
-  return <div>ProfilePage</div>;
+  return (
+    <div className="flex min-h-screen bg-background">
+      <ProfileSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+
+      <main className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-2xl px-8 py-10">
+          {TABS_CONTENT[activeTab]}
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default ProfilePage;

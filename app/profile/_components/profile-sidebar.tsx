@@ -3,6 +3,7 @@
 import { useSession } from "@/lib/auth/auth-client";
 import { TabId } from "../page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   activeTab: TabId;
@@ -31,7 +32,18 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
             {initials}
           </AvatarFallback>
         </Avatar>
+
+        <div className="w-full">
+          <p className="truncate text-sm font-medium text-foreground">
+            {user?.name ?? "—"}
+          </p>
+          <p className="truncate text-xs text-muted-foreground">
+            {user?.email ?? "—"}
+          </p>
+        </div>
       </div>
+
+      <Separator />
     </aside>
   );
 };

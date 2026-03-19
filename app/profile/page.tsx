@@ -1,8 +1,11 @@
+"use client";
+
 import { FolderOpen, Palette, TriangleAlert, User } from "lucide-react";
 import ProfileTab from "./_components/profile-tab";
 import PreferencesTab from "./_components/preferences-tab";
 import DocumentsTab from "./_components/documents-tab";
 import DangerZoneTab from "./_components/danger-zone-tab";
+import { useState } from "react";
 
 export type TabId = "profile" | "preferences" | "documents" | "danger-zone";
 
@@ -21,6 +24,8 @@ const TABS_CONTENT: Record<TabId, React.ReactNode> = {
 };
 
 const ProfilePage = () => {
+  const [activeTab, setActiveTab] = useState<TabId>("profile");
+
   return <div>ProfilePage</div>;
 };
 

@@ -4,15 +4,9 @@ import { MongoClient } from "mongodb";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
-import { emailOTP } from "better-auth/plugins";
-import { JobTrackerVerifyEmail } from "@/templates/job-tracker-email-verify-template";
-
-import { Resend } from "resend";
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL_DEV!,

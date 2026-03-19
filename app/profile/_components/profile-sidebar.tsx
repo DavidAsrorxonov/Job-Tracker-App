@@ -2,6 +2,7 @@
 
 import { useSession } from "@/lib/auth/auth-client";
 import { TabId } from "../page";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Props = {
   activeTab: TabId;
@@ -20,6 +21,19 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
         .toUpperCase()
         .slice(0, 2)
     : "?";
+
+  return (
+    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-border/60 bg-muted/20 px-3 py-6">
+      <div className="mb-6 flex flex-col items-center gap-3 px-2 text-center">
+        <Avatar className="h-16 w-16">
+          <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
+          <AvatarFallback className="text-sm font-medium">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+      </div>
+    </aside>
+  );
 };
 
 export default ProfileSidebar;

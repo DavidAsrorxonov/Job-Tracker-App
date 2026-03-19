@@ -18,6 +18,7 @@ import { useSession } from "@/lib/auth/auth-client";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Logo from "./logo";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,12 +43,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-          <Image
-            src="/images/ascendio-glowing-cropped.png"
-            alt="Ascendio"
-            width={150}
-            height={150}
-          />
+          <Logo width={80} height={80} />
         </Link>
 
         <div className="flex items-center gap-4">

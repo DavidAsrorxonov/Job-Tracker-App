@@ -17,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "@/lib/auth/auth-client";
 import { ModeToggle } from "@/components/mode-toggle";
+import Logo from "@/components/logo";
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
@@ -56,14 +57,7 @@ const SignIn = () => {
         <section className="flex min-h-screen items-center justify-center border-r border-border bg-background px-6 py-10 sm:px-10">
           <div className="w-full max-w-md">
             <Link href="/" className="mb-12 inline-block">
-              <Image
-                src="/images/ascendio-glowing-cropped.png"
-                alt="Ascendio"
-                width={170}
-                height={56}
-                priority
-                className="h-auto w-auto"
-              />
+              <Logo width={170} height={56} />
             </Link>
 
             <div className="space-y-2">

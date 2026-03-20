@@ -1,26 +1,35 @@
 "use client";
 
+import { useState } from "react";
+import {
+  Loader2,
+  Pencil,
+  Check,
+  X,
+  Mail,
+  CalendarDays,
+  Shield,
+} from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { authClient, useSession } from "@/lib/auth/auth-client";
-import {
-  CalendarDays,
-  Check,
-  Loader2,
-  Mail,
-  Pencil,
-  Shield,
-  X,
-} from "lucide-react";
-import { useState } from "react";
 
 type EditState = "idle" | "editing" | "loading";
 
 const ProfileTab = () => {
-  const { data: session, refetch } = useSession();
+  const { data: session } = useSession();
   const user = session?.user;
 
   const [editState, setEditState] = useState<EditState>("idle");
@@ -60,7 +69,7 @@ const ProfileTab = () => {
     const trimmed = nameValue.trim();
 
     if (!trimmed) {
-      setError("Name cannot be empty");
+      setError("Name cannot be empty.");
       return;
     }
 
@@ -82,12 +91,11 @@ const ProfileTab = () => {
       return;
     }
 
-    await refetch();
     setEditState("idle");
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-xl font-semibold text-foreground">Profile</h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -95,143 +103,160 @@ const ProfileTab = () => {
         </p>
       </div>
 
-      <div className="rounded-xl border border-border/60 bg-card p-6 flex items-center gap-5">
-        <Avatar className="h-20 w-20 shrink-0">
-          <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
-          <AvatarFallback className="text-lg font-medium">
-            {initials}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col gap-1 min-w-0">
-          <p className="text-xs text-muted-foreground">
-            Profile photo is managed by Google
-          </p>
-          <p className="text-lg font-semibold text-foreground truncate">
-            {user?.name ?? "—"}
-          </p>
-          <p className="text-sm text-muted-foreground truncate">
-            {user?.email ?? "—"}
-          </p>
-        </div>
-      </div>
-
-      <div className="border border-border/60 bg-card divide-y divide-border/50">
-        <div className="flex items-center justify-between gap-4 px-5 py-4">
-          <div className="flex flex-col gap-0.5 min-w-0">
-            <Label className="text-xs text-muted-foreground">
-              Display name
-            </Label>
-            {editState === "editing" || editState === "loading" ? (
-              <div className="flex flex-col gap-1 mt-1">
-                <Input
-                  value={nameValue}
-                  onChange={(e) => setNameValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSave();
-                    if (e.key === "Escape") handleCancel();
-                  }}
-                  disabled={editState === "loading"}
-                  className="h-8 text-sm max-w-64"
-                  autoFocus
-                />
-                {error && <p className="text-xs text-destructive">{error}</p>}
-              </div>
-            ) : (
-              <p className="text-sm font-medium text-foreground truncate">
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex flex-col items-center gap-4 text-center pb-2">
+            <Avatar className="h-24 w-24 ring-2 ring-border">
+              <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
+              <AvatarFallback className="text-xl font-semibold">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col gap-1">
+              <p className="text-lg font-semibold text-foreground">
                 {user?.name ?? "—"}
               </p>
-            )}
+              <p className="text-sm text-muted-foreground">
+                {user?.email ?? "—"}
+              </p>
+              <p className="text-xs text-muted-foreground/60 mt-1">
+                Profile photo is managed by Google
+              </p>
+            </div>
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            {editState === "idle" && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleEdit}
-                className="h-8 px-3 text-muted-foreground hover:text-foreground"
-              >
-                <Pencil className="h-3.5 w-3.5 mr-1.5" />
-                Edit
-              </Button>
-            )}
-            {(editState === "editing" || editState === "loading") && (
-              <>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Account details</CardTitle>
+          <CardDescription>
+            Manage your display name and view account information.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-0">
+          <div className="flex items-center justify-between gap-4 py-4">
+            <div className="flex flex-col gap-1 min-w-0">
+              <Label className="text-xs text-muted-foreground">
+                Display name
+              </Label>
+              {editState === "editing" || editState === "loading" ? (
+                <div className="flex flex-col gap-1 mt-1">
+                  <Input
+                    value={nameValue}
+                    onChange={(e) => setNameValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleSave();
+                      if (e.key === "Escape") handleCancel();
+                    }}
+                    disabled={editState === "loading"}
+                    className="h-8 text-sm max-w-64"
+                    autoFocus
+                  />
+                  {error && <p className="text-xs text-destructive">{error}</p>}
+                </div>
+              ) : (
+                <p className="text-sm font-medium text-foreground">
+                  {user?.name ?? "—"}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              {editState === "idle" && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={handleCancel}
-                  disabled={editState === "loading"}
-                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                  onClick={handleEdit}
+                  className="h-8 px-3 text-muted-foreground hover:text-foreground"
                 >
-                  <X className="h-4 w-4" />
+                  <Pencil className="h-3.5 w-3.5 mr-1.5" />
+                  Edit
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={handleSave}
-                  disabled={editState === "loading"}
-                  className="h-8 px-3"
-                >
-                  {editState === "loading" ? (
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  ) : (
-                    <>
-                      <Check className="h-3.5 w-3.5 mr-1.5" />
-                      Save
-                    </>
-                  )}
-                </Button>
-              </>
-            )}
+              )}
+              {(editState === "editing" || editState === "loading") && (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCancel}
+                    disabled={editState === "loading"}
+                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleSave}
+                    disabled={editState === "loading"}
+                    className="h-8 px-3"
+                  >
+                    {editState === "loading" ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <>
+                        <Check className="h-3.5 w-3.5 mr-1.5" />
+                        Save
+                      </>
+                    )}
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3 px-5 py-4">
-          <Mail className="h-4 w-4 shrink-0 text-muted-foreground/60" />
-          <div className="flex flex-col gap-0.5 min-w-0">
-            <Label className="text-xs text-muted-foreground">
-              Email address
-            </Label>
-            <p className="text-sm font-medium text-foreground truncate">
-              {user?.email ?? "—"}
-            </p>
-          </div>
-          <Badge
-            variant="secondary"
-            className="ml-auto shrink-0 text-xs rounded-full"
-          >
-            Google
-          </Badge>
-        </div>
+          <Separator />
 
-        <div className="flex items-center gap-3 px-5 py-4">
-          <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground/60" />
-          <div className="flex flex-col gap-0.5">
-            <Label className="text-xs text-muted-foreground">
-              Member since
-            </Label>
-            <p className="text-sm font-medium text-foreground">
-              {formattedDate}
-            </p>
+          <div className="flex items-center gap-3 py-4">
+            <Mail className="h-4 w-4 shrink-0 text-muted-foreground/60" />
+            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+              <Label className="text-xs text-muted-foreground">
+                Email address
+              </Label>
+              <p className="text-sm font-medium text-foreground truncate">
+                {user?.email ?? "—"}
+              </p>
+            </div>
+            <Badge variant="outline" className="shrink-0 text-xs rounded-full">
+              Google
+            </Badge>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3 px-5 py-4">
-          <Shield className="h-4 w-4 shrink-0 text-muted-foreground/60" />
-          <div className="flex flex-col gap-0.5">
-            <Label className="text-xs text-muted-foreground">
-              Authentication
-            </Label>
-            <p className="text-sm font-medium text-foreground">Google OAuth</p>
+          <Separator />
+
+          <div className="flex items-center gap-3 py-4">
+            <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground/60" />
+            <div className="flex flex-col gap-0.5">
+              <Label className="text-xs text-muted-foreground">
+                Member since
+              </Label>
+              <p className="text-sm font-medium text-foreground">
+                {formattedDate}
+              </p>
+            </div>
           </div>
-          <Badge
-            variant="secondary"
-            className="ml-auto shrink-0 text-xs rounded-full bg-green-500/10 text-green-600 dark:text-green-400"
-          >
-            Active
-          </Badge>
-        </div>
-      </div>
+
+          <Separator />
+
+          <div className="flex items-center gap-3 py-4">
+            <Shield className="h-4 w-4 shrink-0 text-muted-foreground/60" />
+            <div className="flex flex-col gap-0.5 flex-1">
+              <Label className="text-xs text-muted-foreground">
+                Authentication
+              </Label>
+              <p className="text-sm font-medium text-foreground">
+                Google OAuth
+              </p>
+            </div>
+            <Badge
+              variant="secondary"
+              className="shrink-0 text-xs rounded-full bg-green-500/10 text-green-600 dark:text-green-400"
+            >
+              Active
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

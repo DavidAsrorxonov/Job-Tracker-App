@@ -1,13 +1,13 @@
 "use client";
 
 import { useSession } from "@/lib/auth/auth-client";
-import { TabId, TABS } from "../page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { TabId, TABS } from "./profile-shell";
 
 type Props = {
   activeTab: TabId;

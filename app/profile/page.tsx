@@ -1,42 +1,33 @@
-"use client";
+import { Suspense } from "react";
+import ProfileShell from "./_components/profile-shell";
+import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
+import { Loader2 } from "lucide-react";
 
-import { FolderOpen, Palette, TriangleAlert, User } from "lucide-react";
-import ProfileTab from "./_components/profile-tab";
-import PreferencesTab from "./_components/preferences-tab";
-import DocumentsTab from "./_components/documents-tab";
-import DangerZoneTab from "./_components/danger-zone-tab";
-import { useState } from "react";
-import ProfileSidebar from "./_components/profile-sidebar";
+const ProfileContent = async () => {
+  const { docs } = await getUserDocumentsForPage();
 
-export type TabId = "profile" | "preferences" | "documents" | "danger-zone";
+  const safeDocs = docs.map((d: any) => ({
+    ...d,
+    _id: d._id.toString(),
+    userId: d.userId?.toString?.() ?? d.userId,
+    createdAt: d.createdAt?.toISOString?.() ?? d.createdAt,
+    updatedAt: d.updatedAt?.toISOString?.() ?? d.updatedAt,
+  }));
 
-export const TABS = [
-  { id: "profile" as TabId, label: "Profile", icon: User },
-  { id: "preferences" as TabId, label: "Preferences", icon: Palette },
-  { id: "documents" as TabId, label: "Documents", icon: FolderOpen },
-  { id: "danger-zone" as TabId, label: "Danger Zone", icon: TriangleAlert },
-];
-
-const TABS_CONTENT: Record<TabId, React.ReactNode> = {
-  profile: <ProfileTab />,
-  preferences: <PreferencesTab />,
-  documents: <DocumentsTab />,
-  "danger-zone": <DangerZoneTab />,
+  return <ProfileShell initialDocs={safeDocs} />;
 };
 
-const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState<TabId>("profile");
-
+const ProfilePage = async () => {
   return (
-    <div className="flex min-h-screen bg-background">
-      <ProfileSidebar activeTab={activeTab} onTabChange={setActiveTab} />
-
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-2xl px-8 py-10">
-          {TABS_CONTENT[activeTab]}
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
-      </main>
-    </div>
+      }
+    >
+      <ProfileContent />
+    </Suspense>
   );
 };
 

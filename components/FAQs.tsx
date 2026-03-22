@@ -13,14 +13,6 @@ import { FAQS } from "@/constants/faqs";
 const FAQ = () => {
   return (
     <section className="py-24 overflow-hidden relative" id="faq">
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[28px_28px] mask-[radial-gradient(ellipse_80%_60%_at_50%_50%,#000_60%,transparent_100%)]" />
-
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-[0.06] blur-[100px]" />
-        <div className="absolute top-0 left-[15%] h-50 w-50 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
-        <div className="absolute bottom-0 right-[15%] h-50 w-50 rounded-full bg-primary opacity-[0.05] blur-[70px]" />
-      </div>
-
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-14 flex max-w-2xl flex-col items-center text-center">
           <motion.div

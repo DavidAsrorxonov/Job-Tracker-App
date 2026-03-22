@@ -61,7 +61,7 @@ const Footer = () => {
         </div>
         <SpotlightFooter
           className="pointer-events-none absolute bottom-0 left-0 h-full w-full"
-          fill="#22c55e"
+          fill="#f59e0b"
         />
       </div>
 

@@ -19,7 +19,7 @@ import { ITimelineEntry } from "@/lib/models/job-application";
 const chartConfig = {
   count: {
     label: "Events",
-    color: "#016238",
+    color: "#f59e0b",
   },
 } satisfies ChartConfig;
 
@@ -69,9 +69,9 @@ export function RadarChartDefault({
             <PolarGrid />
             <Radar
               dataKey="count"
-              fill="#016238"
+              fill="#f59e0b"
               fillOpacity={0.5}
-              stroke="#016238"
+              stroke="#92400e"
             />
           </RadarChart>
         </ChartContainer>

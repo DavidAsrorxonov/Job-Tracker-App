@@ -4,6 +4,7 @@ import { MongoClient } from "mongodb";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
+import { multiSession } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
@@ -25,6 +26,7 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
+  plugins: [multiSession()],
   databaseHooks: {
     user: {
       create: {

@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
-import { LayoutDashboard, BookOpen, User, LogOut, Loader2 } from "lucide-react";
+import { BookOpen, User, LogOut, Loader2 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth/auth-client";
 
 const NAV_LINKS = [

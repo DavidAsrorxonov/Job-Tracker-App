@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { User, Palette, FolderOpen, TriangleAlert } from "lucide-react";
+import {
+  User,
+  Palette,
+  FolderOpen,
+  TriangleAlert,
+  Monitor,
+} from "lucide-react";
 
 import ProfileSidebar from "./profile-sidebar";
 import ProfileTab from "./profile-tab";
@@ -9,13 +15,20 @@ import PreferencesTab from "./preferences-tab";
 import DocumentsTab from "./documents-tab";
 import DangerZoneTab from "./danger-zone-tab";
 import { UserDoc } from "@/types/user-documents";
+import SessionsTab from "./sessions-tab";
 
-export type TabId = "profile" | "preferences" | "documents" | "danger-zone";
+export type TabId =
+  | "profile"
+  | "preferences"
+  | "documents"
+  | "sessions"
+  | "danger-zone";
 
 export const TABS = [
   { id: "profile" as TabId, label: "Profile", icon: User },
   { id: "preferences" as TabId, label: "Preferences", icon: Palette },
   { id: "documents" as TabId, label: "Documents", icon: FolderOpen },
+  { id: "sessions" as TabId, label: "Sessions", icon: Monitor },
   { id: "danger-zone" as TabId, label: "Danger Zone", icon: TriangleAlert },
 ];
 
@@ -30,6 +43,7 @@ const ProfileShell = ({ initialDocs }: Props) => {
     profile: <ProfileTab />,
     preferences: <PreferencesTab />,
     documents: <DocumentsTab initialDocs={initialDocs} />,
+    sessions: <SessionsTab />,
     "danger-zone": <DangerZoneTab />,
   };
 

@@ -11,17 +11,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import SignOutBtn from "./SignOutBtn";
-import { useSession } from "@/lib/auth/auth-client";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Logo from "./logo";
+import { LayoutDashboard, BookOpen, User, LogOut, Loader2 } from "lucide-react";
+import { signOut, useSession } from "@/lib/auth/auth-client";
+
+const NAV_LINKS = [
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Features", href: "/#features" },
+  { label: "Documentation", href: "/docs" },
+];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -31,6 +38,26 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/sign-in";
+        },
+      },
+    });
+  };
+
+  const initials = session?.user?.name
+    ? session.user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
 
   return (
     <nav
@@ -46,55 +73,105 @@ const Navbar = () => {
           <Logo width={80} height={80} />
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map((link) => (
+            <Button
+              key={link.label}
+              asChild
+              variant="ghost"
+              size="sm"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Link href={link.href}>{link.label}</Link>
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3">
           {session?.user ? (
             <>
-              <Link href="/dashboard">
-                <Button>Dashboard</Button>
-              </Link>
-              <Link href="/dashboard/upload">
-                <Button variant="outline">My Documents</Button>
-              </Link>
+              <Button asChild size="sm" className="hidden md:flex">
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full"
+                    className="rounded-full h-9 w-9"
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
                         src={session.user.image ?? undefined}
                         alt={session.user.name ?? "User"}
                       />
-                      <AvatarFallback>
-                        {session.user.name?.[0].toUpperCase()}
+                      <AvatarFallback className="text-xs font-medium">
+                        {initials}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-72">
+
+                <DropdownMenuContent className="w-64" align="end">
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
-                    <DropdownMenuLabel className="font-normal text-muted-foreground">
+                    <DropdownMenuLabel className="font-medium">
+                      {session.user.name}
+                    </DropdownMenuLabel>
+                    <DropdownMenuLabel className="font-normal text-muted-foreground -mt-2 text-xs">
                       {session.user.email}
                     </DropdownMenuLabel>
                   </DropdownMenuGroup>
+
                   <DropdownMenuSeparator />
+
                   <DropdownMenuGroup>
-                    <SignOutBtn />
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile">
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/docs">
+                        <BookOpen className="mr-2 h-4 w-4" />
+                        Documentation
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="md:hidden">
+                      <Link href="/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      onClick={handleSignOut}
+                      disabled={signingOut}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      {signingOut ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <LogOut className="mr-2 h-4 w-4" />
+                      )}
+                      {signingOut ? "Signing out..." : "Sign out"}
+                    </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
           ) : (
-            <Link href="/sign-in">
-              <Button>Get started</Button>
-            </Link>
+            <Button asChild size="sm">
+              <Link href="/sign-in">Get started</Link>
+            </Button>
           )}
+
           <ModeToggle />
         </div>
       </div>
+
       <Separator className={cn(isScrolled ? "opacity-100" : "opacity-0")} />
     </nav>
   );

@@ -29,3 +29,20 @@ const CALLOUT_STYLES: Record<
       "border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/40",
   },
 };
+
+export const Callout = ({
+  type = "info",
+  children,
+}: {
+  type?: CalloutType;
+  children: React.ReactNode;
+}) => {
+  const { icon, className } = CALLOUT_STYLES[type];
+
+  return (
+    <div className={cn("my-5 flex gap-3 rounded-lg border p-4", className)}>
+      <span className="mt-0.5">{icon}</span>
+      <div className="text-sm leading-relaxed [&>p]:mb-0">{children}</div>
+    </div>
+  );
+};

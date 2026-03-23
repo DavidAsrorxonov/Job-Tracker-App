@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Info, AlertTriangle, Lightbulb, XCircle } from "lucide-react";
+import React from "react";
 
 type CalloutType = "info" | "warning" | "tip" | "danger";
 
@@ -46,3 +47,35 @@ export const Callout = ({
     </div>
   );
 };
+
+export const Steps = ({ children }: { children: React.ReactNode }) => (
+  <div className="my-6 flex flex-col gap-0 [counter-reset:step]">
+    {children}
+  </div>
+);
+
+export const Step = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <div className="relative flex gap-4 pb-8 [counter-increment:step] last:pb-0">
+    <div className="flex flex-col items-center">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-semibold">
+        <span
+          className="[content:counter(step)]"
+          style={{ content: "counter(step)" }}
+        />
+      </div>
+      <div className="mt-2 w-px flex-1 bg-border last:hidden" />
+    </div>
+    <div className="flex-1 pb-2">
+      <p className="mb-2 font-semibold text-foreground leading-8">{title}</p>
+      <div className="text-sm text-muted-foreground leading-relaxed">
+        {children}
+      </div>
+    </div>
+  </div>
+);

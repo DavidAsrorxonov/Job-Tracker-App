@@ -79,3 +79,70 @@ export const Step = ({
     </div>
   </div>
 );
+
+export const ImageCaption = ({
+  src,
+  alt,
+  caption,
+  width = 1200,
+  height = 800,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}) => (
+  <figure className="my-6">
+    <div className="overflow-hidden rounded-xl border border-border/60 shadow-sm">
+      <div className="flex items-center gap-1.5 border-b border-border/50 bg-muted/60 px-4 py-2.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+        <div className="mx-auto flex h-5 w-40 items-center justify-center rounded bg-background/60 px-2">
+          <span className="text-[10px] text-muted-foreground/50 tracking-wide">
+            ascendio.app
+          </span>
+        </div>
+      </div>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className="w-full"
+      />
+    </div>
+    {caption && (
+      <figcaption className="mt-2.5 text-center text-xs text-muted-foreground">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+);
+
+export const CodeBlock = ({
+  children,
+  filename,
+  language,
+}: {
+  children: string;
+  filename?: string;
+  language?: string;
+}) => (
+  <div className="my-5 overflow-hidden rounded-lg border border-border/60">
+    {filename && (
+      <div className="flex items-center gap-2 border-b border-border/60 bg-muted/60 px-4 py-2">
+        <span className="text-xs text-muted-foreground">{filename}</span>
+        {language && (
+          <span className="ml-auto text-xs text-muted-foreground/50 uppercase tracking-widest">
+            {language}
+          </span>
+        )}
+      </div>
+    )}
+    <pre className="overflow-x-auto bg-muted/30 p-4 text-sm leading-relaxed">
+      <code className="font-mono text-foreground">{children}</code>
+    </pre>
+  </div>
+);

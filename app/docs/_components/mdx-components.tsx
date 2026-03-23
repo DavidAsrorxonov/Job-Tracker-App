@@ -179,3 +179,97 @@ export const DocCard = ({
 export const DocCardGrid = ({ children }: { children: React.ReactNode }) => (
   <div className="my-6 grid grid-cols-1 gap-3 sm:grid-cols-2">{children}</div>
 );
+
+export const MDXComponents = {
+  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1
+      className="mt-2 mb-4 scroll-m-20 text-3xl font-semibold tracking-tight text-foreground"
+      {...props}
+    />
+  ),
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2
+      className="mt-10 mb-3 scroll-m-20 border-b border-border/50 pb-2 text-xl font-semibold tracking-tight text-foreground"
+      {...props}
+    />
+  ),
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3
+      className="mt-6 mb-2 scroll-m-20 text-lg font-semibold tracking-tight text-foreground"
+      {...props}
+    />
+  ),
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="mb-4 text-sm leading-7 text-muted-foreground" {...props} />
+  ),
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul
+      className="mb-4 ml-5 list-disc space-y-1.5 text-sm text-muted-foreground"
+      {...props}
+    />
+  ),
+  ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol
+      className="mb-4 ml-5 list-decimal space-y-1.5 text-sm text-muted-foreground"
+      {...props}
+    />
+  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-7" {...props} />
+  ),
+  strong: (props: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="font-semibold text-foreground" {...props} />
+  ),
+  code: (props: React.HTMLAttributes<HTMLElement>) => (
+    <code
+      className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground"
+      {...props}
+    />
+  ),
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre
+      className="my-5 overflow-x-auto rounded-lg border border-border/60 bg-muted/30 p-4 text-sm"
+      {...props}
+    />
+  ),
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a
+      className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+      {...props}
+    />
+  ),
+  blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote
+      className="my-4 border-l-2 border-primary/40 pl-4 text-sm italic text-muted-foreground"
+      {...props}
+    />
+  ),
+  hr: () => <hr className="my-8 border-border/50" />,
+  table: (props: React.HTMLAttributes<HTMLTableElement>) => (
+    <div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+      <table className="w-full text-sm" {...props} />
+    </div>
+  ),
+  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead className="border-b border-border/60 bg-muted/40" {...props} />
+  ),
+  th: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <th
+      className="px-4 py-2.5 text-left text-xs font-semibold text-foreground"
+      {...props}
+    />
+  ),
+  td: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <td
+      className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40"
+      {...props}
+    />
+  ),
+  Callout,
+  Step,
+  Steps,
+  ImageCaption,
+  CodeBlock,
+  DocCard,
+  DocCardGrid,
+};

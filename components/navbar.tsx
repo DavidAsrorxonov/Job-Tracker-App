@@ -20,12 +20,6 @@ import Logo from "./logo";
 import { BookOpen, User, LogOut, Loader2 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth/auth-client";
 
-const NAV_LINKS = [
-  { label: "How it works", href: "/#how-it-works" },
-  { label: "Features", href: "/#features" },
-  { label: "Documentation", href: "/docs" },
-];
-
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -77,23 +71,13 @@ const Navbar = () => {
           <Logo width={80} height={80} />
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link) => (
-            <Button
-              key={link.label}
-              asChild
-              variant="ghost"
-              size="sm"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Link href={link.href}>{link.label}</Link>
-            </Button>
-          ))}
-        </div>
-
         <div className="flex items-center gap-3">
           {session?.user ? (
             <>
+              <Button asChild size="sm" variant={"outline"}>
+                <Link href="/docs">Documentation</Link>
+              </Button>
+
               <Button asChild size="sm" className="hidden md:flex">
                 <Link href="/dashboard">Dashboard</Link>
               </Button>

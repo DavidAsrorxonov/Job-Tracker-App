@@ -12,9 +12,14 @@ const DocumentsTab = ({ initialDocs }: Props) => {
   const [docs, setDocs] = useState<UserDoc[]>(initialDocs);
 
   const fetchDocs = async () => {
-    const res = await fetch("/api/user-documents");
-    const json = await res.json();
-    setDocs(json.docs);
+    try {
+      const res = await fetch("/api/user-documents");
+      if (!res.ok) return;
+      const json = await res.json();
+      setDocs(json.docs ?? []);
+    } catch (error) {
+      console.error("Failed to fetch documents", error);
+    }
   };
 
   return (

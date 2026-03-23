@@ -30,7 +30,12 @@ const DangerZoneTab = () => {
 
   const handleSignOut = async () => {
     setSigningOut(true);
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Sign out failed", error);
+      setSigningOut(false);
+    }
   };
 
   return (

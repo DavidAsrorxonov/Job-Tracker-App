@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Loader2,
   Pencil,
@@ -33,8 +33,14 @@ const ProfileTab = () => {
   const user = session?.user;
 
   const [editState, setEditState] = useState<EditState>("idle");
-  const [nameValue, setNameValue] = useState(user?.name ?? "");
+  const [nameValue, setNameValue] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (user?.name && editState === "idle") {
+      setNameValue(user.name);
+    }
+  }, [user?.name, editState]);
 
   const initials = user?.name
     ? user.name

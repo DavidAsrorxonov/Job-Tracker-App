@@ -41,13 +41,17 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     setSigningOut(true);
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          window.location.href = "/sign-in";
+    try {
+      await signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            window.location.href = "/sign-in";
+          },
         },
-      },
-    });
+      });
+    } catch {
+      setSigningOut(false);
+    }
   };
 
   const initials = session?.user?.name

@@ -51,7 +51,8 @@ const PreferencesTab = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [activePreview, setActivePreview] = useState(1);
 
-  const effectiveTheme = theme === "system" ? resolvedTheme : theme;
+  const effectiveTheme =
+    (theme === "system" ? resolvedTheme : theme) ?? "light";
   const activeTab = PREVIEW_TABS.find((t) => t.id === activePreview)!;
   const previewSrc =
     effectiveTheme === "dark" ? activeTab.dark : activeTab.light;

@@ -1,9 +1,17 @@
 import { Suspense } from "react";
 import ProfileShell from "./_components/profile-shell";
 import { getUserDocumentsForPage } from "@/lib/documents/get-user-documents";
+import { getSession } from "@/lib/auth/auth";
+import { redirect } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 const ProfileContent = async () => {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
   const { docs } = await getUserDocumentsForPage();
 
   const safeDocs = docs.map((d: any) => ({

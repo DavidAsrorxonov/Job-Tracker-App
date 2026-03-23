@@ -146,3 +146,36 @@ export const CodeBlock = ({
     </pre>
   </div>
 );
+
+export const DocCard = ({
+  title,
+  description,
+  href,
+}: {
+  title: string;
+  description: string;
+  href?: string;
+}) => {
+  const inner = (
+    <div className="rounded-xl border border-border/60 bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:bg-primary/5">
+      <p className="mb-1 font-medium text-foreground text-sm">{title}</p>
+      <p className="text-xs text-muted-foreground leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+
+  if (href) {
+    return (
+      <a href={href} className="block no-underline">
+        {inner}
+      </a>
+    );
+  }
+
+  return inner;
+};
+
+export const DocCardGrid = ({ children }: { children: React.ReactNode }) => (
+  <div className="my-6 grid grid-cols-1 gap-3 sm:grid-cols-2">{children}</div>
+);

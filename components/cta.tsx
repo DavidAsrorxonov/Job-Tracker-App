@@ -95,7 +95,7 @@ const CTA = () => {
                 size="sm"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Link href="#preview">
+                <Link href="#how-it-works">
                   <PlayCircle className="mr-2 h-4 w-4" />
                   See how it works
                 </Link>

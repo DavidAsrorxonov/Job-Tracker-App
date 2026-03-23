@@ -20,7 +20,7 @@ import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 const chartConfig = {
   total: {
     label: "Total Events",
-    color: "#016238",
+    color: "#f59e0b",
   },
 } satisfies ChartConfig;
 
@@ -71,9 +71,9 @@ const AreaChartDefault = ({ timeline }: { timeline: ITimelineEntry[] }) => {
             <Area
               dataKey="total"
               type="natural"
-              fill="#016238"
+              fill="#f59e0b"
               fillOpacity={0.2}
-              stroke="#016238"
+              stroke="#92400e"
             />
           </AreaChart>
         </ChartContainer>

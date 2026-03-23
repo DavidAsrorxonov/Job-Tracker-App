@@ -41,10 +41,7 @@ const Hero = () => {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <Badge
-              variant="outline"
-              className="px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-muted-foreground"
-            >
+            <Badge className="px-4 py-1.5 text-xs font-medium uppercase tracking-widest">
               <Sparkle className="mr-2 h-4 w-4" />
               Built for focused job seekers
             </Badge>
@@ -91,7 +88,7 @@ const Hero = () => {
               size="sm"
               className="text-muted-foreground hover:text-foreground"
             >
-              <Link href="#preview">
+              <Link href="#how-it-works">
                 <PlayCircle className="mr-2 h-4 w-4" />
                 See how it works
               </Link>

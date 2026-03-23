@@ -23,7 +23,7 @@ export const description = "A bar chart showing the number of events per day.";
 const chartConfig = {
   events: {
     label: "Events",
-    color: "#016238",
+    color: "#f59e0b",
   },
 } satisfies ChartConfig;
 
@@ -60,7 +60,7 @@ export function BarChartDefault({ timeline }: { timeline: ITimelineEntry[] }) {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="events" fill="#016238" radius={8} />
+            <Bar dataKey="events" fill="#f59e0b" radius={8} />
           </BarChart>
         </ChartContainer>
       </CardContent>

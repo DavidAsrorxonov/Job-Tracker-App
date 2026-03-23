@@ -83,7 +83,7 @@ const DangerZoneTab = () => {
                 <p className="text-sm font-medium text-foreground">
                   Delete account
                 </p>
-                <Badge variant="secondary" className="text-xs rounded-full">
+                <Badge variant="outline" className="text-xs rounded-full">
                   Coming soon
                 </Badge>
               </div>

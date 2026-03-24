@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 type TocItem = {
@@ -55,7 +56,37 @@ const DocsToc = () => {
 
   if (items.length === 0) return null;
 
-  return <div>DocToc</div>;
+  return (
+    <nav className="flex flex-col gap-1">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        On this page
+      </p>
+
+      {items.map((item) => (
+        <a
+          key={item.id}
+          href={`#${item.id}`}
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById(item.id)?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            setActiveId(item.id);
+          }}
+          className={cn(
+            "text-xs leading-relaxed transition-colors duration-150 py-0.5",
+            item.level === 3 && "pl-3",
+            activeId === item.id
+              ? "text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {item.text}
+        </a>
+      ))}
+    </nav>
+  );
 };
 
 export default DocsToc;

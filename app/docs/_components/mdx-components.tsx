@@ -187,18 +187,38 @@ export const MDXComponents = {
       {...props}
     />
   ),
-  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2
-      className="mt-10 mb-3 scroll-m-20 border-b border-border/50 pb-2 text-xl font-semibold tracking-tight text-foreground"
-      {...props}
-    />
-  ),
-  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3
-      className="mt-6 mb-2 scroll-m-20 text-lg font-semibold tracking-tight text-foreground"
-      {...props}
-    />
-  ),
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+    const id = children
+      ?.toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
+    return (
+      <h2
+        id={id}
+        className="mt-10 mb-3 scroll-m-20 border-b border-border/50 pb-2 text-xl font-semibold tracking-tight text-foreground"
+        {...props}
+      >
+        {children}
+      </h2>
+    );
+  },
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+    const id = children
+      ?.toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
+    return (
+      <h3
+        id={id}
+        className="mt-6 mb-2 scroll-m-20 text-lg font-semibold tracking-tight text-foreground"
+        {...props}
+      >
+        {children}
+      </h3>
+    );
+  },
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p className="mb-4 text-sm leading-7 text-muted-foreground" {...props} />
   ),

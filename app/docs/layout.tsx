@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import DocsTopbar from "./_components/docs-topbar";
 import DocsSidebar from "./_components/docs-sidebar";
+import DocsToc from "./_components/docs-toc";
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +29,7 @@ export default function DocsLayout({
 
             <aside className="hidden xl:block w-48 shrink-0">
               <div className="sticky top-24">
-                {/* DocsToC goes here in Step 6 */}
+                <DocsToc />
               </div>
             </aside>
           </div>

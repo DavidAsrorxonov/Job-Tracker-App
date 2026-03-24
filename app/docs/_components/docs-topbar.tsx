@@ -37,8 +37,7 @@ const DocsTopbar = () => {
             Search documentation...
           </span>
           <KbdGroup>
-            <Kbd>⌘</Kbd>
-            <Kbd>K</Kbd>
+            <Kbd>⌘ K</Kbd>
           </KbdGroup>
         </button>
 

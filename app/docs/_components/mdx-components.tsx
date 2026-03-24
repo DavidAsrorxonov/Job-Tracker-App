@@ -266,24 +266,34 @@ export const MDXComponents = {
   ),
   hr: () => <hr className="my-8 border-border/50" />,
   table: (props: React.HTMLAttributes<HTMLTableElement>) => (
-    <div className="my-5 overflow-x-auto rounded-lg border border-border/60">
-      <table className="w-full text-sm" {...props} />
+    <div className="my-6 overflow-x-auto rounded-xl border border-border/60">
+      <table className="w-full text-sm border-collapse" {...props} />
     </div>
   ),
+
   thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead className="border-b border-border/60 bg-muted/40" {...props} />
+    <thead
+      className="border-b border-border/60 bg-muted/50 backdrop-blur supports-backdrop-filter:bg-muted/40"
+      {...props}
+    />
   ),
+
   th: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
-      className="px-4 py-2.5 text-left text-xs font-semibold text-foreground"
+      className="px-5 py-3 text-left text-sm font-semibold text-foreground"
       {...props}
     />
   ),
+
   td: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
     <td
-      className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40"
+      className="px-5 py-3 text-sm text-muted-foreground border-t border-border/40"
       {...props}
     />
+  ),
+
+  tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <tbody className="[&_tr:hover]:bg-muted/40 transition-colors" {...props} />
   ),
   Callout,
   Step,

@@ -125,7 +125,8 @@ const SignIn = () => {
         </section>
 
         <section className="relative hidden overflow-hidden bg-muted/20 lg:flex">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(1,98,56,0.18),transparent_30%)] dark:bg-[radial-gradient(circle_at_top,rgba(1,98,56,0.28),transparent_35%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.18),transparent_30%)] dark:bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.28),transparent_35%)]" />
+
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(120,120,120,0.10),transparent_30%)] dark:bg-[radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.06),transparent_30%)]" />
 
           <div className="relative flex w-full flex-col justify-between px-10 py-10 xl:px-16">
@@ -165,7 +166,7 @@ const SignIn = () => {
                 <div className="grid max-w-xl gap-4 pt-4 sm:grid-cols-3">
                   <Card className="border-border/70 bg-card/70 backdrop-blur">
                     <CardContent className="p-4">
-                      <FolderKanban className="mb-3 h-5 w-5 text-[#016238]" />
+                      <FolderKanban className="mb-3 h-5 w-5 text-[#f59e0b]" />
                       <p className="text-sm font-medium">Track applications</p>
                       <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         Keep every role and stage in one place.
@@ -175,7 +176,7 @@ const SignIn = () => {
 
                   <Card className="border-border/70 bg-card/70 backdrop-blur">
                     <CardContent className="p-4">
-                      <BriefcaseBusiness className="mb-3 h-5 w-5 text-[#016238]" />
+                      <BriefcaseBusiness className="mb-3 h-5 w-5 text-[#f59e0b]" />
                       <p className="text-sm font-medium">Organize interviews</p>
                       <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         Stay on top of timelines and next steps.
@@ -185,7 +186,7 @@ const SignIn = () => {
 
                   <Card className="border-border/70 bg-card/70 backdrop-blur">
                     <CardContent className="p-4">
-                      <Sparkles className="mb-3 h-5 w-5 text-[#016238]" />
+                      <Sparkles className="mb-3 h-5 w-5 text-[#f59e0b]" />
                       <p className="text-sm font-medium">Move with clarity</p>
                       <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         A calmer workflow for your search.

@@ -1,0 +1,188 @@
+export const metadata = {
+  title: "Kanban board",
+  description: "Navigate and manage your full job pipeline from one board.",
+};
+
+# Kanban board
+
+The Kanban board is the heart of Ascendio! Every job you track lives here, organized into five columns that represent the stages of a job search. At a glance you can see exactly where every opportunity stands.
+
+<ImageCaption
+  src="/docs/kanban-board/images/overview.png"
+  alt="Ascendio Kanban board overview"
+  caption="The Kanban board — your full pipeline at a glance"
+/>
+
+## The five columns
+
+The board is divided into five fixed columns, each representing a stage in your job search:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Column
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          What it means
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Wishlist
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs you want to research and consider before applying
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Applied
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs you have submitted an application for
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Interviewing
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you are actively going through interview rounds
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Offer
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you have received a formal offer
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Rejected
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you were rejected or chose to withdraw
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<Callout type="info">
+  The column order reflects the natural progression of a job search. A job
+  should generally move left to right — but you can move it to any stage at any
+  time.
+</Callout>
+
+## Job cards
+
+Each job on the board is represented by a card. The card shows the most important information at a glance without needing to open the job:
+
+- **Company name** — the organization you applied to
+- **Job title** — the position you are pursuing
+- **Location** — where the role is based
+- **Salary** — the compensation range if you have recorded it
+- **Tags** — any custom labels you have added
+- **Applied at** — the date you submitted your application
+- **Last updated** — when the job was last modified
+
+<ImageCaption
+  src="/docs/kanban-board/images/job-card.png"
+  alt="A job card on the Kanban board"
+  caption="A job card showing key details at a glance"
+/>
+
+## Moving jobs between stages
+
+As your application progresses, drag and drop the job card into the column that reflects the new stage. The video below shows how it works:
+
+<figure className="my-6">
+  <div className="overflow-hidden rounded-xl border border-border/60 shadow-sm">
+    <div className="flex items-center gap-1.5 border-b border-border/50 bg-muted/60 px-4 py-2.5">
+      <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+      <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+      <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+      <div className="mx-auto flex h-5 w-40 items-center justify-center rounded bg-background/60 px-2">
+        <span className="text-[10px] text-muted-foreground/50 tracking-wide">
+          ascendio.app
+        </span>
+      </div>
+    </div>
+    <video
+      src="/docs/kanban-board/video/drag-demo.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full"
+    />
+  </div>
+  <figcaption className="mt-2.5 text-center text-xs text-muted-foreground">
+    Drag a card to move it between stages
+  </figcaption>
+</figure>
+
+<Callout type="tip">
+  When a job moves to a new stage, all data from previous stages remains intact
+  and accessible inside the job detail panel.
+</Callout>
+
+## Opening a job
+
+Click any job card to open its full detail page at `/dashboard/[id]`. This is where you can view and edit everything about the job — notes, contacts, documents, interview rounds, offer details, and the full stage history.
+
+<ImageCaption
+  src="/docs/kanban-board/images/job-detail.png"
+  alt="Job detail page"
+  caption="The job detail page — click any card to open it"
+/>
+
+The detail page shows:
+
+- **Job title and company** — always visible at the top
+- **Location, salary, and tags** — editable at any time
+- **Applied at and last updated** — automatically tracked
+- **Current stage** — shown clearly with the option to change it
+- **Stage-specific panels** — each stage has its own dedicated section for relevant information
+
+<Callout type="info">
+  The URL for each job is unique — you can bookmark a specific job and return to
+  it directly at any time.
+</Callout>
+
+## Adding a new job
+
+To add a job to the board, click the **Add job** button on the dashboard. The job will appear in whichever stage you select during creation.
+
+For a full walkthrough of adding your first job, see the [Getting started](/docs/user-guide/getting-started) guide.
+
+## What's next
+
+<DocCardGrid>
+  <DocCard
+    title="Application tracking"
+    description="Log every detail of your application — method, CV, cover letter, and follow-ups."
+    href="/docs/user-guide/application-tracking"
+  />
+  <DocCard
+    title="Interview management"
+    description="Track every interview round with type, outcome, rating, and notes."
+    href="/docs/user-guide/interview-management"
+  />
+  <DocCard
+    title="Timeline"
+    description="View the full history of any job as a chronological feed."
+    href="/docs/user-guide/timeline"
+  />
+  <DocCard
+    title="Document manager"
+    description="Upload and manage your CVs and cover letters."
+    href="/docs/user-guide/document-manager"
+  />
+</DocCardGrid>

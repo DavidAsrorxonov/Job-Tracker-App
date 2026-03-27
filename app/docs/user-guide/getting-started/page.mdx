@@ -1,0 +1,207 @@
+export const metadata = {
+  title: "Getting started",
+  description: "Sign in with Google and add your first job in under a minute.",
+};
+
+# Getting started
+
+Ascendio is a focused job application tracker that keeps every application, interview, and offer in one calm, organized place. This guide walks you through signing in and adding your first job.
+
+## Prerequisites
+
+You only need one thing to use Ascendio:
+
+- A **Google account** — Ascendio uses Google OAuth for authentication. No password, no email verification, no forms.
+
+## Signing in
+
+<Steps>
+  <Step title="Go to ascendio.app">
+    Open your browser and navigate to [ascendio.app](https://ascendio.app). You will land on the homepage.
+
+    <ImageCaption
+      src="/docs/getting-started/landing-page.png"
+      alt="Ascendio landing page"
+      caption="The Ascendio landing page"
+    />
+
+  </Step>
+
+  <Step title="Click 'Start for free'">
+    Click the **Start for free** button in the hero section or the **Get started** button in the navbar. Both take you to the sign-in page.
+
+    <ImageCaption
+      src="/docs/getting-started/sign-in-page.png"
+      alt="Ascendio sign-in page"
+      caption="The sign-in page — one button, no forms"
+    />
+
+  </Step>
+
+  <Step title="Continue with Google">
+    Click **Continue with Google**. A Google OAuth popup will appear. Select your Google account and grant the requested permissions.
+
+    <Callout type="info">
+      Ascendio only receives your name, email address, and profile photo from Google. We never see your Google password.
+    </Callout>
+
+  </Step>
+
+  <Step title="You're in">
+    After signing in you are redirected to your dashboard. If this is your first time, you will see an empty Kanban board ready for your first job.
+
+    <ImageCaption
+      src="/docs/getting-started/empty-dashboard.png"
+      alt="Empty Ascendio dashboard"
+      caption="Your dashboard on first sign-in — empty and ready"
+    />
+
+  </Step>
+</Steps>
+
+## Adding your first job
+
+<Steps>
+  <Step title="Click 'Add job'">
+    On the dashboard, click the **Add job** button. A form will appear asking for the basic details of the position.
+
+    <ImageCaption
+      src="/docs/getting-started/add-job-button.png"
+      alt="Add job button on the dashboard"
+      caption="The Add job button on the Kanban board"
+    />
+
+  </Step>
+
+  <Step title="Fill in the details">
+    Enter the company name, job title, and any other details you have. At minimum, a company name and job title are required.
+
+    <ImageCaption
+      src="/docs/getting-started/add-job-form.png"
+      alt="Add job form"
+      caption="The add job form — fill in what you know, edit the rest later"
+    />
+
+    <Callout type="tip">
+      Don't worry about filling everything in right away. You can always come back and add more details as you progress through the application process.
+    </Callout>
+
+  </Step>
+
+  <Step title="Choose a stage">
+    Select the stage that best describes where this job currently is. If you haven't applied yet, choose **Wishlist**. If you've already applied, choose **Applied**.
+
+    <ImageCaption
+      src="/docs/getting-started/stage-selector.png"
+      alt="Stage selector in the add job form"
+      caption="Pick the stage that matches where you are right now"
+    />
+
+  </Step>
+
+  <Step title="Save the job">
+    Click **Save**. The job card will appear on your Kanban board in the stage you selected. You're all set.
+
+    <ImageCaption
+      src="/docs/getting-started/job-card-added.png"
+      alt="Job card added to the Kanban board"
+      caption="Your first job card on the board"
+    />
+
+  </Step>
+</Steps>
+
+## Understanding the pipeline
+
+Ascendio organizes every job into one of five stages:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Stage
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          When to use it
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Wishlist
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs you're interested in but haven't applied to yet
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Applied
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs you've submitted an application for
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Interviewing
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you're actively in the interview process
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Offer
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you've received an offer
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Rejected
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Jobs where you've been rejected or withdrawn
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+As a job progresses, move it forward by dragging the card to the next stage or by opening the job and changing the stage from within. Every stage unlocks a dedicated set of fields — interview notes in **Interviewing**, compensation breakdown in **Offer**, and reflection notes in **Rejected**.
+
+<Callout type="info">
+  When you move a job to a new stage, all previous stage data stays accessible
+  in collapsed sections at the bottom of the job panel. Nothing is lost.
+</Callout>
+
+## What's next
+
+Now that you have your first job on the board, here's where to go next:
+
+<DocCardGrid>
+  <DocCard
+    title="Kanban board"
+    description="Learn how to navigate, filter, and manage your full pipeline."
+    href="/docs/user-guide/kanban-board"
+  />
+  <DocCard
+    title="Application tracking"
+    description="Log every detail of your application — method, CV, cover letter, and follow-ups."
+    href="/docs/user-guide/application-tracking"
+  />
+  <DocCard
+    title="Document manager"
+    description="Upload your CVs and cover letters and track which version you sent where."
+    href="/docs/user-guide/document-manager"
+  />
+  <DocCard
+    title="Timeline"
+    description="View the full history of any job application in a timeline feed."
+    href="/docs/user-guide/timeline"
+  />
+</DocCardGrid>

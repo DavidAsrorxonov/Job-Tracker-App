@@ -34,15 +34,22 @@ const DocsToc = () => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
+        const visibleEntries = entries.filter(
+          (entry) => entry.isIntersecting && entry.intersectionRatio > 0,
+        );
+
+        if (visibleEntries.length > 0) {
+          const topmost = visibleEntries.reduce((prev, current) =>
+            prev.boundingClientRect.top < current.boundingClientRect.top
+              ? prev
+              : current,
+          );
+          setActiveId(topmost.target.id);
+        }
       },
       {
-        rootMargin: "0% 0% -80% 0%",
-        threshold: 1,
+        rootMargin: "0px 0px -80% 0px",
+        threshold: [0, 0.1],
       },
     );
 
@@ -73,6 +80,7 @@ const DocsToc = () => {
               block: "start",
             });
             setActiveId(item.id);
+            history.pushState(null, "", `#${item.id}`);
           }}
           className={cn(
             "text-xs leading-relaxed transition-colors duration-150 py-0.5",

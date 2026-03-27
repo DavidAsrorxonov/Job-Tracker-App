@@ -13,7 +13,7 @@ const DocsSidebar = () => {
 
   return (
     <aside className="sticky top-14 h-[calc(100vh-3.5rem)] w-64 shrink-0 border-r border-border/60">
-      <div className="flex flex-col gap-6 px-4 py-6">
+      <div className="flex h-full flex-col gap-6 px-4 py-6">
         <Button
           variant={"ghost"}
           asChild

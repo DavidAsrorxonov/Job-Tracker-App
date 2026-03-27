@@ -28,6 +28,7 @@ const DocsTopbar = () => {
         <button
           type="button"
           className="flex flex-1 max-w-sm items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted/60 hover:border-border"
+          aria-label="Search documentation"
           onClick={() => {
             // Implement algolia search later
           }}
@@ -55,7 +56,11 @@ const DocsTopbar = () => {
             asChild
             className="hidden sm:flex text-muted-foreground hover:text-foreground gap-1.5"
           >
-            <Link href="https://github.com/DavidAsrorxonov" target="_blank">
+            <Link
+              href="https://github.com/DavidAsrorxonov"
+              target="_blank"
+              aria-label="View on GitHub"
+            >
               <Github className="h-4 w-4" />
               <ExternalLink className="h-3 w-3 opacity-50" />
             </Link>

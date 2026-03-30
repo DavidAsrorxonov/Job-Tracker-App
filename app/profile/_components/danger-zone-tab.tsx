@@ -39,35 +39,41 @@ const DangerZoneTab = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-foreground">Danger Zone</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-lg font-semibold text-foreground sm:text-xl">
+          Danger Zone
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Irreversible and destructive actions.
         </p>
       </div>
 
       <Card className="border-destructive/30">
-        <CardHeader>
-          <CardTitle className="text-base">Account actions</CardTitle>
-          <CardDescription>
+        <CardHeader className="px-4 pt-5 sm:px-6">
+          <CardTitle className="text-sm sm:text-base">
+            Account actions
+          </CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             These actions affect your account and cannot be undone.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-0">
-          <div className="flex items-center justify-between gap-4 py-4">
-            <div className="flex flex-col gap-0.5">
+
+        <CardContent className="flex flex-col gap-0 px-4 sm:px-6">
+          <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0 flex-1 flex flex-col gap-0.5">
               <p className="text-sm font-medium text-foreground">Sign out</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground wrap-break-word">
                 End your current session and return to the sign-in page.
               </p>
             </div>
+
             <Button
               variant="outline"
               size="sm"
               onClick={() => setSignOutOpen(true)}
               disabled={signingOut}
-              className="shrink-0"
+              className="w-full shrink-0 sm:w-auto"
             >
               {signingOut ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -82,26 +88,28 @@ const DangerZoneTab = () => {
 
           <Separator />
 
-          <div className="flex items-center justify-between gap-4 py-4">
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0 flex-1 flex flex-col gap-1">
+              <div className="flex flex-wrap items-center gap-2">
                 <p className="text-sm font-medium text-foreground">
                   Delete account
                 </p>
-                <Badge variant="outline" className="text-xs rounded-full">
+                <Badge variant="outline" className="rounded-full text-xs">
                   Coming soon
                 </Badge>
               </div>
-              <p className="text-xs text-muted-foreground">
+
+              <p className="text-xs text-muted-foreground wrap-break-word">
                 Permanently delete your account and all associated data. This
                 cannot be undone.
               </p>
             </div>
+
             <Button
               variant="destructive"
               size="sm"
               disabled
-              className="shrink-0"
+              className="w-full shrink-0 sm:w-auto"
             >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
@@ -111,7 +119,7 @@ const DangerZoneTab = () => {
       </Card>
 
       <AlertDialog open={signOutOpen} onOpenChange={setSignOutOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-[calc(100vw-2rem)] sm:max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle>Sign out of Ascendio?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -119,9 +127,19 @@ const DangerZoneTab = () => {
               intact.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={signingOut}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleSignOut} disabled={signingOut}>
+
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
+            <AlertDialogCancel
+              disabled={signingOut}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleSignOut}
+              disabled={signingOut}
+              className="w-full sm:w-auto"
+            >
               {signingOut ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

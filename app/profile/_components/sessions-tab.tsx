@@ -82,29 +82,34 @@ const SessionsTab = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-foreground">Sessions</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-lg font-semibold text-foreground sm:text-xl">
+          Sessions
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Manage all active sessions across your devices.
         </p>
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Active sessions</CardTitle>
-          <CardDescription>
+        <CardHeader className="px-4 pt-5 sm:px-6">
+          <CardTitle className="text-sm sm:text-base">
+            Active sessions
+          </CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             These are the devices currently signed in to your account. Revoke
             any session you don't recognize.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-0">
+
+        <CardContent className="flex flex-col gap-0 px-4 sm:px-6">
           {loading ? (
             <div className="flex items-center justify-center py-10">
               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
             </div>
           ) : sessions.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-4">
+            <p className="py-4 text-sm text-muted-foreground">
               No active sessions found.
             </p>
           ) : (
@@ -118,16 +123,17 @@ const SessionsTab = () => {
                 <div key={s.id}>
                   {i > 0 && <Separator />}
 
-                  <div className="flex items-center gap-4 py-4">
+                  <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
                       <DeviceIcon className="h-5 w-5 text-muted-foreground" />
                     </div>
 
-                    <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-foreground">
+                    <div className="flex min-w-0 flex-1 flex-col gap-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-sm font-medium text-foreground wrap-break-word">
                           {browser} on {os}
                         </p>
+
                         {isCurrent && (
                           <Badge
                             variant="secondary"
@@ -137,7 +143,8 @@ const SessionsTab = () => {
                           </Badge>
                         )}
                       </div>
-                      <p className="text-xs text-muted-foreground truncate">
+
+                      <p className="text-xs text-muted-foreground wrap-break-word">
                         {!s.ipAddress ||
                         s.ipAddress ===
                           "0000:0000:0000:0000:0000:0000:0000:0000"
@@ -145,6 +152,7 @@ const SessionsTab = () => {
                           : s.ipAddress}{" "}
                         · Last active {formatDate(s.updatedAt)}
                       </p>
+
                       <p className="text-xs text-muted-foreground/60">
                         Signed in {formatDate(s.createdAt)}
                       </p>
@@ -156,7 +164,7 @@ const SessionsTab = () => {
                         size="sm"
                         onClick={() => handleRevoke(s.token, s.id)}
                         disabled={isRevoking}
-                        className="shrink-0 text-destructive hover:text-destructive hover:border-destructive/50"
+                        className="w-full shrink-0 text-destructive hover:text-destructive hover:border-destructive/50 sm:w-auto"
                       >
                         {isRevoking ? (
                           <Loader2 className="h-3.5 w-3.5 animate-spin" />

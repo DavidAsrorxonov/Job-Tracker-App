@@ -3,6 +3,7 @@
 import { useSession } from "@/lib/auth/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -28,16 +29,16 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
     : "?";
 
   return (
-    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-border/60 bg-muted/20 px-3 py-6">
-      <div className="mb-6 flex flex-col items-center gap-3 px-2 text-center">
-        <Avatar className="h-16 w-16">
+    <aside className="top-0 z-20 w-full border-b border-border/60 bg-muted/20 px-3 py-4 lg:sticky lg:h-screen lg:w-60 lg:shrink-0 lg:border-r lg:border-b-0 lg:px-3 lg:py-6">
+      <div className="mb-4 flex items-center gap-3 px-1 sm:px-2 lg:mb-6 lg:flex-col lg:text-center">
+        <Avatar className="h-12 w-12 shrink-0 sm:h-14 sm:w-14 lg:h-16 lg:w-16">
           <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
           <AvatarFallback className="text-sm font-medium">
             {initials}
           </AvatarFallback>
         </Avatar>
 
-        <div className="w-full">
+        <div className="min-w-0 flex-1 lg:w-full">
           <p className="truncate text-sm font-medium text-foreground">
             {user?.name ?? "—"}
           </p>
@@ -47,9 +48,60 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
         </div>
       </div>
 
-      <Separator />
+      <Separator className="mb-3 lg:mb-4" />
 
-      <nav className="flex flex-col gap-0.5">
+      <ScrollArea className="w-full -mx-3 px-3 lg:hidden">
+        <nav className="flex gap-2 pb-1">
+          {TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            const isDanger = tab.id === "danger-zone";
+
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => onTabChange(tab.id)}
+                className={cn(
+                  "group relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-left text-sm whitespace-nowrap transition-all duration-200",
+                  isActive && !isDanger
+                    ? "bg-primary/8 text-foreground"
+                    : isDanger && isActive
+                      ? "bg-destructive/8 text-destructive"
+                      : isDanger
+                        ? "text-muted-foreground hover:bg-destructive/5 hover:text-destructive"
+                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+                )}
+              >
+                {isActive && (
+                  <div
+                    className={cn(
+                      "absolute left-0 top-1/2 hidden h-5 w-0.5 -translate-y-1/2 rounded-full lg:block",
+                      isDanger ? "bg-destructive" : "bg-primary",
+                    )}
+                  />
+                )}
+
+                <Icon
+                  className={cn(
+                    "h-4 w-4 shrink-0 transition-colors",
+                    isActive && !isDanger
+                      ? "text-primary"
+                      : isActive && isDanger
+                        ? "text-destructive"
+                        : isDanger
+                          ? "text-muted-foreground/60 group-hover:text-destructive"
+                          : "text-muted-foreground/60 group-hover:text-foreground",
+                  )}
+                />
+                <span className="font-medium">{tab.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </ScrollArea>
+
+      <nav className="hidden gap-2 lg:flex lg:flex-col lg:gap-0.5">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -61,7 +113,7 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
               type="button"
               onClick={() => onTabChange(tab.id)}
               className={cn(
-                "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-all duration-200",
+                "group relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-left text-sm whitespace-nowrap transition-all duration-200 lg:gap-3 lg:px-3 lg:py-2.5",
                 isActive && !isDanger
                   ? "bg-primary/8 text-foreground"
                   : isDanger && isActive
@@ -74,7 +126,7 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
               {isActive && (
                 <div
                   className={cn(
-                    "absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full",
+                    "absolute left-0 top-1/2 hidden h-5 w-0.5 -translate-y-1/2 rounded-full lg:block",
                     isDanger ? "bg-destructive" : "bg-primary",
                   )}
                 />
@@ -98,21 +150,23 @@ const ProfileSidebar = ({ activeTab, onTabChange }: Props) => {
         })}
       </nav>
 
-      <div className="flex-1" />
+      <div className="hidden flex-1 lg:block" />
 
-      <Separator />
+      <div className="mt-4 lg:mt-0">
+        <Separator className="mb-3 lg:mb-4" />
 
-      <Button
-        variant="ghost"
-        size="sm"
-        asChild
-        className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
-      >
-        <Link href="/dashboard">
-          <ArrowLeft className="h-4 w-4" />
-          Back to dashboard
-        </Link>
-      </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          asChild
+          className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <Link href="/dashboard">
+            <ArrowLeft className="h-4 w-4 shrink-0" />
+            <span className="truncate">Back to dashboard</span>
+          </Link>
+        </Button>
+      </div>
     </aside>
   );
 };

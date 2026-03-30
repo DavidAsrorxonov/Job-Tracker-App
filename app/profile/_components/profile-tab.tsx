@@ -101,31 +101,33 @@ const ProfileTab = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-foreground">Profile</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-lg font-semibold text-foreground sm:text-xl">
+          Profile
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Your account information from Google.
         </p>
       </div>
 
       <Card>
-        <CardContent className="pt-6">
+        <CardContent className="pt-5 sm:pt-6">
           <div className="flex flex-col items-center gap-4 text-center pb-2">
-            <Avatar className="h-24 w-24 ring-2 ring-border">
+            <Avatar className="h-20 w-20 ring-2 ring-border sm:h-24 sm:w-24">
               <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
-              <AvatarFallback className="text-xl font-semibold">
+              <AvatarFallback className="text-lg font-semibold sm:text-xl">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-1">
-              <p className="text-lg font-semibold text-foreground">
+              <p className="text-base font-semibold text-foreground sm:text-lg">
                 {user?.name ?? "—"}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground wrap-break-word">
                 {user?.email ?? "—"}
               </p>
-              <p className="text-xs text-muted-foreground/60 mt-1">
+              <p className="mt-1 text-xs text-muted-foreground/60">
                 Profile photo is managed by Google
               </p>
             </div>
@@ -134,20 +136,22 @@ const ProfileTab = () => {
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Account details</CardTitle>
-          <CardDescription>
+        <CardHeader className="px-4 pt-5 sm:px-6">
+          <CardTitle className="text-sm sm:text-base">
+            Account details
+          </CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Manage your display name and view account information.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-0">
-          <div className="flex items-center justify-between gap-4 py-4">
-            <div className="flex flex-col gap-1 min-w-0">
+        <CardContent className="flex flex-col gap-0 px-4 sm:px-6">
+          <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
               <Label className="text-xs text-muted-foreground">
                 Display name
               </Label>
               {editState === "editing" || editState === "loading" ? (
-                <div className="flex flex-col gap-1 mt-1">
+                <div className="mt-1 flex flex-col gap-1">
                   <Input
                     value={nameValue}
                     onChange={(e) => setNameValue(e.target.value)}
@@ -156,19 +160,19 @@ const ProfileTab = () => {
                       if (e.key === "Escape") handleCancel();
                     }}
                     disabled={editState === "loading"}
-                    className="h-8 text-sm max-w-64"
+                    className="h-8 w-full text-sm sm:max-w-64"
                     autoFocus
                   />
                   {error && <p className="text-xs text-destructive">{error}</p>}
                 </div>
               ) : (
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-sm font-medium text-foreground wrap-break-word">
                   {user?.name ?? "—"}
                 </p>
               )}
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-1.5 self-start sm:self-auto">
               {editState === "idle" && (
                 <Button
                   variant="ghost"
@@ -213,24 +217,26 @@ const ProfileTab = () => {
 
           <Separator />
 
-          <div className="flex items-center gap-3 py-4">
+          <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:gap-3">
             <Mail className="h-4 w-4 shrink-0 text-muted-foreground/60" />
-            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+
+            <div className="flex min-w-0 flex-1 flex-col gap-0.5">
               <Label className="text-xs text-muted-foreground">
                 Email address
               </Label>
-              <p className="text-sm font-medium text-foreground truncate">
+              <p className="truncate text-sm font-medium text-foreground">
                 {user?.email ?? "—"}
               </p>
             </div>
-            <Badge variant="outline" className="shrink-0 text-xs rounded-full">
+
+            <Badge variant="outline" className="w-fit text-xs rounded-full">
               Google
             </Badge>
           </div>
 
           <Separator />
 
-          <div className="flex items-center gap-3 py-4">
+          <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:gap-3">
             <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground/60" />
             <div className="flex flex-col gap-0.5">
               <Label className="text-xs text-muted-foreground">
@@ -244,9 +250,9 @@ const ProfileTab = () => {
 
           <Separator />
 
-          <div className="flex items-center gap-3 py-4">
+          <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:gap-3">
             <Shield className="h-4 w-4 shrink-0 text-muted-foreground/60" />
-            <div className="flex flex-col gap-0.5 flex-1">
+            <div className="flex flex-1 flex-col gap-0.5">
               <Label className="text-xs text-muted-foreground">
                 Authentication
               </Label>
@@ -254,9 +260,10 @@ const ProfileTab = () => {
                 Google OAuth
               </p>
             </div>
+
             <Badge
               variant="secondary"
-              className="shrink-0 text-xs rounded-full bg-green-500/10 text-green-600 dark:text-green-400"
+              className="w-fit text-xs rounded-full bg-green-500/10 text-green-600 dark:text-green-400"
             >
               Active
             </Badge>

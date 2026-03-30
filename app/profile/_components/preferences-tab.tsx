@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { Monitor, Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 
@@ -14,38 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-const THEMES = [
-  { id: "light", label: "Light", icon: Sun, description: "Clean and bright" },
-  { id: "dark", label: "Dark", icon: Moon, description: "Easy on the eyes" },
-  {
-    id: "system",
-    label: "System",
-    icon: Monitor,
-    description: "Follows your OS",
-  },
-] as const;
-
-const PREVIEW_TABS = [
-  {
-    id: 1,
-    label: "Kanban Board",
-    light: "/hero-images/hero1-light.png",
-    dark: "/hero-images/hero1-dark.png",
-  },
-  {
-    id: 2,
-    label: "Timeline",
-    light: "/hero-images/hero2-light.png",
-    dark: "/hero-images/hero2-dark.png",
-  },
-  {
-    id: 3,
-    label: "Analytics",
-    light: "/hero-images/hero3-light.png",
-    dark: "/hero-images/hero3-dark.png",
-  },
-] as const;
+import { THEMES } from "@/constants/themes";
+import { PREVIEW_TABS } from "@/constants/preview-tabs";
 
 const PreferencesTab = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -58,24 +27,26 @@ const PreferencesTab = () => {
     effectiveTheme === "dark" ? activeTab.dark : activeTab.light;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-foreground">Preferences</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-lg font-semibold text-foreground sm:text-xl">
+          Preferences
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Customize how Ascendio looks and feels.
         </p>
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Appearance</CardTitle>
-          <CardDescription>
+        <CardHeader className="px-4 pt-5 sm:px-6">
+          <CardTitle className="text-sm sm:text-base">Appearance</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Choose your preferred color theme. System follows your device
             setting.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-6">
-          <div className="grid grid-cols-3 gap-3">
+        <CardContent className="flex flex-col gap-5 px-4 sm:px-6">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {THEMES.map((t) => {
               const Icon = t.icon;
               const isActive = theme === t.id;
@@ -86,7 +57,7 @@ const PreferencesTab = () => {
                   type="button"
                   onClick={() => setTheme(t.id)}
                   className={cn(
-                    "group relative flex flex-col items-center gap-3 rounded-xl border p-5 text-center transition-all duration-200",
+                    "group relative flex flex-col items-center gap-3 rounded-xl border p-4 text-center transition-all duration-200 sm:p-5",
                     isActive
                       ? "border-primary bg-primary/5"
                       : "border-border/60 bg-card hover:border-border hover:bg-muted/40",
@@ -98,7 +69,7 @@ const PreferencesTab = () => {
 
                   <div
                     className={cn(
-                      "flex h-12 w-12 items-center justify-center rounded-lg transition-colors",
+                      "flex h-10 w-10 items-center justify-center rounded-lg transition-colors sm:h-12 sm:w-12",
                       isActive
                         ? "bg-primary/10"
                         : "bg-muted/60 group-hover:bg-muted",
@@ -106,7 +77,7 @@ const PreferencesTab = () => {
                   >
                     <Icon
                       className={cn(
-                        "h-5 w-5 transition-colors",
+                        "h-4 w-4 transition-colors sm:h-5 sm:w-5",
                         isActive
                           ? "text-primary"
                           : "text-muted-foreground group-hover:text-foreground",
@@ -135,24 +106,26 @@ const PreferencesTab = () => {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+            <p className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground sm:text-xs">
               Preview
             </p>
 
             <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/20">
-              <div className="flex items-center gap-2 border-b border-border/50 bg-muted/60 px-4 py-2.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+              <div className="flex flex-wrap items-center gap-2 border-b border-border/50 bg-muted/60 px-3 py-2 sm:px-4 sm:py-2.5">
+                <div className="flex items-center gap-1">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+                </div>
 
-                <div className="ml-3 flex items-center gap-1">
+                <div className="flex flex-1 items-center gap-1 overflow-x-auto">
                   {PREVIEW_TABS.map((tab) => (
                     <button
                       key={tab.id}
                       type="button"
                       onClick={() => setActivePreview(tab.id)}
                       className={cn(
-                        "rounded-md px-2.5 py-1 text-[11px] font-medium transition-all duration-150",
+                        "shrink-0 rounded-md px-2 py-1 text-[10px] font-medium transition-all duration-150 sm:px-2.5 sm:text-[11px]",
                         activePreview === tab.id
                           ? "bg-background text-foreground shadow-sm"
                           : "text-muted-foreground hover:text-foreground",
@@ -163,8 +136,8 @@ const PreferencesTab = () => {
                   ))}
                 </div>
 
-                <div className="ml-auto flex h-5 w-32 items-center justify-center rounded bg-background/60 px-2">
-                  <span className="text-[10px] text-muted-foreground/50 tracking-wide">
+                <div className="hidden sm:flex h-5 w-32 items-center justify-center rounded bg-background/60 px-2">
+                  <span className="text-[10px] tracking-wide text-muted-foreground/50">
                     ascendio.app
                   </span>
                 </div>

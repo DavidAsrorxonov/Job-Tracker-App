@@ -32,65 +32,71 @@ export default async function JobDetails({
       createdAt: d.createdAt.toISOString(),
       isDefault: d.isDefault,
     }));
-  const { data, error } = result;
 
-  if ("error" in result) return <div>{error as string}</div>;
+  if ("error" in result) return <div>{result.error as string}</div>;
+
+  const { data } = result;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex flex-col gap-4 pt-3">
         <div className="w-full">
           <JobDetailsHeader job={data} />
         </div>
 
-        <div className="w-full flex gap-2 px-4 pb-10">
-          {(data.status === "wish-list" || data.status === "Wish List") && (
-            <WishlistPanel jobId={data._id} wishlistData={data.wishlistData} />
-          )}
+        <div className="px-4 pb-10 sm:px-6">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start">
+            <div className="min-w-0">
+              {(data.status === "wish-list" || data.status === "Wish List") && (
+                <WishlistPanel
+                  jobId={data._id}
+                  wishlistData={data.wishlistData}
+                />
+              )}
 
-          {(data.status === "applied" || data.status === "Applied") && (
-            <AppliedSection
-              jobId={data._id}
-              appliedData={data.appliedData}
-              wishlistData={data.wishlistData}
-              cvDocs={cvDocs}
-            />
-          )}
+              {(data.status === "applied" || data.status === "Applied") && (
+                <AppliedSection
+                  jobId={data._id}
+                  appliedData={data.appliedData}
+                  wishlistData={data.wishlistData}
+                  cvDocs={cvDocs}
+                />
+              )}
 
-          {(data.status === "interviewing" ||
-            data.status === "Interviewing") && (
-            <div className="w-full">
-              <InterviewSection
-                jobId={data._id}
-                interviewData={data.interviewData}
-                appliedData={data.appliedData}
-                wishlistData={data.wishlistData}
-              />
+              {(data.status === "interviewing" ||
+                data.status === "Interviewing") && (
+                <InterviewSection
+                  jobId={data._id}
+                  interviewData={data.interviewData}
+                  appliedData={data.appliedData}
+                  wishlistData={data.wishlistData}
+                />
+              )}
+
+              {(data.status === "offer" || data.status === "Offer") && (
+                <OfferSection
+                  jobId={data._id}
+                  offerData={data.offerData}
+                  appliedData={data.appliedData}
+                  wishlistData={data.wishlistData}
+                  interviewData={data.interviewData}
+                />
+              )}
+
+              {(data.status === "rejected" || data.status === "Rejected") && (
+                <RejectedSection
+                  jobId={data._id}
+                  rejectedData={data.rejectedData}
+                />
+              )}
             </div>
-          )}
 
-          {(data.status === "offer" || data.status === "Offer") && (
-            <OfferSection
-              jobId={data._id}
-              offerData={data.offerData}
-              appliedData={data.appliedData}
-              wishlistData={data.wishlistData}
-              interviewData={data.interviewData}
-            />
-          )}
-
-          {(data.status === "rejected" || data.status === "Rejected") && (
-            <RejectedSection
-              jobId={data._id}
-              rejectedData={data.rejectedData}
-            />
-          )}
-
-          <div className="w-full max-w-md self-start sticky top-32 h-fit">
-            <NotesAndDescriptionPanel
-              description={data.description}
-              notes={data.notes}
-            />
+            <aside className="min-w-0 xl:sticky xl:top-32 xl:self-start">
+              <NotesAndDescriptionPanel
+                description={data.description}
+                notes={data.notes}
+              />
+            </aside>
           </div>
         </div>
       </div>

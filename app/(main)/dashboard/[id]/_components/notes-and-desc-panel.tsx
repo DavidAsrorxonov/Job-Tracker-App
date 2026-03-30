@@ -34,17 +34,17 @@ function ContentDialog({
           disabled={!hasContent}
           title={hasContent ? `View ${title.toLowerCase()}` : "Nothing to view"}
         >
-          View
+          View {title}
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="max-h-[60vh] pr-4">
-          <div className="rounded-md border bg-muted/30 p-4 text-sm leading-relaxed whitespace-pre-wrap">
+          <div className="whitespace-pre-wrap rounded-md border bg-muted/30 p-4 text-sm leading-relaxed wrap-break-word">
             {hasContent ? content : emptyText}
           </div>
         </ScrollArea>
@@ -64,69 +64,65 @@ const NotesAndDescriptionPanel = ({
   const descPreview = useMemo(() => description?.trim(), [description]);
 
   return (
-    <div>
-      <Card className="flex flex-col shadow-md">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Notes & Description
-          </CardTitle>
-        </CardHeader>
+    <Card className="w-full shadow-md">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-semibold sm:text-lg">
+          Notes & Description
+        </CardTitle>
+      </CardHeader>
 
-        <CardContent className="space-y-2">
-          {/* Notes */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-              Notes
-            </h3>
+      <CardContent className="space-y-4">
+        <section className="space-y-2">
+          <h3 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+            Notes
+          </h3>
 
-            <div className="rounded-md border bg-muted/40 p-2 text-sm leading-relaxed">
-              {notesPreview ? (
-                <p className="whitespace-pre-wrap line-clamp-2">
-                  {notesPreview}
-                </p>
-              ) : (
-                <span className="text-muted-foreground italic">
-                  No notes added yet.
-                </span>
-              )}
-            </div>
-
-            <ContentDialog
-              title="Notes"
-              content={notes}
-              emptyText="No notes added yet."
-            />
+          <div className="rounded-md border bg-muted/40 p-3 text-sm leading-relaxed">
+            {notesPreview ? (
+              <p className="line-clamp-3 whitespace-pre-wrap wrap-break-word">
+                {notesPreview}
+              </p>
+            ) : (
+              <span className="italic text-muted-foreground">
+                No notes added yet.
+              </span>
+            )}
           </div>
 
-          <Separator />
+          <ContentDialog
+            title="Notes"
+            content={notes}
+            emptyText="No notes added yet."
+          />
+        </section>
 
-          {/* Description */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-              Description
-            </h3>
+        <Separator />
 
-            <div className="rounded-md border bg-muted/40 p-2 text-sm leading-relaxed">
-              {descPreview ? (
-                <p className="whitespace-pre-wrap line-clamp-2">
-                  {descPreview}
-                </p>
-              ) : (
-                <span className="text-muted-foreground italic">
-                  No description provided.
-                </span>
-              )}
-            </div>
+        <section className="space-y-2">
+          <h3 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+            Description
+          </h3>
 
-            <ContentDialog
-              title="Description"
-              content={description}
-              emptyText="No description provided."
-            />
+          <div className="rounded-md border bg-muted/40 p-3 text-sm leading-relaxed">
+            {descPreview ? (
+              <p className="line-clamp-3 whitespace-pre-wrap wrap-break-word">
+                {descPreview}
+              </p>
+            ) : (
+              <span className="italic text-muted-foreground">
+                No description provided.
+              </span>
+            )}
           </div>
-        </CardContent>
-      </Card>
-    </div>
+
+          <ContentDialog
+            title="Description"
+            content={description}
+            emptyText="No description provided."
+          />
+        </section>
+      </CardContent>
+    </Card>
   );
 };
 

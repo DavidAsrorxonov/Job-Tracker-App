@@ -7,29 +7,33 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const router = useRouter();
 
-  const handleBack = () => {
-    router.back();
-  };
-
-  const handleForward = () => {
-    router.forward();
-  };
-
   return (
-    <nav className="sticky top-16 z-50 w-full px-6 py-2 flex items-center justify-between backdrop-blur-lg bg-background/60 border border-border">
-      <Button variant="outline" onClick={handleBack}>
-        <ArrowLeft className="h-5 w-5 mr-2" />
-        Back
-      </Button>
+    <nav className="sticky top-16 z-50 w-full border border-border bg-background/60 backdrop-blur-lg">
+      <div className="flex items-center justify-between px-3 py-2 sm:px-6">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => router.back()}
+          className="shrink-0"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
 
-      <div className="flex items-center justify-center gap-2 flex-1">
-        <h1 className="font-bold text-xl">Job Workshop Dashboard</h1>
+        <div className="flex flex-1 justify-center px-2">
+          <h1 className="truncate text-sm font-semibold sm:text-base md:text-lg">
+            Job Workshop Dashboard
+          </h1>
+        </div>
+
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => router.forward()}
+          className="shrink-0"
+        >
+          <ArrowRight className="h-4 w-4" />
+        </Button>
       </div>
-
-      <Button variant={"outline"} onClick={handleForward}>
-        Forward
-        <ArrowRight className="h-5 w-5 mr-2" />
-      </Button>
     </nav>
   );
 };

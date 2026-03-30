@@ -142,7 +142,7 @@ function TimelineStep({
       </div>
 
       <div className={cn("flex-1 pb-8", isLast && "pb-2")}>
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm font-semibold tracking-tight">{label}</p>
           {badge}
         </div>
@@ -297,8 +297,8 @@ export default function AppliedPanel({
 
   return (
     <Card className="w-full shadow-sm border-border/60 h-fit overflow-hidden">
-      <CardHeader className="border-b border-border/50 bg-muted/30 px-6 py-4">
-        <div className="flex items-center justify-between gap-3">
+      <CardHeader className="border-b border-border/50 bg-muted/30 px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-0.5">
             <CardTitle className="text-base font-semibold tracking-tight">
               Application Journey
@@ -308,7 +308,7 @@ export default function AppliedPanel({
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {isDirty && (
               <span className="text-xs text-muted-foreground">
                 Unsaved changes
@@ -326,7 +326,7 @@ export default function AppliedPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="px-6 pt-7 pb-6">
+      <CardContent className="px-4 pt-6 pb-6 sm:px-6 sm:pt-7">
         <div className="space-y-0">
           {/* Applied Stage */}
           <TimelineStep
@@ -466,7 +466,7 @@ export default function AppliedPanel({
               </Chip>
 
               {editing === "referral" ? (
-                <div className="flex items-center gap-2">
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
                   <Input
                     autoFocus
                     value={data.referralContact ?? ""}
@@ -478,7 +478,7 @@ export default function AppliedPanel({
                     }
                     onBlur={() => setEditing(null)}
                     placeholder="Referral contact"
-                    className="h-7 w-48 text-xs"
+                    className="h-7 w-full text-xs sm:w-48"
                   />
                   <Button
                     size="sm"
@@ -529,7 +529,7 @@ export default function AppliedPanel({
             }
           >
             <div className="space-y-3">
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+              <div className="flex flex-col gap-1 text-xs text-muted-foreground sm:flex-row sm:items-center sm:gap-4">
                 <span>
                   Last:{" "}
                   <span className="text-foreground font-medium">
@@ -603,7 +603,7 @@ export default function AppliedPanel({
                       <div
                         key={d.toISOString()}
                         className={cn(
-                          "flex items-center justify-between rounded-lg border px-3 py-2 text-xs transition-colors",
+                          "flex flex-col gap-2 rounded-lg border px-3 py-2 text-xs transition-colors sm:flex-row sm:items-center sm:justify-between",
                           next && "border-primary/40 bg-primary/5",
                           past &&
                             !next &&
@@ -611,7 +611,7 @@ export default function AppliedPanel({
                           !next && !past && "border-border bg-muted/30",
                         )}
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           {past ? (
                             <CheckCircle2 className="h-3.5 w-3.5 text-muted-foreground" />
                           ) : next ? (

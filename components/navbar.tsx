@@ -17,7 +17,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
-import { BookOpen, User, LogOut, Loader2 } from "lucide-react";
+import {
+  BookOpen,
+  User,
+  LogOut,
+  Loader2,
+  Layout,
+  LayoutGrid,
+} from "lucide-react";
 import { signOut, useSession } from "@/lib/auth/auth-client";
 
 const Navbar = () => {
@@ -127,7 +134,10 @@ const Navbar = () => {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className="md:hidden">
-                      <Link href="/dashboard">Dashboard</Link>
+                      <Link href="/dashboard">
+                        <LayoutGrid className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
 

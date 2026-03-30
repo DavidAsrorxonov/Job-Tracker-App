@@ -74,7 +74,7 @@ const InterviewSection = ({
 
       <div>
         {interviewData?.interviews?.length > 0 ? (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {interviewData.interviews.map((interview, index) => (
               <div key={interview._id?.toString()} className="relative">
                 <div className="absolute -top-2 -left-2 h-5 w-5 rounded-full bg-primary flex items-center justify-center z-10">

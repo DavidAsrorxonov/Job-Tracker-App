@@ -29,10 +29,10 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        <Icon className="h-3.5 w-3.5" />
-        {title}
+    <div className="space-y-2 sm:space-y-2.5">
+      <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs">
+        <Icon className="h-3.5 w-3.5 shrink-0" />
+        <span className="wrap-break-word">{title}</span>
       </div>
       {children}
     </div>
@@ -66,33 +66,40 @@ const WishlistDataDisplay = ({
     reqs?.gaps?.length;
 
   const cardHeader = (
-    <CardHeader className="border-b border-border/50 bg-muted/20 px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div className="space-y-0.5">
-          <CardTitle className="text-xl font-bold tracking-tight">
+    <CardHeader className="border-b border-border/50 bg-muted/20 px-4 py-4 sm:px-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0 space-y-0.5">
+          <CardTitle className="text-lg font-bold tracking-tight sm:text-xl">
             Wishlist Notes
           </CardTitle>
           <p className="text-xs text-muted-foreground">
             Notes you took before applying · Read only
           </p>
         </div>
-        <div className="flex items-center gap-2">
+
+        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           {priority && (
             <Badge
               variant="outline"
-              className={cn("text-xs font-normal", priority.className)}
+              className={cn(
+                "max-w-full text-xs font-normal wrap-break-word",
+                priority.className,
+              )}
             >
               {priority.label}
             </Badge>
           )}
+
           {wishlistData.targetApplyDate && (
             <Badge
               variant="outline"
-              className="text-xs font-normal text-muted-foreground gap-1"
+              className="max-w-full gap-1 text-xs font-normal text-muted-foreground wrap-break-word whitespace-normal"
             >
-              <CalendarDays className="h-3 w-3" />
-              Target:{" "}
-              {format(new Date(wishlistData.targetApplyDate), "MMM d, yyyy")}
+              <CalendarDays className="h-3 w-3 shrink-0" />
+              <span>
+                Target:{" "}
+                {format(new Date(wishlistData.targetApplyDate), "MMM d, yyyy")}
+              </span>
             </Badge>
           )}
         </div>
@@ -102,17 +109,17 @@ const WishlistDataDisplay = ({
 
   if (!hasAnyData) {
     return (
-      <Card className="w-full mt-4 shadow-sm border-border/60 overflow-hidden opacity-75">
+      <Card className="mt-4 w-full overflow-hidden border-border/60 shadow-sm opacity-75">
         {cardHeader}
-        <CardContent className="px-6 py-16 flex flex-col items-center justify-center text-center gap-3">
+        <CardContent className="flex flex-col items-center justify-center gap-3 px-4 py-12 text-center sm:px-6 sm:py-16">
           <BookOpen
-            className="h-16 w-16 text-muted-foreground/20"
+            className="h-14 w-14 text-muted-foreground/20 sm:h-16 sm:w-16"
             strokeWidth={1}
           />
           <p className="text-sm font-medium text-muted-foreground">
             No wishlist notes
           </p>
-          <p className="text-xs text-muted-foreground/60 max-w-48">
+          <p className="max-w-56 text-xs text-muted-foreground/60 sm:max-w-48">
             You didn't record anything when this job was in your wishlist.
           </p>
         </CardContent>
@@ -121,18 +128,18 @@ const WishlistDataDisplay = ({
   }
 
   return (
-    <Card className="w-full mt-4 shadow-sm border-border/60 overflow-hidden opacity-90">
+    <Card className="mt-4 w-full overflow-hidden border-border/60 shadow-sm opacity-90">
       {cardHeader}
 
-      <CardContent className="px-6 py-5 space-y-5">
+      <CardContent className="space-y-5 px-4 py-5 sm:px-6">
         {/* Research Notes */}
         <Section icon={BookOpen} title="Research Notes">
           {wishlistData.researchNotes ? (
-            <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed rounded-md bg-muted/30 border border-border/50 px-3 py-2.5">
+            <p className="rounded-md border border-border/50 bg-muted/30 px-3 py-2.5 text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap wrap-break-word">
               {wishlistData.researchNotes}
             </p>
           ) : (
-            <p className="text-xs text-muted-foreground italic">
+            <p className="text-xs italic text-muted-foreground">
               No research notes added.
             </p>
           )}
@@ -141,7 +148,7 @@ const WishlistDataDisplay = ({
         <Separator />
 
         {/* Pros & Cons */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Section icon={ThumbsUp} title="Pros">
             {wishlistData.pros?.length ? (
               <ul className="space-y-1.5">
@@ -150,13 +157,13 @@ const WishlistDataDisplay = ({
                     key={i}
                     className="flex items-start gap-2 text-sm text-foreground/80"
                   >
-                    <CheckCircle2 className="h-3.5 w-3.5 mt-0.5 shrink-0 text-emerald-500" />
-                    {pro}
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                    <span className="wrap-break-word">{pro}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-xs italic text-muted-foreground">
                 None listed.
               </p>
             )}
@@ -170,13 +177,13 @@ const WishlistDataDisplay = ({
                     key={i}
                     className="flex items-start gap-2 text-sm text-foreground/80"
                   >
-                    <XCircle className="h-3.5 w-3.5 mt-0.5 shrink-0 text-destructive/70" />
-                    {con}
+                    <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive/70" />
+                    <span className="wrap-break-word">{con}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-xs italic text-muted-foreground">
                 None listed.
               </p>
             )}
@@ -190,23 +197,29 @@ const WishlistDataDisplay = ({
           {company?.size || company?.industry || company?.culture ? (
             <div className="flex flex-wrap gap-2">
               {company.size && (
-                <Badge variant="secondary" className="text-xs font-normal">
+                <Badge
+                  variant="secondary"
+                  className="max-w-full text-xs font-normal wrap-break-word whitespace-normal"
+                >
                   Size: {company.size}
                 </Badge>
               )}
               {company.industry && (
-                <Badge variant="secondary" className="text-xs font-normal">
+                <Badge
+                  variant="secondary"
+                  className="max-w-full text-xs font-normal wrap-break-word whitespace-normal"
+                >
                   {company.industry}
                 </Badge>
               )}
               {company.culture && (
-                <p className="w-full text-sm text-foreground/80 rounded-md bg-muted/30 border border-border/50 px-3 py-2">
+                <p className="w-full rounded-md border border-border/50 bg-muted/30 px-3 py-2 text-sm text-foreground/80 wrap-break-word">
                   {company.culture}
                 </p>
               )}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground italic">
+            <p className="text-xs italic text-muted-foreground">
               No company info recorded.
             </p>
           )}
@@ -222,7 +235,7 @@ const WishlistDataDisplay = ({
             <div className="space-y-3">
               {reqs.mustHave?.length ? (
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1.5">
+                  <p className="mb-1.5 text-xs text-muted-foreground">
                     Must Have
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -230,17 +243,19 @@ const WishlistDataDisplay = ({
                       <Badge
                         key={i}
                         variant="outline"
-                        className="text-xs font-normal border-emerald-500/30 text-emerald-700 dark:text-emerald-400 bg-emerald-500/5"
+                        className="max-w-full border-emerald-500/30 bg-emerald-500/5 text-xs font-normal text-emerald-700 dark:text-emerald-400 wrap-break-word whitespace-normal"
                       >
-                        <CheckCircle2 className="h-3 w-3 mr-1" /> {item}
+                        <CheckCircle2 className="mr-1 h-3 w-3 shrink-0" />
+                        <span className="wrap-break-word">{item}</span>
                       </Badge>
                     ))}
                   </div>
                 </div>
               ) : null}
+
               {reqs.niceToHave?.length ? (
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1.5">
+                  <p className="mb-1.5 text-xs text-muted-foreground">
                     Nice to Have
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -248,25 +263,28 @@ const WishlistDataDisplay = ({
                       <Badge
                         key={i}
                         variant="outline"
-                        className="text-xs font-normal"
+                        className="max-w-full text-xs font-normal wrap-break-word whitespace-normal"
                       >
-                        <Minus className="h-3 w-3 mr-1" /> {item}
+                        <Minus className="mr-1 h-3 w-3 shrink-0" />
+                        <span className="wrap-break-word">{item}</span>
                       </Badge>
                     ))}
                   </div>
                 </div>
               ) : null}
+
               {reqs.gaps?.length ? (
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1.5">Gaps</p>
+                  <p className="mb-1.5 text-xs text-muted-foreground">Gaps</p>
                   <div className="flex flex-wrap gap-1.5">
                     {reqs.gaps.map((item, i) => (
                       <Badge
                         key={i}
                         variant="outline"
-                        className="text-xs font-normal border-destructive/30 text-destructive/80 bg-destructive/5"
+                        className="max-w-full border-destructive/30 bg-destructive/5 text-xs font-normal text-destructive/80 wrap-break-word whitespace-normal"
                       >
-                        <XCircle className="h-3 w-3 mr-1" /> {item}
+                        <XCircle className="mr-1 h-3 w-3 shrink-0" />
+                        <span className="wrap-break-word">{item}</span>
                       </Badge>
                     ))}
                   </div>
@@ -274,7 +292,7 @@ const WishlistDataDisplay = ({
               ) : null}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground italic">
+            <p className="text-xs italic text-muted-foreground">
               No requirements match recorded.
             </p>
           )}

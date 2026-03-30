@@ -34,40 +34,49 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
 
   return (
     <header className="w-full border-b border-r border-dashed border-border bg-background/60 backdrop-blur-lg">
-      <div className="px-6 py-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <h1 className="text-2xl font-bold tracking-tight truncate">
+      <div className="px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0 flex-1">
+            <h1 className="wrap-break-word text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl">
               {job.position}
             </h1>
 
-            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-              <span className="font-medium text-foreground/90">
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground/90 wrap-break-word">
                 {job.company}
               </span>
+
               {job.location ? (
                 <>
-                  <span className="opacity-50">·</span>
-                  <span>{job.location}</span>
+                  <span className="hidden opacity-50 sm:inline">·</span>
+                  <span className="wrap-break-word">{job.location}</span>
                 </>
               ) : null}
 
               {job.status ? (
                 <>
-                  <span className="opacity-50">·</span>
-                  <span>
-                    Currently in: <Badge>{job.status}</Badge> column
+                  <span className="hidden opacity-50 sm:inline">·</span>
+                  <span className="flex flex-wrap items-center gap-1">
+                    <span>Currently in:</span>
+                    <Badge className="max-w-full">{job.status}</Badge>
+                    <span>column</span>
                   </span>
                 </>
               ) : null}
             </div>
 
-            <WarningAboutEditing />
+            <div className="mt-3">
+              <WarningAboutEditing />
+            </div>
 
             {tags.length > 0 ? (
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {visibleTags.map((t) => (
-                  <Badge key={t} variant="secondary" className="font-normal">
+                  <Badge
+                    key={t}
+                    variant="secondary"
+                    className="max-w-full font-normal break-all"
+                  >
                     {t}
                   </Badge>
                 ))}
@@ -80,10 +89,13 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
             ) : null}
           </div>
 
-          <div className="flex items-center gap-2 sm:pt-1">
-            <Link href={`/dashboard/${job._id}/timeline`}>
-              <Button variant="outline" size="sm">
-                <Activity className="mr-2 h-4 w-4" />
+          <div className="flex w-full flex-col gap-2 sm:flex-row lg:w-auto lg:flex-col xl:flex-row">
+            <Link
+              href={`/dashboard/${job._id}/timeline`}
+              className="w-full sm:w-auto"
+            >
+              <Button variant="outline" size="sm" className="w-full sm:w-auto">
+                <Activity className="mr-2 h-4 w-4 shrink-0" />
                 Timeline
               </Button>
             </Link>
@@ -94,15 +106,16 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
               disabled={!hasUrl}
               asChild={hasUrl}
               title={hasUrl ? "Open job posting" : "Add jobUrl to enable"}
+              className="w-full sm:w-auto"
             >
               {hasUrl ? (
                 <a href={safeUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <ExternalLink className="mr-2 h-4 w-4 shrink-0" />
                   Open posting
                 </a>
               ) : (
                 <span>
-                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <ExternalLink className="mr-2 h-4 w-4 shrink-0" />
                   Open posting
                 </span>
               )}
@@ -112,20 +125,24 @@ const JobDetailsHeader = ({ job }: { job: Job }) => {
 
         <div className="mt-4">
           <Separator className="mb-3" />
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <Badge variant="outline" className="font-normal">
-              Applied: {applied ?? "Not set"}
-            </Badge>
+          <div className="flex flex-col gap-3 text-sm lg:flex-row lg:items-start lg:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="font-normal">
+                Applied: {applied ?? "Not set"}
+              </Badge>
 
-            <Badge variant="outline" className="font-normal">
-              Salary: {job.salary?.trim() ? job.salary : "Not set"}
-            </Badge>
+              <Badge variant="outline" className="font-normal">
+                Salary: {job.salary?.trim() ? job.salary : "Not set"}
+              </Badge>
 
-            {updated ? (
-              <span className="text-muted-foreground">Updated {updated}</span>
-            ) : null}
+              {updated ? (
+                <span className="text-muted-foreground wrap-break-word">
+                  Updated {updated}
+                </span>
+              ) : null}
+            </div>
 
-            <div className="ml-auto flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 lg:justify-end">
               {!hasUrl ? (
                 <Badge variant="secondary" className="font-normal">
                   Missing job URL

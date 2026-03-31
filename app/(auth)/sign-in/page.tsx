@@ -56,6 +56,17 @@ const SignIn = () => {
       <div className="grid min-h-screen lg:grid-cols-[480px_1fr]">
         <section className="flex min-h-screen items-center justify-center border-r border-border bg-background px-6 py-10 sm:px-10">
           <div className="w-full max-w-md">
+            <div className="mb-8 flex items-center justify-between lg:hidden">
+              <Button variant="outline" asChild size="sm">
+                <Link href="/">
+                  Back to website
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+
+              <ModeToggle />
+            </div>
+
             <Link href="/" className="mb-12 inline-block">
               <Logo width={170} height={56} />
             </Link>
@@ -130,7 +141,7 @@ const SignIn = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(120,120,120,0.10),transparent_30%)] dark:bg-[radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.06),transparent_30%)]" />
 
           <div className="relative flex w-full flex-col justify-between px-10 py-10 xl:px-16">
-            <div className="flex gap-2 justify-end">
+            <div className="flex justify-end gap-2">
               <Button variant="outline" asChild>
                 <Link href="/">
                   Back to website

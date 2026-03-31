@@ -33,6 +33,7 @@ export default function Logo({
         alt="Ascendio Logo"
         width={width}
         height={height}
+        loading="eager"
       />
     </div>
   );

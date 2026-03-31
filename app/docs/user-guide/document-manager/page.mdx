@@ -1,0 +1,219 @@
+export const metadata = {
+  title: "Document manager",
+  description: "Upload and manage your CVs and cover letters.",
+};
+
+# Document manager
+
+The Document manager is where you upload, organize, and manage your CVs and cover letters. Every document you upload becomes available to attach to job applications — and your default documents are pre-selected automatically when you apply.
+
+<ImageCaption
+  src="/docs/document-manager/overview.png"
+  alt="Document manager page"
+  caption="The Document manager — upload on top, your documents below, stats on the right"
+/>
+
+## Uploading a document
+
+<ImageCaption
+  src="/docs/document-manager/upload.png"
+  alt="Upload documents form"
+  caption="Upload a CV or cover letter as a PDF — max 5MB"
+/>
+
+<Steps>
+  <Step title="Select the document type">
+    Choose whether you are uploading a **CV** or a **Cover letter**. This determines how the document is categorized and which applications it can be attached to.
+  </Step>
+
+  <Step title="Choose your file">
+    Click **Choose File** and select a PDF from your device. Only PDF files are supported, with a maximum size of 5MB per file.
+
+    <Callout type="tip">
+      Name your file clearly before uploading — for example `Software_Engineer_CV.pdf` or `Cover_Letter_Anthropic.pdf`. The filename is displayed throughout the app and makes it easier to identify which version you sent where.
+    </Callout>
+
+  </Step>
+
+  <Step title="Upload">
+    Click **Upload** to save the document. It will appear in the Your Documents section below.
+
+    <Callout type="info">
+      If the document does not appear immediately after uploading, click the **Refresh** button in the Your Documents section to reload the list.
+    </Callout>
+
+  </Step>
+</Steps>
+
+## Your documents
+
+The Your Documents section lists all uploaded CVs and cover letters with their type, default status, filename, and upload date.
+
+<ImageCaption
+  src="/docs/document-manager/documents-list.png"
+  alt="Your documents list"
+  caption="All your uploaded documents — type, default status, filename, and upload date"
+/>
+
+Click the **⋮** menu on any document to access the following actions:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Action
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Open
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Opens the document in a new browser tab.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          View
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Opens an inline PDF preview panel without leaving the page.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Set as default
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Sets this document as the default for its type. The default is
+          pre-selected when a job moves to Applied.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Unset as default
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Removes the default status from this document.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Copy ID
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Copies the document's unique ID to your clipboard.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Copy path
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Copies the document's storage path to your clipboard.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Delete
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Permanently deletes the document from storage. This cannot be undone.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<Callout type="warning">
+  Deleting a document is permanent. If the document was attached to any job
+  applications, the reference will be lost. Download a copy before deleting if
+  you need to keep it.
+</Callout>
+
+## Document stats
+
+On the right side of the page, a stats panel gives you an overview of your document library across three tabs.
+
+### Defaults
+
+Shows your currently set default CV and cover letter — the documents that are pre-selected when a job moves to Applied. Each card shows the filename, file size, and an **Advanced** section with additional details.
+
+<ImageCaption
+  src="/docs/document-manager/defaults.png"
+  alt="Default documents tab"
+  caption="Your default CV and cover letter — pre-selected for every new application"
+/>
+
+<Callout type="tip">
+  Always keep your defaults up to date. If you update your CV, upload the new
+  version and set it as the default so it is automatically used for new
+  applications going forward.
+</Callout>
+
+### Chart
+
+A pie chart showing the breakdown of your uploaded documents by type — how many CVs versus cover letters you have uploaded in total.
+
+<ImageCaption
+  src="/docs/document-manager/chart.png"
+  alt="Storage usage tab"
+  caption="Storage usage — total used, average per file, and your 20MB limit"
+/>
+
+### Size
+
+A storage usage breakdown showing your total storage used, average file size, and how much of your 20MB storage limit you have consumed.
+
+<ImageCaption
+  src="/docs/document-manager/size.png"
+  alt="Storage usage tab"
+  caption="Storage usage — total used, average per file, and your 20MB limit"
+/>
+
+<Callout type="info">
+  Each account has a 10MB storage limit across all documents. Keep CV and cover
+  letter PDFs under a reasonable size — ideally under 2MB each — for faster
+  uploads and previews.
+</Callout>
+
+## Default documents and applications
+
+When a job moves from **Wishlist** to **Applied**, Ascendio automatically pre-selects your default CV and cover letter in the application details. You can change these at any time from within the job — the defaults are a starting point, not a constraint.
+
+<Callout type="tip">
+  If you apply with different CV versions for different roles — for example a
+  front-end focused CV versus a full-stack CV — upload both and switch between
+  them per application rather than changing your default each time.
+</Callout>
+
+## What's next
+
+<DocCardGrid>
+  <DocCard
+    title="Application tracking"
+    description="See how your documents are used when tracking an application."
+    href="/docs/user-guide/application-tracking"
+  />
+  <DocCard
+    title="Profile"
+    description="Manage your documents from your profile page as well."
+    href="/docs/user-guide/getting-started"
+  />
+  <DocCard
+    title="Timeline"
+    description="View the full history of any job application."
+    href="/docs/user-guide/timeline"
+  />
+  <DocCard
+    title="Kanban board"
+    description="Return to your board and keep your search moving."
+    href="/docs/user-guide/kanban-board"
+  />
+</DocCardGrid>

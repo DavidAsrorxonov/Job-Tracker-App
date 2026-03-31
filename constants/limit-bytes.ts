@@ -1,1 +1,1 @@
-export const MAX_LIMIT_FILE_SIZE: number = 20 * 1024 * 1024;
+export const MAX_LIMIT_FILE_SIZE: number = 10 * 1024 * 1024;

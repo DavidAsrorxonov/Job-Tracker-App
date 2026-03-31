@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, Code2 } from "lucide-react";
+import { BookOpen, Code2, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TECHNICAL_PAGES, USER_GUIDE_PAGES } from "@/constants/docs-pages";
 
@@ -32,13 +32,13 @@ const DocsPage = () => {
             <BookOpen className="h-4 w-4" />
             Get started
           </Link>
-          <Link
-            href="/docs/technical/architecture"
-            className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted/60"
+          <button
+            disabled
+            className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-4 py-2 text-sm font-medium text-muted-foreground opacity-50 cursor-not-allowed"
           >
             <Code2 className="h-4 w-4" />
             Technical reference
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -76,12 +76,16 @@ const DocsPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 opacity-50 pointer-events-none">
         <div className="flex items-center gap-2">
           <Code2 className="h-4 w-4 text-muted-foreground/60" />
           <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             Technical Reference
           </h2>
+          <Badge variant="secondary" className="text-xs h-5">
+            <Lock className="h-3 w-3 mr-1" />
+            Under construction 🚧
+          </Badge>
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

@@ -9,6 +9,7 @@ type NavSection = {
   section: string;
   icon: React.ReactNode;
   pages: NavPage[];
+  comingSoon?: boolean;
 };
 
 export const DOCS_NAV: NavSection[] = [
@@ -45,5 +46,6 @@ export const DOCS_NAV: NavSection[] = [
       { label: "Authentication", href: "/docs/technical/authentication" },
       { label: "API reference", href: "/docs/technical/api-reference" },
     ],
+    comingSoon: true,
   },
 ];

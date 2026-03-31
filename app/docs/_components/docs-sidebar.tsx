@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DOCS_NAV } from "@/constants/docs-nav";
 import { cn } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,12 +27,30 @@ const DocsSidebar = () => {
         </Button>
 
         {DOCS_NAV.map((section) => (
-          <div key={section.section} className="flex flex-col gap-1">
+          <div
+            key={section.section}
+            className={cn(
+              "flex flex-col gap-1",
+              section.comingSoon && "opacity-50 pointer-events-none",
+            )}
+          >
             <div className="mb-1 flex items-center gap-2 px-2">
-              <span className="text-muted-foreground/60">{section.icon}</span>
-              <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                {section.section}
-              </span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-muted-foreground/60">
+                    {section.icon}
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {section.section}
+                  </span>
+                </div>
+                {section.comingSoon && (
+                  <Badge variant="outline" className="text-xs h-5">
+                    <Lock className="h-3 w-3 mr-1" />
+                    Under construction 🚧
+                  </Badge>
+                )}
+              </div>
             </div>
 
             {section.pages.map((page) => {

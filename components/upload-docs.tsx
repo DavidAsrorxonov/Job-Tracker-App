@@ -227,9 +227,10 @@ export default function UploadDocs({
         )}
 
         <p className="text-muted-foreground text-center text-sm">
-          After <span className="text-primary">uploading</span>, please click
-          the <span className="text-primary">'Refresh'</span> button on the{" "}
-          <span className="text-primary">'Your Documents'</span> section.
+          In case the document doesn't appear after uploading, use the{" "}
+          <span className="text-primary font-medium">Refresh</span> button in
+          the <span className="text-primary font-medium">Your Documents</span>{" "}
+          section.
         </p>
       </CardContent>
     </Card>

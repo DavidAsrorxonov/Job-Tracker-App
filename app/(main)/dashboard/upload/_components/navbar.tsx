@@ -11,8 +11,8 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { ChevronLeft, FileText } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -25,58 +25,61 @@ const Navbar = () => {
   const isUpload = pathname === "/dashboard/upload";
 
   return (
-    <div className="sticky top-16 z-50 w-full backdrop-blur-lg bg-background/60 border border-border">
-      <div className="mx-auto max-w-7xl px-6 py-4">
-        <div className="w-full flex justify-between items-center">
-          <div className="flex gap-2 items-center justify-center">
-            <Button
-              className="flex gap-1 items-center justify-center"
-              variant={"link"}
-              onClick={handleBack}
-            >
-              <ChevronLeft className="h-5 w-5" />
-              Go Back One Step
-            </Button>
-            <div className="w-px border border-border h-8 mx-2" />
+    <div className="sticky top-16 z-50 w-full border-y border-border bg-background/70 backdrop-blur-lg">
+      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBack}
+                className="h-8 shrink-0 px-2 text-muted-foreground hover:text-foreground"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className="ml-1 hidden sm:inline">Go back</span>
+              </Button>
 
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/dashboard">Dashboard</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
+              <div className="hidden h-5 w-px bg-border sm:block" />
 
-                {isUpload && (
-                  <>
-                    <BreadcrumbSeparator />
+              <div className="min-w-0 overflow-x-auto">
+                <Breadcrumb>
+                  <BreadcrumbList className="flex-nowrap whitespace-nowrap">
                     <BreadcrumbItem>
-                      <BreadcrumbPage>Upload Documents</BreadcrumbPage>
+                      <BreadcrumbLink asChild>
+                        <Link href="/">Home</Link>
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
-                  </>
-                )}
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <FileText className="h-7 w-7 text-primary" />
-            </div>
 
-            <div>
-              <h1 className="text-xl font-semibold tracking-tight">
-                Upload Documents
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Store and manage your CVs
-              </p>
+                    <BreadcrumbSeparator />
+
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link href="/dashboard">Dashboard</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+
+                    {isUpload && (
+                      <>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                          <BreadcrumbPage>Upload Documents</BreadcrumbPage>
+                        </BreadcrumbItem>
+                      </>
+                    )}
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
             </div>
+          </div>
+
+          <div className="min-w-0">
+            <h1 className="truncate text-lg font-semibold tracking-tight sm:text-xl">
+              Upload Documents
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Store and manage your CVs
+            </p>
           </div>
         </div>
       </div>

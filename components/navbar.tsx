@@ -22,8 +22,8 @@ import {
   User,
   LogOut,
   Loader2,
-  Layout,
   LayoutGrid,
+  FolderOpen,
 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth/auth-client";
 
@@ -69,20 +69,34 @@ const Navbar = () => {
       className={cn(
         "sticky top-0 z-50 w-full transition-colors",
         isScrolled
-          ? "backdrop-blur-lg bg-background/60 border-b border-border/20"
+          ? "border-b border-border/20 bg-background/60 backdrop-blur-lg"
           : "bg-transparent",
       )}
     >
-      <div className="container mx-auto flex h-16 items-center px-4 justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
           <Logo width={80} height={80} />
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {session?.user ? (
             <>
-              <Button asChild size="sm" variant={"outline"}>
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="hidden sm:inline-flex"
+              >
                 <Link href="/docs">Documentation</Link>
+              </Button>
+
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="hidden md:inline-flex"
+              >
+                <Link href="/dashboard/upload">My files</Link>
               </Button>
 
               <Button asChild size="sm" className="hidden md:flex">
@@ -94,7 +108,7 @@ const Navbar = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full h-9 w-9"
+                    className="h-9 w-9 rounded-full"
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
@@ -113,7 +127,7 @@ const Navbar = () => {
                     <DropdownMenuLabel className="font-medium">
                       {session.user.name}
                     </DropdownMenuLabel>
-                    <DropdownMenuLabel className="font-normal text-muted-foreground -mt-2 text-xs">
+                    <DropdownMenuLabel className="-mt-2 text-xs font-normal text-muted-foreground">
                       {session.user.email}
                     </DropdownMenuLabel>
                   </DropdownMenuGroup>
@@ -127,12 +141,21 @@ const Navbar = () => {
                         Profile
                       </Link>
                     </DropdownMenuItem>
+
                     <DropdownMenuItem asChild>
                       <Link href="/docs">
                         <BookOpen className="mr-2 h-4 w-4" />
                         Documentation
                       </Link>
                     </DropdownMenuItem>
+
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/upload">
+                        <FolderOpen className="mr-2 h-4 w-4" />
+                        My files
+                      </Link>
+                    </DropdownMenuItem>
+
                     <DropdownMenuItem asChild className="md:hidden">
                       <Link href="/dashboard">
                         <LayoutGrid className="mr-2 h-4 w-4" />

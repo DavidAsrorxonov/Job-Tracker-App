@@ -1,0 +1,281 @@
+export const metadata = {
+  title: "Interview management",
+  description:
+    "Track every interview round with type, outcome, rating, and notes.",
+};
+
+# Interview management
+
+When a job moves into the **Interviewing** stage, Ascendio gives you a dedicated space to prepare for and track every round. The page is split into two parts — a global **Interview Prep** section at the top, and an **Interview Rounds** section below where each individual interview is logged.
+
+<ImageCaption
+  src="/docs/interview-management/overview.png"
+  alt="Interview management overview"
+  caption="The Interviewing stage — prep at the top, rounds below"
+/>
+
+## Interview prep
+
+The Interview Prep section is global — it applies to the entire interview process for this job, not to any single round. It contains four fields:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Field
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Prep notes
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Free-text area for research, key talking points, and anything you want
+          to remember going into the interviews.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Questions to ask
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          A list of questions you want to ask the interviewer. Add each one
+          individually using the input field.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Technical topics
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Topics you want to revise or prepare for — system design, algorithms,
+          frameworks, and so on.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Next steps
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          A free-text field to note what happens next — waiting for feedback,
+          scheduling the next round, and so on.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ImageCaption
+  src="/docs/interview-management/prep.png"
+  alt="Interview prep section"
+  caption="The Interview Prep section — global notes for the entire interview process"
+/>
+
+<Callout type="tip">
+  Fill in the prep section before your first round. Use Questions to Ask to
+  build your list as you learn more about the role across multiple rounds.
+</Callout>
+
+## Interview rounds
+
+Below the prep section, the **Your Interviews** area lets you log each individual interview round as a separate card. Each card shows the interview type, date, duration, interviewer, outcome, and rating at a glance.
+
+<ImageCaption
+  src="/docs/interview-management/rounds.png"
+  alt="Interview rounds"
+  caption="Interview rounds — each round is a separate numbered card"
+/>
+
+### Adding an interview
+
+Click **Add Interview** to open the interview sheet. Fill in the details for the round and click **Add Interview** to save it.
+
+<ImageCaption
+  src="/docs/interview-management/add-interview-sheet.png"
+  alt="Add interview sheet"
+  caption="The Add Interview sheet — slide in from the right"
+/>
+
+The sheet contains the following fields:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Field
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Interview type
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The type of interview — Phone Screen, Technical, Behavioral, Hiring
+          Manager, Final, or Other.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Interviewer
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The name and role of the person who interviewed you.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Scheduled date
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          When the interview is scheduled to take place.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Completed date
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          When the interview actually took place, if different from the
+          scheduled date.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Duration
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          How long the interview lasted, in minutes.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Outcome
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The result of this round — Passed, Waiting, or Failed.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Rating
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Your self-assessed performance rating from 1 to 5.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Questions asked
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The questions that were asked during the interview. Add each one
+          individually.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Notes
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Free-text notes about how the round went, what you could improve, and
+          any other observations.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### Editing an interview
+
+Click any existing interview card to open the same sheet in edit mode. Make your changes and click **Save** to update the round.
+
+### Outcome statuses
+
+Each interview card displays a colored outcome badge:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Outcome
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Meaning
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Passed
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          You passed this round and are moving forward in the process.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Waiting
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The round is complete but you are still waiting to hear the result.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Failed
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          You did not pass this round.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Previous stage notes
+
+Below the interview rounds, Ascendio preserves your **Applied** notes and **Wishlist** research from earlier stages. These are read-only and serve as context — a reminder of why you applied and what you noted during the application process.
+
+<Callout type="info">
+  Previous stage notes are never deleted when a job moves forward. They are
+  always accessible at the bottom of the current stage panel.
+</Callout>
+
+## What's next
+
+<DocCardGrid>
+  <DocCard
+    title="Offer evaluation"
+    description="Break down compensation and weigh pros and cons before deciding."
+    href="/docs/user-guide/offer-evaluation"
+  />
+  <DocCard
+    title="Rejection reflection"
+    description="Turn rejections into growth by logging lessons and feedback."
+    href="/docs/user-guide/rejection-reflection"
+  />
+  <DocCard
+    title="Application tracking"
+    description="Review what you logged when you applied."
+    href="/docs/user-guide/application-tracking"
+  />
+  <DocCard
+    title="Timeline"
+    description="View the full history of this job as a chronological feed."
+    href="/docs/user-guide/timeline"
+  />
+</DocCardGrid>

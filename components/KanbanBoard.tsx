@@ -326,7 +326,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
             );
           })}
 
-          <CreateColumnDialog boardId={board._id} />
+          {/* <CreateColumnDialog boardId={board._id} /> */}
         </div>
       </div>
 

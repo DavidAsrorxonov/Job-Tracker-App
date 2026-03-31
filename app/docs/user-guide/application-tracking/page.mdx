@@ -1,0 +1,173 @@
+export const metadata = {
+  title: "Application tracking",
+  description:
+    "Log every detail of your application — method, CV, cover letter, and follow-ups.",
+};
+
+# Application tracking
+
+When a job moves into the **Applied** stage, Ascendio unlocks a dedicated panel for tracking everything about your application — from how you applied to when you expect to hear back. The goal is to have everything in one place so you never lose context.
+
+<ImageCaption
+  src="/docs/application-tracking/overview.png"
+  alt="Application tracking panel"
+  caption="The Applied stage panel — all your application details in one place"
+/>
+
+## How it works
+
+The Applied panel is organized into four sections: the application details chips at the top, follow-ups, expected response, and notes. Each section is independent and can be filled in at any time.
+
+<Callout type="tip">
+  Click any chip to edit it. Press **Save** in the top right when you are done
+  making changes.
+</Callout>
+
+## Application details
+
+The top row of chips captures the core details of your application:
+
+<div className="my-5 overflow-x-auto rounded-lg border border-border/60">
+  <table className="w-full text-sm">
+    <thead className="border-b border-border/60 bg-muted/40">
+      <tr>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Field
+        </th>
+        <th className="px-4 py-2.5 text-left text-xs font-semibold text-foreground">
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Applied date
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The date you submitted your application. Defaults to today when the
+          job moves to Applied.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Application method
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          How you applied — LinkedIn, Company Site, Referral, or Other.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          CV used
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The CV version you submitted. Defaults to your default CV if one is
+          set in your profile.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Cover letter
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          Whether you included a cover letter with this application.
+        </td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2.5 text-xs font-medium text-foreground border-t border-border/40">
+          Referral contact
+        </td>
+        <td className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border/40">
+          The name of the person who referred you, if applicable.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<Callout type="info">
+  When a job moves from Wishlist to Applied, your default CV is automatically
+  pre-selected. You can change it at any time by clicking the CV chip.
+</Callout>
+
+## Follow-ups
+
+The follow-ups section helps you stay on top of responses after applying. You can schedule follow-up dates using the quick shortcuts or a custom date picker.
+
+<ImageCaption
+  src="/docs/application-tracking/follow-ups.png"
+  alt="Follow-ups section"
+  caption="Schedule follow-ups with +3 days, +7 days, or a custom date"
+/>
+
+There are three ways to add a follow-up date:
+
+- **+3 days** — schedules a follow-up 3 days from today
+- **+7 days** — schedules a follow-up 7 days from today
+- **Custom** — opens a date picker so you can choose any date
+
+The section shows your **last follow-up date** and your **next scheduled follow-up**. When a follow-up date has passed without a response, the status changes from **On track** to **Overdue**.
+
+<Callout type="warning">
+  If a follow-up is overdue, it will be highlighted on the job card on the
+  Kanban board so you can spot it immediately without opening the job.
+</Callout>
+
+## Expected response
+
+Set a date by which you expect to hear back from the employer. This helps you know when it is reasonable to follow up or move on.
+
+Click **Not set — click to add** to open the date picker and choose an expected response date.
+
+<ImageCaption
+  src="/docs/application-tracking/expected-response.png"
+  alt="Expected response date picker"
+  caption="Set an expected response date to know when to follow up"
+/>
+
+## Notes
+
+The notes field is a free-text area for anything relevant to this application — things you want to remember, questions to ask, or context about the role.
+
+Click **Click to add notes...** to start typing. Notes are saved when you press **Save**.
+
+<ImageCaption
+  src="/docs/application-tracking/notes.png"
+  alt="Notes section"
+  caption="Use notes to capture anything relevant to this application"
+/>
+
+## Wishlist research
+
+Below the Applied panel, Ascendio preserves the research notes you wrote when the job was in the **Wishlist** stage. This gives you full context — the pros, cons, company culture notes, and skills gap analysis you recorded before applying — without having to go back and find them.
+
+<Callout type="info">
+  Wishlist research is read-only once a job moves to Applied. It is there for
+  reference, not editing.
+</Callout>
+
+## What's next
+
+<DocCardGrid>
+  <DocCard
+    title="Interview management"
+    description="Track every interview round with type, outcome, rating, and notes."
+    href="/docs/user-guide/interview-management"
+  />
+  <DocCard
+    title="Document manager"
+    description="Upload and manage your CVs and cover letters."
+    href="/docs/user-guide/document-manager"
+  />
+  <DocCard
+    title="Offer evaluation"
+    description="Break down compensation and weigh pros and cons before deciding."
+    href="/docs/user-guide/offer-evaluation"
+  />
+  <DocCard
+    title="Rejection reflection"
+    description="Turn rejections into growth by logging lessons and feedback."
+    href="/docs/user-guide/rejection-reflection"
+  />
+</DocCardGrid>

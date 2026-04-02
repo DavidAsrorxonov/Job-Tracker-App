@@ -42,6 +42,7 @@ import {
 import Image from "next/image";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import svgPdf from "@/public/svgs/pdf-svgrepo-com.svg";
+import drive from "@/public/svgs/drive.svg";
 
 import dynamic from "next/dynamic";
 import { UserDoc } from "@/types/user-documents";
@@ -149,7 +150,7 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                           <EllipsisVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-52">
+                      <DropdownMenuContent align="end" className="w-64">
                         <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
                           {doc.originalName ?? "Unnamed"}
                         </DropdownMenuLabel>
@@ -196,6 +197,15 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                           {doc.isDefault
                             ? "Unset as Default"
                             : "Set as Default"}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem disabled={true}>
+                          <Image
+                            src={drive}
+                            alt="google drive image"
+                            width={20}
+                            height={20}
+                          />
+                          Upload to Google Drive
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem

@@ -15,13 +15,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import { getTotalFileSize } from "@/lib/helper/getTotalFileSize";
+import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
 
 type DocType = "cv" | "cover-letter";
 
+interface UserDoc {
+  _id: string;
+  type: "cv" | "cover-letter";
+  path: string;
+  originalName?: string;
+  createdAt: string;
+  isDefault?: boolean;
+  size?: number;
+}
+
 export default function UploadDocs({
   onUploaded,
+  docs = [],
 }: {
   onUploaded?: () => void;
+  docs?: UserDoc[];
 }) {
   const { data: session } = useSession();
 
@@ -31,10 +45,14 @@ export default function UploadDocs({
   const [progress, setProgress] = React.useState(0);
 
   const maxBytes = 5 * 1024 * 1024;
+  const totalExistingSize = getTotalFileSize(docs).total;
+  const wouldExceedTotal =
+    file && totalExistingSize + file.size > MAX_LIMIT_FILE_SIZE;
 
   const isAuthed = !!session?.user?.id;
   const isPdf = file?.type === "application/pdf";
   const isSizeOk = file ? file.size <= maxBytes : true;
+  const isTotalSizeOk = !wouldExceedTotal;
 
   function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0] ?? null;
@@ -73,6 +91,16 @@ export default function UploadDocs({
         duration: 2000,
         position: "top-center",
         description: "Only PDF files are allowed.",
+      });
+      return;
+    }
+
+    if (!isTotalSizeOk) {
+      const remainingSpace = MAX_LIMIT_FILE_SIZE - totalExistingSize;
+      toast.error("Storage limit exceeded.", {
+        duration: 2000,
+        position: "top-center",
+        description: `You have ${(remainingSpace / 1024 / 1024).toFixed(2)}MB remaining. Please delete some files first.`,
       });
       return;
     }
@@ -196,6 +224,13 @@ export default function UploadDocs({
                 File must be 5MB or smaller.
               </p>
             )}
+            {!isTotalSizeOk && (
+              <p className="text-xs text-destructive">
+                This file would exceed your storage limit. You have{" "}
+                {(totalExistingSize / 1024 / 1024).toFixed(2)}MB used of{" "}
+                {(MAX_LIMIT_FILE_SIZE / 1024 / 1024).toFixed(0)}MB.
+              </p>
+            )}
 
             {(isUploading || progress > 0) && <Progress value={progress} />}
           </div>
@@ -205,7 +240,14 @@ export default function UploadDocs({
           <Button
             type="button"
             onClick={upload}
-            disabled={!file || !isAuthed || isUploading || !isPdf || !isSizeOk}
+            disabled={
+              !file ||
+              !isAuthed ||
+              isUploading ||
+              !isPdf ||
+              !isSizeOk ||
+              !isTotalSizeOk
+            }
             className="flex-1"
           >
             {isUploading ? "Uploading..." : "Upload"}

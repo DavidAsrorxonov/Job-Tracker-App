@@ -2,6 +2,7 @@ import { getSession } from "@/lib/auth/auth";
 import UserDocuments from "@/lib/models/user-documents";
 import { uploadUserDoc } from "@/lib/supabase/actions/upload-cv";
 import { supabaseAdmin } from "@/lib/supabase/supabase-admin";
+import { MAX_LIMIT_FILE_SIZE } from "@/constants/limit-bytes";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -17,6 +18,30 @@ export async function POST(req: Request) {
 
   if (!session?.user.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const maxFileSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxFileSize) {
+    return NextResponse.json(
+      { error: "File size exceeds 5MB limit" },
+      { status: 400 },
+    );
+  }
+
+  const existingDocs = await UserDocuments.find({ userId }, { size: 1 });
+  const totalExistingSize = existingDocs.reduce(
+    (sum, doc) => sum + (doc.size || 0),
+    0,
+  );
+
+  if (totalExistingSize + file.size > MAX_LIMIT_FILE_SIZE) {
+    const remainingSpace = MAX_LIMIT_FILE_SIZE - totalExistingSize;
+    return NextResponse.json(
+      {
+        error: `Storage limit exceeded. You have ${(remainingSpace / 1024 / 1024).toFixed(2)}MB remaining.`,
+      },
+      { status: 413 },
+    );
+  }
 
   let path: string | null = null;
 

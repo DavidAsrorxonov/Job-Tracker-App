@@ -86,7 +86,7 @@ export default function UploadClient({
     <main className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="flex flex-col gap-6 min-w-0">
-          <UploadDocs onUploaded={refreshDocs} />
+          <UploadDocs onUploaded={refreshDocs} docs={docs} />
           <DocumentsList
             docs={docs}
             setDocs={setDocs}

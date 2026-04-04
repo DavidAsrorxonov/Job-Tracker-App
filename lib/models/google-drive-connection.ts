@@ -54,3 +54,14 @@ const GoogleDriveConnectionSchema = new Schema<IGoogleDriveConnection>(
   },
   { timestamps: true },
 );
+
+GoogleDriveConnectionSchema.index({ userId: 1 }, { unique: true });
+
+const GoogleDriveConnection =
+  (mongoose.models.GoogleDriveConnection as Model<IGoogleDriveConnection>) ||
+  mongoose.model<IGoogleDriveConnection>(
+    "GoogleDriveConnection",
+    GoogleDriveConnectionSchema,
+  );
+
+export default GoogleDriveConnection;

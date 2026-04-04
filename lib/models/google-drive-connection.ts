@@ -14,3 +14,43 @@ export interface IGoogleDriveConnection extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+const GoogleDriveConnectionSchema = new Schema<IGoogleDriveConnection>(
+  {
+    userId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: "User",
+      index: true,
+      unique: true,
+    },
+    provider: {
+      type: String,
+      enum: ["google-drive"],
+      required: true,
+      default: "google-drive",
+    },
+    googleEmail: {
+      type: String,
+      trim: true,
+    },
+    googleSub: {
+      type: String,
+      trim: true,
+    },
+    refreshToken: {
+      type: String,
+    },
+    scope: {
+      type: String,
+    },
+    expiryDate: {
+      type: Date,
+    },
+    driveFolderId: {
+      type: String,
+      trim: true,
+    },
+  },
+  { timestamps: true },
+);

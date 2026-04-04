@@ -38,6 +38,10 @@ const GoogleDriveConnectionSchema = new Schema<IGoogleDriveConnection>(
       type: String,
       trim: true,
     },
+    accessToken: {
+      type: String,
+      required: true,
+    },
     refreshToken: {
       type: String,
     },

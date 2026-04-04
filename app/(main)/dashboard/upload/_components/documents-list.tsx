@@ -131,7 +131,7 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                       )}
                     </div>
 
-                    <p className="mt-1 truncate max-w-lg text-sm font-medium">
+                    <p className="mt-1 line-clamp-1 text-sm font-medium">
                       {doc.originalName ?? doc.path.split("/").pop()}
                     </p>
                     <p className="text-xs text-muted-foreground">

@@ -88,7 +88,7 @@ function DocCard({
               </Badge>
             )}
           </div>
-          <p className="text-sm font-medium truncate mt-0.5">
+          <p className="text-sm font-medium line-clamp-1 mt-0.5">
             {doc.originalName ?? "Unnamed file"}
           </p>
         </div>

@@ -22,9 +22,19 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const decodeState = JSON.parse(Buffer.from(state, "base64url").toString());
+    const decodedState = JSON.parse(
+      Buffer.from(state, "base64url").toString(),
+    ) as {
+      csrfToken: string;
+      userId: string;
+      documentId: string | null;
+    };
 
-    const { csrfToken, documentId } = decodeState;
+    const { csrfToken, documentId, userId } = decodedState;
+
+    if (userId !== session.user.id) {
+      return NextResponse.json({ error: "Invalid state" }, { status: 400 });
+    }
 
     const cookiesStore = await cookies();
     const storedToken = cookiesStore.get("google_drive_oauth_state")?.value;
@@ -47,25 +57,39 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const existingConnection = await GoogleDriveConnection.findOne({
+      userId: session.user.id,
+    });
+
     await GoogleDriveConnection.findOneAndUpdate(
       { userId: session.user.id },
       {
         userId: session.user.id,
         accessToken: tokens.access_token,
-        refreshToken: tokens.refresh_token,
-        scope: tokens.scope,
+        refreshToken: tokens.refresh_token ?? existingConnection?.refreshToken,
+        scope: tokens.scope ?? existingConnection?.scope,
         expiryDate: tokens.expiry_date
           ? new Date(tokens.expiry_date)
-          : undefined,
+          : existingConnection?.expiryDate,
       },
-      { upsert: true, new: true },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
 
     const redirectUrl = documentId
       ? `/dashboard/upload?export=${documentId}`
       : `/dashboard/upload`;
 
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
+    const response = NextResponse.redirect(new URL(redirectUrl, request.url));
+
+    response.cookies.set("google_drive_oauth_state", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+
+    return response;
   } catch (error) {
     console.error("Google Drive callback error:", error);
 

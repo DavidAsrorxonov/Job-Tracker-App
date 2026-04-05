@@ -80,19 +80,52 @@ export async function POST(request: NextRequest) {
 
     const fileName = document.label || document.originalName || "document.pdf";
 
+    let folderId = connection.driveFolderId;
+
+    if (!folderId) {
+      const folderSearch = await drive.files.list({
+        q: "mimeType='application/vnd.google-apps.folder' and name='Ascendio' and trashed=false",
+        fields: "files(id, name)",
+      });
+
+      if (folderSearch.data.files && folderSearch.data.files.length > 0) {
+        folderId = folderSearch.data.files[0].id!;
+      } else {
+        const folder = await drive.files.create({
+          requestBody: {
+            name: "Ascendio",
+            mimeType: "application/vnd.google-apps.folder",
+          },
+          fields: "id",
+        });
+
+        folderId = folder.data.id!;
+      }
+
+      await GoogleDriveConnection.updateOne(
+        { userId: session.user.id },
+        { driveFolderId: folderId },
+      );
+    }
+
     const driveResponse = await drive.files.create({
       requestBody: {
         name: fileName,
+        parents: folderId ? [folderId] : undefined,
       },
       media: {
         mimeType: document.mimeType || "application/pdf",
         body: Readable.from(fileBuffer),
       },
+      fields: "id, webViewLink, name",
     });
 
     return NextResponse.json({
       success: true,
       fileId: driveResponse.data.id,
+      fileName: driveResponse.data.name,
+      webViewLink: driveResponse.data.webViewLink,
+      folderId,
     });
   } catch (error) {
     console.error("Google Drive export error:", error);

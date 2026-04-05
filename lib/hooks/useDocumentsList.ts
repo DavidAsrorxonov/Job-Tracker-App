@@ -155,10 +155,18 @@ export function useDocumentsList(
         throw new Error(json?.error ?? "Failed to upload to Google Drive");
       }
 
-      toast.success("Successfully uploaded to Google Drive", {
+      toast.success("Uploaded to Google Drive", {
         description: "Your document was successfully uploaded.",
-        duration: 2000,
+        duration: 5000,
         position: "top-center",
+        action: {
+          label: "Open",
+          onClick: () => {
+            if (json.webViewLink) {
+              window.open(json.webViewLink, "_blank");
+            }
+          },
+        },
       });
     } catch (error) {
       toast.error("Failed to upload to Google Drive", {

@@ -40,8 +40,14 @@ export default function GoogleDriveAutoExport({
 
         toast.success("Uploaded to Google Drive", {
           description: "Your document was successfully uploaded.",
-          duration: 2000,
+          duration: 5000,
           position: "top-center",
+          action: {
+            label: "Open",
+            onClick: () => {
+              window.open(json.webViewLink, "_blank");
+            },
+          },
         });
       } catch (error) {
         toast.error("Failed to upload to Google Drive", {

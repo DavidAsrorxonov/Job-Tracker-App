@@ -1,6 +1,6 @@
 {
-  "name": "Ascendio",
-  "short_name": "Ascendio",
+  "name": "MyWebSite",
+  "short_name": "MySite",
   "icons": [
     {
       "src": "/favicon/web-app-manifest-192x192.png",

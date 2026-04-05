@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import PageLoading from "@/components/page-loading";
 import DefaultDocumentsList from "./default-documents-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GoogleDriveAutoExport from "./google-drive-auto-export";
 
 const UploadDocs = dynamic(() => import("@/components/upload-docs"), {
   ssr: false,
@@ -84,6 +85,8 @@ export default function UploadClient({
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
+      <GoogleDriveAutoExport onSuccess={refreshDocs} />
+
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="flex flex-col gap-6 min-w-0">
           <UploadDocs onUploaded={refreshDocs} docs={docs} />

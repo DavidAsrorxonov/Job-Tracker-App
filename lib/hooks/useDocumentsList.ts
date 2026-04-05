@@ -134,6 +134,43 @@ export function useDocumentsList(
     }
   }
 
+  async function uploadToGoogleDrive(docId: string) {
+    setBusyId(docId);
+
+    try {
+      const res = await fetch("/api/integrations/google-drive/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ documentId: docId }),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        if (json?.error === "Google Drive not connected") {
+          window.location.href = `/api/integrations/google-drive/connect?documentId=${docId}`;
+          return;
+        }
+
+        throw new Error(json?.error ?? "Failed to upload to Google Drive");
+      }
+
+      toast.success("Successfully uploaded to Google Drive", {
+        description: "Your document was successfully uploaded.",
+        duration: 2000,
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error("Failed to upload to Google Drive", {
+        description: getErrorMessage(error),
+        duration: 2000,
+        position: "top-center",
+      });
+    } finally {
+      setBusyId(null);
+    }
+  }
+
   async function handleRefresh() {
     setIsRefreshing(true);
     try {
@@ -165,6 +202,7 @@ export function useDocumentsList(
     deleteDoc,
     viewDoc,
     toggleDefault,
+    uploadToGoogleDrive,
     handleRefresh,
     copyToClipboard,
   };

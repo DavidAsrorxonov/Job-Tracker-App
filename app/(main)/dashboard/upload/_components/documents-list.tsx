@@ -73,6 +73,7 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
     toggleDefault,
     handleRefresh,
     copyToClipboard,
+    uploadToGoogleDrive,
   } = useDocumentsList(setDocs, onRefresh);
 
   return (
@@ -198,7 +199,10 @@ const DocumentsList = ({ docs, setDocs, onRefresh }: Props) => {
                             ? "Unset as Default"
                             : "Set as Default"}
                         </DropdownMenuItem>
-                        <DropdownMenuItem disabled={true}>
+                        <DropdownMenuItem
+                          onClick={() => uploadToGoogleDrive(doc._id)}
+                          disabled={busyId === doc._id}
+                        >
                           <Image
                             src={drive}
                             alt="google drive image"

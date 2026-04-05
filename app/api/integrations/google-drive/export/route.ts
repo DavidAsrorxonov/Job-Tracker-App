@@ -5,6 +5,7 @@ import UserDocuments from "@/lib/models/user-documents";
 import { supabaseAdmin } from "@/lib/supabase/supabase-admin";
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
+import { Readable } from "stream";
 
 export async function POST(request: NextRequest) {
   try {
@@ -85,7 +86,7 @@ export async function POST(request: NextRequest) {
       },
       media: {
         mimeType: document.mimeType || "application/pdf",
-        body: Buffer.from(fileBuffer),
+        body: Readable.from(fileBuffer),
       },
     });
 

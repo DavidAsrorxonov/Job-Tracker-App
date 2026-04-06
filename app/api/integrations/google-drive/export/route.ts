@@ -53,16 +53,58 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const oaut2Client = getGoogleDriveOAuthClient();
+    const oauth2Client = getGoogleDriveOAuthClient();
 
-    oaut2Client.setCredentials({
+    oauth2Client.setCredentials({
       access_token: connection.accessToken,
       refresh_token: connection.refreshToken,
+      expiry_date: connection.expiryDate
+        ? new Date(connection.expiryDate).getTime()
+        : undefined,
+    });
+
+    const tokenResponse = await oauth2Client.getAccessToken();
+
+    const latestAccessToken =
+      tokenResponse.token || oauth2Client.credentials.access_token;
+
+    if (!latestAccessToken) {
+      return NextResponse.json(
+        {
+          error:
+            "Failed to refresh Google Drive access token. Please reconnect Google Drive.",
+        },
+        { status: 401 },
+      );
+    }
+
+    const refreshedRefreshToken =
+      oauth2Client.credentials.refresh_token || connection.refreshToken;
+
+    const refreshedExpiryDate = oauth2Client.credentials.expiry_date
+      ? new Date(oauth2Client.credentials.expiry_date)
+      : connection.expiryDate;
+
+    await GoogleDriveConnection.updateOne(
+      { userId: session.user.id },
+      {
+        accessToken: latestAccessToken,
+        refreshToken: refreshedRefreshToken,
+        expiryDate: refreshedExpiryDate,
+      },
+    );
+
+    oauth2Client.setCredentials({
+      access_token: latestAccessToken,
+      refresh_token: refreshedRefreshToken,
+      expiry_date: refreshedExpiryDate
+        ? new Date(refreshedExpiryDate).getTime()
+        : undefined,
     });
 
     const drive = google.drive({
       version: "v3",
-      auth: oaut2Client,
+      auth: oauth2Client,
     });
 
     const { data, error } = await supabaseAdmin.storage
